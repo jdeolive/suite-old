@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Zoom-based Line</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+        <script src="../../../resources/openlayers/build/OpenLayers.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../../resources/openlayers/img/";
+            // the `map` variable is declared here for easy debugging
+            var map;
+            
+            // this function is assigned to the window load event
+            function init() {
+            
+                // create a new map to be drawn in the page element with id "map-id"
+                map = new OpenLayers.Map("map-id");
+                
+                // create a WMS layer and add it to the map
+                var layer = new OpenLayers.Layer.WMS(
+                    "Points",
+                    "http://v2.suite.opengeo.org/geoserver/wms/",
+                    {layers: "cookbook:sld_cookbook_line", 
+                    format: "image/png",
+                    sld: "http://v2.suite.opengeo.org/geoserver/styles/zoombasedline.sld"
+                    }
+                );
+                map.addLayer(layer);
+            
+                // set the map location
+                map.zoomToMaxExtent();
+            
+            }
+        </script>
+    </head>
+    <body onload="init()" class="recipe-body">
+        <h1>Zoom-based Line</h1>
+        <div class="description">
+            Alter a line style based on zoom level.
+        </div>
+        <div class="content">
+            <div id="map-id" class="map"></div>
+        </div>
+    </body>
+</html>

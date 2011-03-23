@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Raster Alpha Channel</h1>
+        <div class="description">
+          Create an "alpha channel" effect such that higher values are increasingly transparent.
+        </div>
+        <div class="content">
+          An alpha channel is another way of referring to variable transparency. Much like how a gradient maps values to colors, each entry in a <tt>&lt;ColorMap&gt;</tt> can have a value for opacity (with the default being 1.0 or completely opaque).
+
+          In this example, there is a <tt>&lt;ColorMap&gt;</tt> with two entries: line 5 specifies the lower bound of 70 be colored dark green (<tt>#008000</tt>), while <strong>line 11</strong> specifies the upper bound of 256 also be colored dark green but with an opacity value of 0. This means that values of 256 will be rendered at 0% opacity (entirely transparent). Just like the gradient color, the opacity is also linearly interpolated such that a value of 163 (the midpoint between 70 and 256) is rendered at 50% opacity.
+        </div>
+    </body>
+</html>

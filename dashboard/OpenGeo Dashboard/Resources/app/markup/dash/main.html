@@ -1,0 +1,118 @@
+<div class="dash-panel-body">
+  <div class="dash-panel-content">
+    <table class="dash-panel-table">
+      <thead>
+        <tr>
+          <th scope="col" colspan="2">At a Glance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dash-panel-table-primary">
+            <a ext:qtip="GeoServer Datastores" href="#geoserver_stores" class="app-xlink app-online"><strong class="app-stats-stores"></strong> Datastores</a>
+          </td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li>Import data to <a ext:qtip="pgShapeLoader" href="#{PGPORT:pgsql_port}pgshapeloader_path" class="app-plink app-online">PostGIS</a> or  <a ext:qtip="GeoServer Importer" href="#geoserver_importer" class="app-xlink app-online">GeoServer</a></li>
+              <li><a ext:qtip="Launch PgAdmin" href="#pgadmin_path" class="app-plink app-online">Manage databases</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="dash-panel-table-primary">
+            <a ext:qtip="Layer Preview" href="#geoserver_layers" class="app-xlink app-online"><strong class="app-stats-layers"></strong> Layers</a>
+          </td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Styler" href="#styler_path" class="app-xlink app-online">Style layers</a></li>
+              <li><a ext:qtip="GeoEditor" href="#geoeditor_path" class="app-xlink app-online">Edit layers</a></li>
+              <li><a ext:qtip="GeoWebCache" href="#geowebcache_path" class="app-xlink app-online">Cache layers</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="dash-panel-table-primary"><strong class="app-stats-maps"></strong> Maps</td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="GeoExplorer" href="#geoexplorer_path" class="app-xlink app-online">Compose maps</a></li>
+              <li><a ext:qtip="Example maps" href="#recipes_docs" class="app-xlink app-online">Recipe Book</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+          
+    <table class="dash-panel-table">
+      <thead>
+        <tr>
+          <th scope="col" colspan="2">Components</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary postgis"><a ext:qtip="pgAdmin" href="#pgadmin_path" class="app-plink app-online icon-postgis">PostGIS</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Launch PgAdmin" href="#pgadmin_path" class="app-plink app-online icon-postgis">Manage</a></li>
+              <li><a ext:qtip="pgShapeLoader" href="#{PGPORT:pgsql_port}pgshapeloader_path" class="app-plink app-online">Import shapefiles</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="PostGIS User Manual" href="#postgis_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary geoserver"><a ext:qtip="GeoServer" href="#geoserver_admin" class="app-xlink app-online">GeoServer</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Configure GeoServer" href="#geoserver_admin" class="app-xlink app-online">Configure</a></li>
+              <li><a ext:qtip="GeoServer Importer" href="#geoserver_importer" class="app-xlink app-online">Import data</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="GeoServer User Manual" href="#geoserver_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary geowebcache"><a ext:qtip="GeoWebCache" href="#geowebcache_path" class="app-xlink app-online">GeoWebCache</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Configure GeoWebCache" href="#geowebcache_path" class="app-xlink app-online">Configure</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="GeoWebCache User Manual" href="#geowebcache_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary geoeditor"><a ext:qtip="GeoEditor" href="#geoeditor_path" class="app-xlink app-online">GeoEditor</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Launch GeoEditor" href="#geoeditor_path" class="app-xlink app-online">Launch</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="GeoEditor User Manual" href="#geoeditor_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary styler"><a ext:qtip="Styler" href="#styler_path" class="app-xlink app-online">Styler</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Launch Styler" href="#styler_path" class="app-xlink app-online">Launch</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="Styler User Manual" href="#styler_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+        <tr class="dash-glance-component">
+          <td class="dash-panel-table-primary geoexplorer"><a ext:qtip="GeoExplorer" href="#geoexplorer_path" class="app-xlink app-online">GeoExplorer</a></td>
+          <td class="dash-panel-table-actions">
+            <ul class="quick-links">
+              <li><a ext:qtip="Launch GeoExplorer" href="#geoexplorer_path" class="app-xlink app-online">Launch</a></li>
+              <li><a ext:qtip="Learn More" href="#app-panels-dash-components" class="app-ilink">About</a></li>
+              <li><a ext:qtip="GeoExplorer User Manual" href="#geoexplorer_docs" class="app-xlink app-online">Documentation</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ 
+    </div>  
+</div>

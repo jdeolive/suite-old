@@ -1,0 +1,7 @@
+Changelog for the OpenGeo Dashboard
+===================================
+
+Version 1.0 2009-10-14
+----------------------
+
++  Basic dashboard with documentation and links to services.

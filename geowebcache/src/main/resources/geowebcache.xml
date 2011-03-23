@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gwcConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                  xsi:noNamespaceSchemaLocation="http://geowebcache.org/schema/1.2.2/geowebcache.xsd" 
+                  xmlns="http://geowebcache.org/schema/1.2.2">
+<version>1.2.2</version>
+<backendTimeout>120</backendTimeout>
+<gridSets>
+  <!-- Grid Set Example, 
+       by default EPSG:900913 and EPSG:4326 are defined -->
+  <gridSet>
+    <!-- This does not have to be an EPSG code, you can also 
+         have multiple gridSet elements per SRS -->
+    <name>EPSG:2839</name>
+    <srs><number>2839</number></srs>
+    <extent>
+      <coords>
+        <double>1160413.4105</double>
+        <double>43511.1118</double>
+        <double>1799856.5177</double>
+        <double>329408.4342</double>
+      </coords>
+    </extent>
+    <scaleDenominators>
+      <double>250000</double>
+      <double>200000</double>
+      <double>150000</double>
+      <double>100000</double>
+      <double>50000</double>
+    </scaleDenominators>
+    <tileHeight>200</tileHeight>
+    <tileWidth>200</tileWidth>
+  </gridSet>
+</gridSets>
+
+<layers>
+
+  <wmsLayer>
+    <name>Medford</name>
+    <grids>
+     <entry>
+      <srs>
+        <number>4326</number>
+      </srs>
+      <grid>
+        <srs>
+          <number>4326</number>
+        </srs>
+        <!-- If in doubt, set dataBounds and gridBounds to be the same -->
+        <dataBounds>
+          <coords>
+            <double>-123.04241180421</double>
+            <double>42.258396148759</double>
+            <double>-122.66887664796</double>
+            <double>42.432460784989</double>
+          </coords>
+        </dataBounds>
+        <gridBounds>
+          <coords>
+            <double>-123.04241180421</double>
+            <double>42.258396148759</double>
+            <double>-122.66887664796</double>
+            <double>42.432460784989</double>
+          </coords>
+        </gridBounds>
+        <zoomStart>0</zoomStart>
+        <zoomStop>25</zoomStop>
+      </grid>
+    </entry>
+  </grids>
+    <wmsUrl><string>http://suite.opengeo.org/v1/geoserver/wms</string></wmsUrl>
+  </wmsLayer>
+  
+  <wmsLayer>
+    <name>Elevation</name>
+     <mimeFormats>
+       <string>image/jpeg</string>
+     </mimeFormats>
+     <wmsUrl><string>http://suite.opengeo.org/v1/geoserver/wms</string></wmsUrl>
+     <wmsLayers>medford:elevation</wmsLayers>
+  </wmsLayer>
+  
+  <wmsLayer>
+    <name>Buildings</name>
+    <gridSubsets>
+      <gridSubset>
+        <gridSetName>EPSG:2839</gridSetName>
+      </gridSubset>
+    </gridSubsets>
+    <grids>
+     <entry>
+      <srs>
+        <number>2839</number>
+      </srs>
+      <grid>
+        <srs>
+          <number>2839</number>
+        </srs>
+        <!-- If in doubt, set dataBounds and gridBounds to be the same -->
+        <dataBounds>
+          <coords>
+            <double>1290242.78793</double>
+            <double>68049.3666256</double>
+            <double>1321554.00574</double>
+            <double>88242.3661632</double>
+          </coords>
+        </dataBounds>
+        <gridBounds>
+          <coords>
+            <double>1290242.78793</double>
+            <double>68049.3666256</double>
+            <double>1321554.00574</double>
+            <double>88242.3661632</double>
+          </coords>
+        </gridBounds>
+        <zoomStart>0</zoomStart>
+        <zoomStop>25</zoomStop>
+      </grid>
+    </entry>
+  </grids>
+    <wmsUrl><string>http://suite.opengeo.org/v1/geoserver/wms</string></wmsUrl>
+    <wmsLayers>medford:buildings</wmsLayers>
+  </wmsLayer>
+  
+  <wmsLayer>
+    <name>Elevation</name>
+     <mimeFormats>
+       <string>image/jpeg</string>
+     </mimeFormats>
+     <wmsUrl><string>http://suite.opengeo.org/v1/geoserver/wms</string></wmsUrl>
+     <wmsLayers>medford:buildings</wmsLayers>
+  </wmsLayer>
+
+</layers>
+</gwcConfiguration>

@@ -1,0 +1,67 @@
+This package was debianized by Peter S Galbraith psg@debian.org on
+Sun, 24 Oct 1999 14:13:26 -0400. It is currently maintained by 
+the DebianGis team.
+
+The Debian orig.tar.gz files combines:
+
+  ftp://ftp.remotesensing.org/proj/proj-4.4.9.tar.gz
+  ftp://ftp.remotesensing.org/proj/proj-datumgrid-1.3.zip
+
+where the second is unzipped in the nad directory before configuring to add
+NAD27/NAD83 and NZGD49 datum conversion.
+
+Web page:       http://www.remotesensing.org/proj
+Old Web pages:  http://kai.er.usgs.gov/ftp/mapgenproj.html
+                http://www.vectaport.com/ivmaps/projinfo.html
+
+Version 4.3.3 was authored by:
+   Gerald (Jerry) Ian Evenden
+   email: gie@kai.er.usgs.gov   gevenden@capecod.net
+   phone: (508)563-6766
+   P.O. Box 1027
+   N.Falmouth, MA 02556-1027
+
+ Proj is a U.S. Government work and is not eligible for U.S. copyright
+ protection.  This is free software.
+
+ Here's what Jerry replied when I asked what the license was:
+
+  `The software was developed by the USGS and has no copyright
+   nor license.  Do with it what you will.  :-)'
+
+Maintenance of proj has been taken up by Frank Warmerdam <warmerda@home.com>
+under the following license:
+
+  All source, data files and other contents of the PROJ.4 package are 
+  available under the following terms.  Note that the PROJ 4.3 and earlier
+  was "public domain" as is common with US government work, but apparently
+  this is not a well defined legal term in many countries.  I am placing 
+  everything under the following MIT style license because I believe it is
+  effectively the same as public domain, allowing anyone to use the code as
+  they wish, including making proprietary derivatives. 
+  
+  Though I have put my own name as copyright holder, I don't mean to imply
+  I did the work.  Essentially all work was done by Gerald Evenden. 
+  
+   --------------
+  
+   Copyright (c) 2000, Frank Warmerdam
+  
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation
+   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following conditions:
+  
+   The above copyright notice and this permission notice shall be included
+   in all copies or substantial portions of the Software.
+  
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+

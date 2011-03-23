@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <title>Layer Grid</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <style>
+            .content {
+                position: relative;
+            }
+            #grid-id {
+                position: absolute;
+                left: 0px;
+                width: 170px;
+                height: 300px;
+            }
+            #map-id {
+                margin-left: 190px;
+                height: 300px;
+            }
+        </style>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+            // the `panel` and `grid` variables are declared here for easy debugging
+            var panel, grid;
+            
+            Ext.onReady(function() {
+            
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "Global Imagery",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "bluemarble"}
+                        ),
+                        new OpenLayers.Layer.WMS(
+                            "State Boundaries",
+                            "http://v2.suite.opengeo.org/geoserver/wms/",
+                            {layers: "usa:states", format: "image/png", transparent: "true"}
+                        )
+                    ],
+                    center: [-120, 48],
+                    zoom: 5
+                });
+                
+                grid = new Ext.grid.GridPanel({
+                    renderTo: "grid-id",
+                    height: 100,
+                    store: panel.layers,
+                    columns: [{
+                        header: 'Layer',
+                        id: 'title',
+                        dataIndex: 'title',
+                        width: 150
+                    }]
+                });
+                
+            });
+        </script>
+    </head>
+    <body class="recipe-body">
+        <h1>Layer Grid</h1>
+        <div class="description">
+            List map layers in a grid.
+        </div>
+        <div class="content">
+            <div id="grid-id"></div>
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

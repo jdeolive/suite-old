@@ -1,0 +1,56 @@
+Index: src/html/index.html
+===================================================================
+--- src/html/index.html	(revision 97)
++++ src/html/index.html	(working copy)
+@@ -86,12 +86,12 @@
+                         title: "Base Map",
+                         format: "image/png"
+                     }, {
+-                        name: "medford:parks",
+-                        title: "Streets",
++                        name: "ge:parks",
++                        title: "Parks",
+                         format: "image/png"
+                     }, {
+                         name: "medford:streets",
+-                        title: "Parks",
++                        title: "Streets",
+                         format: "image/png"
+                     }]
+                 },
+@@ -107,9 +107,21 @@
+                 featureTypes: [{
+                     title: "Buildings",
+                     name: "buildings",
+-                    namespace: "http://medford.opengeo.org",
++                    namespace: "http://opengeo.org/#ge",
+                     url: "/geoserver/wfs",
+-                    schema: "/geoserver/wfs?version=1.1.0&request=DescribeFeatureType&typeName=medford:buildings"
++                    schema: "/geoserver/wfs?version=1.1.0&request=DescribeFeatureType&typeName=ge:buildings"
++                }, {
++                    title: "Parks",
++                    name: "parks",
++                    namespace: "http://opengeo.org/#ge",
++                    url: "/geoserver/wfs",
++                    schema: "/geoserver/wfs?version=1.1.0&request=DescribeFeatureType&typeName=ge:parks"
++                }, {
++                    title: "Schools",
++                    name: "schools",
++                    namespace: "http://opengeo.org/#ge",
++                    url: "/geoserver/wfs",
++                    schema: "/geoserver/wfs?version=1.1.0&request=DescribeFeatureType&typeName=ge:schools"
+                 }]
+ 
+             });
+Index: src/script/app/GeoExplorer.js
+===================================================================
+--- src/script/app/GeoExplorer.js	(revision 96)
++++ src/script/app/GeoExplorer.js	(working copy)
+@@ -681,6 +681,7 @@
+             height: 250,
+             split: true,
+             collapsible: true,
++            collapsed: true,
+             items: [queryPanel, featureGrid]
+         });
+         

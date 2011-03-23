@@ -1,0 +1,10 @@
+Maintainers TODO list
+---------------------
+
+The tarball contains a jniwrap section. It would be nice to enable that section after java-in-main.
+Please see Java Policy and find if it needs to depen on Sun Java or what else.
+
+The proj-data package is non endianess-aware due to the simple binary format produced by nad2bin.
+The lla -> bin conversion should be done in postinst and the proj-data converted in a
+binary all package. 
+

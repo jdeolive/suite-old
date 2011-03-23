@@ -1,0 +1,29 @@
+<dataStore>
+  <id>DataStoreInfoImpl--cd78b3e:128f513285a:-8000</id>
+  <name>Taxlots</name>
+  <description>Medford, OR - Taxlots</description>
+  <type>PostGIS</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl--5a410816:122666d6979:-7fa5</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="Connection timeout">20</entry>
+    <entry key="port">54321</entry>
+    <entry key="passwd"></entry>
+    <entry key="dbtype">postgis</entry>
+    <entry key="host">localhost</entry>
+    <entry key="validate connections">false</entry>
+    <entry key="max connections">10</entry>
+    <entry key="database">medford</entry>
+    <entry key="namespace">http://medford.opengeo.org</entry>
+    <entry key="schema">public</entry>
+    <entry key="Loose bbox">true</entry>
+    <entry key="Expose primary keys">false</entry>
+    <entry key="Max open prepared statements">50</entry>
+    <entry key="fetch size">1000</entry>
+    <entry key="preparedStatements">false</entry>
+    <entry key="user">postgres</entry>
+    <entry key="min connections">1</entry>
+  </connectionParameters>
+</dataStore>

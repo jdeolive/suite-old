@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>Button Control</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+
+            // variables are declared for easy debugging
+            var panel, measureTool;
+            
+            Ext.onReady(function() {
+            
+                // create a new map to be drawn in the page element with id "map-id"
+                measureTool = new OpenLayers.Control.Measure(OpenLayers.Handler.Path, {
+                    geodesic: true,
+                    eventListeners: {
+                        measure: function(evt) {
+                            alert("The measurement was " + evt.measure + " " + evt.units);
+                        }
+                    }
+                });
+                
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    width: "100%",
+                    map: {controls:[
+                        measureTool
+                    ]},
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "Global Imagery",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "bluemarble"}
+                        )
+                    ],
+                    buttons: [{
+                        text: "Measure Distance",
+                        enableToggle: true,
+                        handler: function(toggled){
+                            if (toggled) {
+                                measureTool.activate();
+                            } else {
+                                measureTool.deactivate();
+                            }
+                        }
+                    }],
+                    center: [-100, 40],
+                    zoom: 3
+                });
+                
+            });
+        </script>
+        
+    </head>
+    <body class="recipe-body">
+        <h1>Button Control</h1>
+        <div class="description">
+            A simple button for measuring distance.
+        </div>
+        <div class="content">
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

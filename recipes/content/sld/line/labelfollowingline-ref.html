@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Label Following Line</h1>
+        <div class="description">
+          This example renders the text label to follow the contour of the lines.
+        </div>
+        <div class="content">
+            As the Line with default label example showed, the default label behavior isn't very optimal. The label is displayed at a tangent to the line itself, leading to uncertainty as to which label corresponds to which line.
+
+            <p>This example is similar to the Line with Default Label example with the exception of <strong>lines 20-23</strong>. <strong>Line 20</strong> sets the option to have the label follow the line, while <strong>lines 21-23</strong> specify that the label is placed along a line. If <tt>&lt;LinePlacement&gt;</tt> is not specified in an SLD, then <tt>&lt;PointPlacement&gt;</tt> is assumed, which isn't compatible with line-specific rendering options.</p>
+            
+            <p>Note: Labels following lines is an SLD extension specific to GeoServer. It is not part of the SLD 1.0 specification.</p>
+        </div>
+    </body>
+</html>

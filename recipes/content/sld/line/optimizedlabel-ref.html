@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Optimized Label</h1>
+        <div class="description">
+          This example optimizes label placement for lines such that the maximum number of labels are displayed.
+        </div>
+        <div class="content">
+           GeoServer uses "conflict resolution" to ensure that labels aren't drawn on top of other labels, obscuring them both. This accounts for the reason why many lines don't have labels in the previous example, Label following line. While this setting can be toggled, it is usually a good idea to leave it on and use other label placement options to ensure that labels are drawn as often as desired and in the correct places. This example does just that.
+
+           <p>This example is similar to the Label following line example. The only differences are contained in <strong>lines 21-13</strong>. <strong>Line 21</strong> sets the maximum angle that the label will follow. This sets the label to never bend more than 90 degrees to prevent the label from becoming illegible due to a pronounced curve or angle. <strong>Line 22</strong> sets the maximum displacement of the label to be 400 pixels. In order to resolve conflicts with overlapping labels, GeoServer will attempt to move the labels such that they are no longer overlapping. This value sets how far the label can be moved relative to its original placement. Finally, <strong>line 23</strong> sets the labels to be repeated every 150 pixels. A feature will typically receive only one label, but this can cause confusion for long lines. Setting the label to repeat ensures that the line is always labeled locally.</p>
+           
+           <p>Note: This example uses options that are specific to GeoServer and are not part of the SLD 1.0 specification.</p>
+        </div>
+    </body>
+</html>

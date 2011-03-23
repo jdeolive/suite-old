@@ -1,0 +1,20 @@
+--- Makefile.global	2010-03-12 05:54:31.000000000 -0800
++++ Makefile.global.new	2010-05-04 17:00:46.000000000 -0700
+@@ -199,7 +199,7 @@
+ 
+ # Compilers
+ 
+-CPP = gcc -no-cpp-precomp -E
++CPP = gcc-4.0 -no-cpp-precomp -E
+ CPPFLAGS =  -I/usr/include/libxml2  -I/usr/local/include/libxml2 -I/usr/local/include
+ 
+ ifdef PGXS
+@@ -211,7 +211,7 @@
+ endif
+ endif # not PGXS
+ 
+-CC = gcc -no-cpp-precomp
++CC = gcc-4.0 -no-cpp-precomp
+ GCC = yes
+ SUN_STUDIO_CC = no
+ CFLAGS = -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4 -headerpad_max_install_names -arch ppc -arch i386 -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -fno-strict-aliasing -fwrapv

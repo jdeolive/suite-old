@@ -1,0 +1,13 @@
+Source: opengeosuite
+Section: science
+Priority: extra
+Maintainer: aaron greengrass <aaron@greenbtn.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://opengeo.org
+
+Package: opengeosuite
+Architecture: i386
+Depends:  ${misc:Depends}
+Description: geoserver suite
+ This provides OpenGEO Geoserver Suite 

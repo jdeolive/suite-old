@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>GeoExt WFS Editor</title>
+
+		    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+		    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+		    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css"/>
+		    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/xtheme-gray.css" />
+		    <link rel="stylesheet" href="http://dev.openlayers.org/releases/OpenLayers-2.9.1/theme/default/style.css" type="text/css" />
+		    <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+		    <script src="http://dev.openlayers.org/releases/OpenLayers-2.9.1/OpenLayers.js"></script>
+		    <script src="http://api.geoext.org/0.7/script/GeoExt.js"></script>
+
+		    <script type="text/javascript">
+		      Ext.BLANK_IMAGE_URL = "http://extjs.cachefly.net/ext-3.2.1/resources/images/default/s.gif";
+		      OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.9.1/img/";
+
+        Ext.onReady(function() {
+            var store = new GeoExt.data.FeatureStore({
+                fields: [
+                    {name: "name", type: "string"},
+                    {name: "owner", type: "string"},
+                    {name: "usage", type: "string"},
+                    {name: "number_fac", type: "int", defaultValue: 0}
+                ],
+                proxy: new GeoExt.data.ProtocolProxy({
+                    protocol: new OpenLayers.Protocol.WFS({
+                        url: "/geoserver/ows",
+                        version: "1.1.0",
+                        featureType: "parks",
+                        featureNS: "http://medford.opengeo.org",
+                        srsName: "EPSG:4326"
+                    })
+                }),
+                autoLoad: true
+            });
+
+            var gridPanel = new Ext.grid.GridPanel({
+                title: "Feature Table - Medford Parks",
+                region: "center",
+                viewConfig: {forceFit: true},
+                store: store,
+                cm: new Ext.grid.ColumnModel({
+                    defaults: {
+                        sortable: true
+                    },
+                    columns: [
+                        {header: "Name", dataIndex: "name"},
+                        {header: "Owner", dataIndex: "owner"},
+                        {header: "Usage", dataIndex: "usage", width: 35},
+                        {
+                            xtype: "numbercolumn",
+                            header: "# of Facilities",
+                            dataIndex: "number_fac",
+                            format: "1,000",
+                            align: "right",
+                            width: 55
+                        }
+                    ]
+                })
+            });
+
+            var mainPanel = new Ext.Panel({
+                renderTo: "map-id",
+                layout: "border",
+                height: 450,
+                width: 800,
+                items: [gridPanel]
+            });
+        });
+        </script>
+    </head>
+	    <body class="recipe-body">
+	        <h1>A Grid View of WFS Features</h1>
+	        <div class="description">
+	            Reads a WFS layer and displays the feature attributes in a table.
+	        </div>
+	        <div class="content">
+	            <div id="map-id"></div>
+	        </div>
+	    </body>
+</html>

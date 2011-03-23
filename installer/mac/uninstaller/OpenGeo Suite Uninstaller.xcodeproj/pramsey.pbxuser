@@ -1,0 +1,202 @@
+// !$*UTF8*$!
+{
+	04280AB011BEBA4500144C65 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3B92A9F80F6ED2CB0023785B /* SuiteUninstallerAppDelegate.applescript */;
+		name = "SuiteUninstallerAppDelegate.applescript: 61";
+		rLen = 0;
+		rLoc = 1863;
+		rType = 0;
+		vrLen = 720;
+		vrLoc = 428;
+	};
+	0431DAA211CFF785006C7B99 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 9";
+		rLen = 0;
+		rLoc = 164;
+		rType = 0;
+		vrLen = 362;
+		vrLoc = 0;
+	};
+	04380CE611C701560054180F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 9";
+		rLen = 0;
+		rLoc = 164;
+		rType = 0;
+		vrLen = 362;
+		vrLoc = 0;
+	};
+	0452D402119B4AD600F4C901 /* OpenGeo Suite Uninstaller */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "OpenGeo Suite Uninstaller";
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	0452D412119B4AFE00F4C901 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	0452D413119B4AFE00F4C901 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	0452D465119B64B900F4C901 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 32CA4F630368D1EE00C91783 /* OpenGeo Suite Uninstaller_Prefix.pch */;
+		name = "SuiteUninstaller_Prefix.pch: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 163;
+		vrLoc = 0;
+	};
+	0452D466119B64B900F4C901 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* OpenGeo Suite Uninstaller-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/pramsey/Documents/SuiteUninstaller/SuiteUninstaller-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	0452D467119B64B900F4C901 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0452D468119B64B900F4C901 /* NSScrollView.h */;
+		name = "NSScrollView.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1035;
+		vrLoc = 0;
+	};
+	0452D468119B64B900F4C901 /* NSScrollView.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = NSScrollView.h;
+		path = /System/Library/Frameworks/AppKit.framework/Versions/C/Headers/NSScrollView.h;
+		sourceTree = "<absolute>";
+	};
+	0472813F11C7017E0044007E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 9";
+		rLen = 0;
+		rLoc = 164;
+		rType = 0;
+		vrLen = 362;
+		vrLoc = 0;
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeArchitecturePreference = i386;
+		activeBuildConfigurationName = Release;
+		activeExecutable = 0452D402119B4AD600F4C901 /* OpenGeo Suite Uninstaller */;
+		activeSDKPreference = macosx10.6;
+		activeTarget = 8D1107260486CEB800E47090 /* OpenGeo Suite Uninstaller */;
+		codeSenseManager = 0452D413119B4AFE00F4C901 /* Code sense */;
+		executables = (
+			0452D402119B4AD600F4C901 /* OpenGeo Suite Uninstaller */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					443,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 298841986;
+			PBXWorkspaceStateSaveDate = 298841986;
+		};
+		perUserProjectItems = {
+			04280AB011BEBA4500144C65 = 04280AB011BEBA4500144C65 /* PBXTextBookmark */;
+			0431DAA211CFF785006C7B99 /* PBXTextBookmark */ = 0431DAA211CFF785006C7B99 /* PBXTextBookmark */;
+			04380CE611C701560054180F = 04380CE611C701560054180F /* PBXTextBookmark */;
+			0452D465119B64B900F4C901 = 0452D465119B64B900F4C901 /* PBXTextBookmark */;
+			0452D466119B64B900F4C901 = 0452D466119B64B900F4C901 /* PlistBookmark */;
+			0452D467119B64B900F4C901 = 0452D467119B64B900F4C901 /* PBXTextBookmark */;
+			0472813F11C7017E0044007E = 0472813F11C7017E0044007E /* PBXTextBookmark */;
+		};
+		sourceControlManager = 0452D412119B4AFE00F4C901 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA /* main.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {621, 323}}";
+			sepNavSelRange = "{164, 0}";
+			sepNavVisRange = "{0, 362}";
+		};
+	};
+	32CA4F630368D1EE00C91783 /* OpenGeo Suite Uninstaller_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {740, 245}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 163}";
+		};
+	};
+	3B92A9F80F6ED2CB0023785B /* SuiteUninstallerAppDelegate.applescript */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {805, 915}}";
+			sepNavSelRange = "{1863, 0}";
+			sepNavVisRange = "{428, 720}";
+			sepNavWindowFrame = "{{265, 153}, {750, 558}}";
+		};
+	};
+	8D1107260486CEB800E47090 /* OpenGeo Suite Uninstaller */ = {
+		activeExec = 0;
+		executables = (
+			0452D402119B4AD600F4C901 /* OpenGeo Suite Uninstaller */,
+		);
+	};
+}

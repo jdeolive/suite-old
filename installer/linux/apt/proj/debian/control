@@ -1,0 +1,107 @@
+Source: proj
+Section: science
+Priority: extra
+Maintainer: Debian GIS Project <pkg-grass-devel@lists.alioth.debian.org>
+Uploaders: Peter S Galbraith <psg@debian.org>, Francesco Paolo Lovergine <frankie@debian.org>
+Build-Depends: debhelper (>= 7), sharutils, dpatch
+Standards-Version: 3.8.3
+Homepage: http://trac.osgeo.org/proj/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-grass/packages/proj/
+Vcs-Svn: svn://svn.debian.org/pkg-grass/packages/proj/
+
+Package: proj
+Architecture: all
+Section: science
+Depends: libproj0 (>= 4.6.1-4), proj-bin (>= 4.6.1-4), libproj-dev (>= 4.6.1-4), ${misc:Depends}
+Description: Cartographic projection filter and library (transitional package)
+ Proj and invproj perform respective forward and inverse transformation
+ of cartographic data to or from Cartesian data with a wide range of
+ selectable projection functions (over 100 projections).
+ .
+ Geod and invgeod perform geodesic (Great Circle) computations for
+ determining latitude, longitude and back azimuth of a terminus point given
+ a initial point latitude, longitude, azimuth and distance (direct) or the
+ forward and back azimuths and distance between an initial and terminus
+ point latitudes and longitudes (inverse).
+ .
+ This is a transitional meta-package. You can safely remove it after upgrading.
+
+Package: proj-data
+Architecture: any
+Section: libs
+Conflicts: proj (<= 4.6.1-3)
+Replaces: proj (<= 4.6.1-3)
+Depends: ${misc:Depends}
+Description: Cartographic projection filter and library (transitional package)
+ Proj and invproj perform respective forward and inverse transformation
+ of cartographic data to or from Cartesian data with a wide range of
+ selectable projection functions (over 100 projections).
+ .
+ Geod and invgeod perform geodesic (Great Circle) computations for
+ determining latitude, longitude and back azimuth of a terminus point given
+ a initial point latitude, longitude, azimuth and distance (direct) or the
+ forward and back azimuths and distance between an initial and terminus
+ point latitudes and longitudes (inverse).
+ .
+ This package contains auxiliary projection datum grids used by the
+ library and tools.
+
+Package: libproj0
+Architecture: any
+Section: libs
+Depends: proj-data, ${shlibs:Depends}, ${misc:Depends}
+Suggests: proj-bin
+Conflicts: proj (<= 4.6.1-3)
+Replaces: proj (<= 4.6.1-3)
+Description: Cartographic projection library 
+ Proj and invproj perform respective forward and inverse transformation
+ of cartographic data to or from Cartesian data with a wide range of
+ selectable projection functions (over 100 projections).
+ .
+ Geod and invgeod perform geodesic (Great Circle) computations for
+ determining latitude, longitude and back azimuth of a terminus point given
+ a initial point latitude, longitude, azimuth and distance (direct) or the
+ forward and back azimuths and distance between an initial and terminus
+ point latitudes and longitudes (inverse).
+ .
+ This package provides the PROJ4 shared library used by tools and third
+ parties programs.
+
+Package: libproj-dev
+Architecture: any
+Section: libdevel
+Depends: libproj0 (=${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: proj-bin
+Conflicts: proj (<= 4.6.1-3)
+Replaces: proj (<= 4.6.1-3)
+Description: Cartographic projection library (development files) 
+ Proj and invproj perform respective forward and inverse transformation
+ of cartographic data to or from Cartesian data with a wide range of
+ selectable projection functions (over 100 projections).
+ .
+ Geod and invgeod perform geodesic (Great Circle) computations for
+ determining latitude, longitude and back azimuth of a terminus point given
+ a initial point latitude, longitude, azimuth and distance (direct) or the
+ forward and back azimuths and distance between an initial and terminus
+ point latitudes and longitudes (inverse).
+ .
+ This package provides the PROJ4 development files.
+
+Package: proj-bin
+Architecture: any
+Section: science
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: proj (<= 4.6.1-3)
+Replaces: proj (<= 4.6.1-3)
+Description: Cartographic projection library (tools) 
+ Proj and invproj perform respective forward and inverse transformation
+ of cartographic data to or from Cartesian data with a wide range of
+ selectable projection functions (over 100 projections).
+ .
+ Geod and invgeod perform geodesic (Great Circle) computations for
+ determining latitude, longitude and back azimuth of a terminus point given
+ a initial point latitude, longitude, azimuth and distance (direct) or the
+ forward and back azimuths and distance between an initial and terminus
+ point latitudes and longitudes (inverse).
+ .
+ This package provides the PROJ4 binary tools.

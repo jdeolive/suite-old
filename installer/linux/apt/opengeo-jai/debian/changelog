@@ -1,0 +1,5 @@
+opengeo-jai (1.1.3) unstable; urgency=low
+
+  *  First complete release including pre and post install hooks.
+
+ -- Aaron Greengrass <aaron@thatserver.ca>  Thu, 04 Nov 2010 14:49:39 -0700

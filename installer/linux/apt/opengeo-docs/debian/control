@@ -1,0 +1,14 @@
+Source: opengeo-docs
+Section: doc
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-docs
+Architecture: all
+Description: Full documentation for the OpenGeo Suite.
+ Documentation in HTML format for the following components of the OpenGeo Suite: 
+ PostGIS, GeoServer, GeoWebCache, GeoExplorer, Styler, and GeoEditor.  Also includes 
+ a Getting Started Guide for an introduction to the OpenGeo Suite.

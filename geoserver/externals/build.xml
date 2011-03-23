@@ -1,0 +1,92 @@
+<project name="build" default="build-all">
+
+   <property name="gs.repo" value="git://github.com/opengeo/geoserver-2.1.x.git"/>
+   <property name="gs.branch" value="suite"/>
+   <property name="gs.rev" value="${gs.branch}"/>
+   <property name="gs.dir" value="geoserver"/>
+
+   <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
+   <property name="gwc.branch" value="master"/>
+   <property name="gwc.rev" value="0f615de2e1156655d3b8c7538a91b0d2cfb3ddde"/>
+   <property name="gwc.dir" value="geowebcache"/>
+   <property name="gwc.version" value="1.2.5-SNAPSHOT"/>
+
+   <property name="mvn.exec" value="mvn"/>
+   <property name="mvn.settings" value="settings.xml"/>
+
+   <target name="build-all" depends="checkout-all, build-gt, build-gwc, build-gs">
+   </target>
+
+   <target name="build-gt"> 
+     <antcall target="mvn">
+        <param name="dir" value="geotools"/>
+        <param name="flags" value="-DskipTests -Dall"/>
+        <param name="targets" value="clean install"/>
+     </antcall>
+   </target>
+
+   <target name="build-gs"> 
+     <antcall target="mvn">
+        <param name="dir" value="${gs.dir}"/>
+        <param name="flags" value="-DskipTests -P proxy,printing,monitoring,dbconfig,allExtensions"/>
+        <param name="targets" value="clean install"/>
+     </antcall>
+   </target>
+
+   <target name="build-gwc"> 
+     <antcall target="mvn">
+        <param name="dir" value="${gwc.dir}/geowebcache"/>
+        <param name="flags" value="-DskipTests"/>
+        <param name="targets" value="clean install"/>
+     </antcall>
+     <antcall target="mvn">
+        <param name="dir" value="${gwc.dir}/geowebcache"/>
+        <param name="flags" value="-DgroupId=org.geowebcache -DartifactId=geowebcache -Dversion=${gwc.version} -Dpackaging=war -Dfile=web/target/geowebcache.war"/>
+        <param name="targets" value="install:install-file"/>
+     </antcall>
+   </target>
+
+   <target name="checkout-all" depends="checkout-gs,checkout-gwc"/>
+   <target name="checkout-gs">
+     <antcall target="checkout">
+       <param name="git.url" value="${gs.repo}"/>
+       <param name="git.branch" value="${gs.branch}"/>
+       <param name="git.rev" value="${gs.rev}"/>
+       <param name="dir" value="${gs.dir}"/>
+     </antcall>
+   </target>
+   <target name="checkout-gwc">
+     <antcall target="checkout">
+       <param name="git.url" value="${gwc.repo}"/>
+       <param name="git.branch" value="${gwc.branch}"/>
+       <param name="git.rev" value="${gwc.rev}"/>
+       <param name="dir" value="${gwc.dir}"/>
+     </antcall>
+   </target>
+
+   <target name="checkout">
+     <echo message="Pulling ${git.branch} from ${git.url} (ignore fatal warning)"/>
+     <exec executable="git" failonerror="false">
+        <arg line="clone -b ${git.branch} ${git.url} ${dir}"/>
+     </exec>
+     <exec executable="git" dir="${dir}" failonerror="true">
+        <arg line="pull origin ${git.branch}"/>
+     </exec>
+     <antcall target="checkout-rev"/>
+  </target>
+
+  <target name="checkout-rev">
+     <echo message="Checking out ${git.rev}"/>
+     <exec executable="git" dir="${dir}" failonerror="true">
+        <arg line="checkout ${git.rev}"/>
+     </exec>
+  </target>
+
+  <target name="mvn">
+     <echo message="${mvn.exec} -s ${mvn.settings} ${flags} ${targets}"/>
+     <exec executable="${mvn.exec}" dir="${dir}" failonerror="true">
+        <arg line="-s ${mvn.settings} ${flags} ${targets}"/>
+     </exec>
+  </target>
+
+</project>

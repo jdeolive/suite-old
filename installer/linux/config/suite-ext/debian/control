@@ -1,0 +1,13 @@
+Source: opengeosuite-ext
+Section: science
+Priority: extra
+Maintainer: aaron greengrass <aaron@greenbtn.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://opengeo.org
+
+Package: opengeosuite-ext
+Architecture: i386
+Depends:  postgis, opengeosuite, ${misc:Depends}
+Description: geoserver suite extensions
+ This provides OpenGEO Geoserver Suite extensions 

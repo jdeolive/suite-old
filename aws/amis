@@ -1,0 +1,12 @@
+EBS
+---
+
+ubuntu 10.04 i386: ami-3e02f257
+ubuntu 10.04 x86_64: ami-3202f25b
+centos 5.5 i386: ami-2675854f
+centos 5.5 x86_64: ami-68f80f01
+
+S3
+--
+ubuntu 10.04 i386: ami-a403f7cd
+ubuntu 10.04 x86_64: ami-fa01f193

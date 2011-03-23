@@ -1,0 +1,27 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl--443f995f:123c9690267:-7ff2</id>
+  <name>world</name>
+  <layers>
+    <layer>
+      <id>LayerInfoImpl--443f995f:123c9690267:-7ff5</id>
+    </layer>
+    <layer>
+      <id>LayerInfoImpl--443f995f:123c9690267:-7ff3</id>
+    </layer>
+  </layers>
+  <styles>
+    <style>
+      <id>StyleInfoImpl-182163b8:122807491c4:-8000</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-182163b8:122807491c4:-7ffe</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>-180.0</minx>
+    <maxx>180.0</maxx>
+    <miny>-90.0</miny>
+    <maxy>83.624</maxy>
+    <crs>EPSG:4326</crs>
+  </bounds>
+</layerGroup>

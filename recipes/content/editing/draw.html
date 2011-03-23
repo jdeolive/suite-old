@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <title>Drawing Features</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/geoext/resources/css/gxtheme-gray.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <style>
+            #tbar-id {
+                margin-bottom: 1em;
+            }
+        </style>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+
+            // the `panel` variable is declared here for easy debugging
+            var panel;
+            
+            Ext.onReady(function() {
+                
+                // display tooltips for actions
+                Ext.QuickTips.init();
+
+                // create a vector layer that will contain features
+                var features = new OpenLayers.Layer.Vector("Features");
+            
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    width: "100%",
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "World Map",
+                            "http://v2.suite.opengeo.org/geoserver/wms/",
+                            {layers: "world"}
+                        ),
+                        features
+                    ],
+                    center: [-120, 48],
+                    zoom: 5
+                });
+                
+                // create an action tied to a navigation control
+                var navigate = new GeoExt.Action({
+                    text: "Navigate",
+                    control: new OpenLayers.Control.Navigation(),
+                    map: panel.map,
+                    // button options
+                    toggleGroup: "draw",  // only one tool can be active in a group
+                    allowDepress: false,
+                    pressed: true,
+                    tooltip: "navigate"
+                });
+                
+                // create an action tied to control for drawing points
+                var point = new GeoExt.Action({
+                    text: "Point",
+                    control: new OpenLayers.Control.DrawFeature(
+                        features, OpenLayers.Handler.Point
+                    ),
+                    map: panel.map,
+                    // button options
+                    toggleGroup: "draw",  // only one tool can be active in a group
+                    allowDepress: false,
+                    tooltip: "draw points"
+                });
+                
+                // create an action tied to control for drawing lines
+                var line = new GeoExt.Action({
+                    text: "Line",
+                    control: new OpenLayers.Control.DrawFeature(
+                        features, OpenLayers.Handler.Path
+                    ),
+                    map: panel.map,
+                    // button options
+                    toggleGroup: "draw",  // only one tool can be active in a group
+                    allowDepress: false,
+                    tooltip: "draw lines"
+                });
+                
+                // create an action tied to control for drawing polygons
+                var poly = new GeoExt.Action({
+                    text: "Polygon",
+                    control: new OpenLayers.Control.DrawFeature(
+                        features, OpenLayers.Handler.Polygon
+                    ),
+                    map: panel.map,
+                    // button options
+                    toggleGroup: "draw",  // only one tool can be active in a group
+                    allowDepress: false,
+                    tooltip: "draw polygons"
+                });
+                
+                // add a toolbar with the above actions as buttons
+                var toolbar = new Ext.Toolbar({
+                    renderTo: "tbar-id",
+                    items: [navigate, point, line, poly]
+                });
+                
+            });
+
+        </script>
+    </head>
+    <body class="recipe-body">
+        <h1>Drawing Features</h1>
+        <div class="description">
+            Draw points, lines, and polygons on a vector layer.
+        </div>
+        <div class="content">
+            <div id="tbar-id"></div>
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+# checkrc <code> <message>
+function check_rc() {
+  if [ "$1" != 0 ]; then
+    echo "$2 failed returning $1"
+    exit 1
+  fi
+}
+
+# log <message>
+function log() {
+  echo "[`date '+%m/%d/%Y %H:%M:%S'`] $1"
+}
+
+# check_ec2_tools
+function check_ec2_tools() {
+  ec2-version
+  check_rc $? "ec2-api-tools not avaialble on PATH, ec2-version"
+
+  #if [ -z $EC2_HOME ]; then
+  #   echo "EC2_HOME environment variable not set. Exiting."
+  #   exit 1
+  #fi
+  if [ -z $EC2_PRIVATE_KEY ] || [ ! -e $EC2_PRIVATE_KEY ]; then
+     echo "EC2_PRIMARY_KEY environment variable not set or does not exist. Exiting."
+     exit 1
+  fi
+  if [ -z $EC2_CERT ] || [ ! -e $EC2_CERT ]; then
+     echo "EC2_CERT environment variable not set or does not exist. Exiting."
+     exit 1
+  fi
+  if [ ! -e $SUITE_KEYPAIR ]; then
+     echo "suite keypair not found. Exiting."
+     exit 1
+  fi
+}
+
+# ssh_opts
+function ssh_opts() {
+  echo -n "-i $SUITE_KEYPAIR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+}
+
+# ec2_instance_id <client-token>
+function ec2_instance_id() {
+  if [ ! -z $1 ]; then
+    id=`ec2-describe-instances -F client-token=$1 | grep "^INSTANCE" | cut -f 2`
+  fi
+  echo -n $id
+}
+
+# ec2_instance_host <instance-id|client-token>
+function ec2_instance_host() {
+  if [ ! -z $1 ]; then
+    host=`ec2-describe-instances -F client-token=$1 | grep "^INSTANCE" | cut -f 4`
+    if [ -z $host ]; then
+      host=`ec2-describe-instances -F instance-id=$1 | grep "^INSTANCE" | cut -f 4`
+    fi
+  fi
+  echo -n $host
+}
+
+# ec2_volume_status <volume-id>
+ec2_volume_status() {
+  if [ ! -z $1 ]; then
+    status=`ec2-describe-volumes $1 | cut -f 6`
+  fi
+
+  echo -n $status
+}
+
+# ec2_image_status <image-id>
+ec2_image_status() {
+  if [ ! -z $1 ]; then
+    status=`ec2-describe-images $1 | grep IMAGE | cut -f 5`
+  fi
+  echo -n $status
+}
+
+# get_version <repo_path>
+get_ami_version() {
+  local ver=""
+  if [ "trunk" == $1 ]; then
+    ver="latest"
+  else
+    ver=$( echo $1|sed 's#.*/##g' )
+  fi
+  echo $ver
+}

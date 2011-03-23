@@ -1,0 +1,172 @@
+SVN_REPO=http://svn.opengeo.org/suite
+BUILDS=http://suite.opengeo.org/builds
+
+if [ "$REPO_PATH" == "" ]; then
+  REPO_PATH=trunk
+fi
+if [ "$REV" == "" ]; then
+  REV=latest
+fi
+
+BRANCH=${REPO_PATH//\//-}
+
+# build_info <package>
+function build_info() {
+  local pkg=$1
+  if [ "$pkg" != "" ]; then
+     name=$PACKAGE
+  fi
+  echo "Building $pkg from $REPO_PATH at revision $REV"
+}
+
+# checkrc <code> <message>
+function checkrc() {
+  if [ "$1" != 0 ]; then
+    echo "$2 failed returning $1"
+    exit 1
+  fi
+}
+
+# get_file <url> [overwrite]
+function get_file() {
+  local url=$1
+  local file=`echo $url | sed 's#http://##g' | xargs basename`
+
+  if [ ! -d files ]; then
+     mkdir files
+     checkrc $? "mkdir files"
+  fi
+
+  if [ "$2" != "" ] ||  [ ! -e files/$file ]; then
+     wget $url
+     checkrc $? "downloading $url"
+
+     mv $file files
+     checkrc $? "mv $file files"
+  fi
+}
+
+# get_svn <repo_path> <dir> <path>
+function get_svn() {
+  local repo_path=$1
+  local dir=$2
+  local path=$3
+
+  if [ ! -d svn ]; then
+    mkdir svn
+    checkrc $? "mkdir svn"
+  fi
+
+  if [ ! -d svn/$repo_path ]; then
+    mkdir -p svn/$repo_path
+    checkrc $? "mkdir svn/$repo_path"
+  fi
+
+  pushd svn/$repo_path
+  if [ -d $dir ]; then 
+    svn up $dir
+  else 
+    svn co $SVN_REPO/$repo_path/$path $dir
+  fi
+  checkrc $? "svn update"
+  popd
+}
+
+# build_deb <name>
+function build_deb() {
+
+  local build="build/$1"
+
+  # clear out old build
+  rm -rf $build
+  mkdir -p $build
+
+  pushd $1
+  checkrc $? "pushd $1"
+  debuild clean
+
+  # debuild
+  debuild -uc -us -b -i
+  checkrc $? "debuilding $1"
+  
+  # move artifacts to build directory
+  popd
+  mv *.deb *.build *.changes $build
+
+  # clean
+  pushd $1 
+  debuild clean
+  popd 
+}
+
+# check_root
+check_root() {
+  if [ "$USER" != "root" ]; then
+    echo "This script must be run as root"
+    exit 1
+  fi
+}
+
+# remove_deb [package, ...]
+remove_deb() {
+  local pkgs=( $* )
+
+  # remove
+  for (( i = 0; i < ${#pkgs[@]}; i++ )); do
+    dpkg -r ${pkgs[$i]}
+  done
+
+  # prune
+  for (( i = 0; i < ${#pkgs[@]}; i++ )); do
+    dpkg -P ${pkgs[$i]}
+  done
+}
+
+# install_deb <name> [package, ...]
+install_deb() {
+  local name=$1
+  local pkgs=( $* )
+
+  pushd build/$name
+  for (( i = 1; i < ${#pkgs[@]}; i++ )); do
+    dpkg -i ${pkgs[$i]}_*
+  done
+  popd
+
+  dpkg -l | grep $name
+}
+
+# publish_deb <name> <profile> <repo> <dist>
+publish_deb() {
+  local name=$1
+  local profile=$2
+  local repo=$3
+  local dist=$4
+
+  if [ "$repo" == "" ]; then
+     repo=$REPO
+  fi
+  if [ "$repo" == "" ]; then
+     echo "repository not specified, aborting publish"
+  fi
+
+  if [ "$dist" == "" ]; then
+    dist=$DIST
+  fi
+  if [ "$dist" == "" ]; then
+    echo "distribution not specified, aborting publish"
+    exit 1
+  fi
+
+  pushd build/$name
+  checkrc $? "push build/$name"
+
+  rsync -avz -e "ssh -i $HOME/.ssh/id_rsa_apt" * apt@apt.opengeo.org:/home/apt/apt/$profile/incoming/$repo/$dist
+  #scp -i ~/.ssh/id_rsa_apt * apt@apt.opengeo.org:/home/apt/apt/incoming/$repo/$dist
+  checkrc $? "secure copy .deb files"
+
+  ssh -i ~/.ssh/id_rsa_apt apt@apt.opengeo.org "./apt/publish_debs.sh $repo $dist $profile" 
+  checkrc $? "remote publish"
+
+  popd
+}

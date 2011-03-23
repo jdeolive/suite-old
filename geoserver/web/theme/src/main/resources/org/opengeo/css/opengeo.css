@@ -1,0 +1,157 @@
+/*-----------------------
+Color Overrides
+-----------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+  color: #0A2742; /* was #0076A1 */
+}
+
+a:link, a:visited {
+  color: #103F6B; /* was #0076A1 */
+}
+
+thead th {
+  background: #0A2742;
+  color: #fff;
+  border-color: #103F6B; /* was #0076A1 */
+}
+
+thead th a:link, 
+thead th a:visited {
+  color: #fff;
+}
+
+tr.even td, tr.even th {
+  background: #A8BCCF;
+}
+
+tr:hover td,
+tr.even:hover td,
+tr.even:hover th {
+  background: #F0F5EF;
+}
+
+
+.paginator a,
+.paginator em {
+  border: 1px solid #486300;
+}
+
+.paginator a:hover {
+  background: #103F6B; /* was #0076A1 */
+}
+
+.button-group a,
+.button-group button,
+input.btnTxt {
+  background-color: #fff;
+  background-image: none;
+  color: #486300;
+  border-color: #486300;
+}
+
+.button-group a:hover,
+.button-group button:hover,
+input.btnTxt:hover {
+  background: #A8BCCF url('../img_opengeo/button-gradient.png') repeat-x scroll left top;
+
+}
+
+.status-bar span, 
+.mini-bar span, 
+div.progress-bar span.bar {
+  background-image: url('../img_opengeo/status-bar-bg.png');
+}
+
+/*-----------------------
+Themed Layout
+-----------------------*/
+body {
+  font-family: Helvetica, Arial, FreeSans, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Helvetica, Arial, FreeSans, sans-serif;
+  font-weight: bold;
+}
+
+#header h2 a {
+  background-image: url('../img_opengeo/logo.png');
+}
+
+#main {
+  border-top: 2px solid #8a7d79;
+  background-image: url('../img_opengeo/main-bg.png');
+}
+
+#main .wrap {
+  background-image: url('../img_opengeo/main-wrap-bg.png');
+}
+
+#page {
+  background-image: url('../img_opengeo/page-bg.png');
+}
+
+.page-header {
+  background-image: url('../img_opengeo/page-header-bg.png');
+}
+
+#navigation {
+  padding-bottom: 32px;
+  background: url('../img_opengeo/powered-by.png') no-repeat bottom left;
+}
+
+.navigation-tab-single, .navigation-tab-header,
+.navigation-tab-single a, .navigation-tab-header a, .navigation-tab-content a {
+  color: #291C17; /* was #0076A1 */
+}
+
+/*---------------------------------
+Extras needed only in the Suite
+----------------------------------*/
+
+/* 
+  Note, the resource pointed is a copy of the one in the GeoServer web-core jar. However, I could
+  not find any working way of referencing it from there, so I ended up just copying the resource
+*/
+.srs-link {
+background: transparent url(../silk/shape_square_blue.png) scroll no-repeat left center;
+padding: 2px 0px 2px 20px;
+}
+
+form div.group {
+overflow: auto;
+} 
+
+div.group li:first-child{
+clear: both;
+float: left;
+}
+div.group li:last-child{
+display:block;
+float:right;
+margin:0 0 0.3em;
+padding:4px 5px 2px 0;
+width:35%;
+}
+div.group li:last-child input.text{
+width:10em;
+}
+
+form a.expanded {
+background-image: url(../silk/bullet_arrow_down.png);
+background-repeat: no-repeat;
+background-position: 0px 0px;
+padding-left: 16px;
+height: 18px;
+font-weight: bold;
+}
+
+form a.collapsed {
+background-image: url(../silk/bullet_arrow_right.png);
+background-repeat: no-repeat;
+background-position: 0px 0px;
+padding-left: 16px;
+height: 18px;
+font-weight: bold;
+}

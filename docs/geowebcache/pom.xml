@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+
+ <parent>
+  <groupId>org.opengeo</groupId>
+  <artifactId>docs</artifactId>
+  <version>2.4-SNAPSHOT</version>
+ </parent>
+
+ <groupId>org.opengeo.docs</groupId>
+ <artifactId>geowebcache</artifactId>
+ <packaging>jar</packaging>
+ <name>OpenGeo GeoWebCache Doc Module</name>
+
+ <build>
+   <plugins>
+     <plugin>
+       <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-sources</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="externals/gwc"/>
+                <exec executable="git" dir="externals/gwc" failonerror="false">
+                  <arg line="clone git://github.com/GeoWebCache/geowebcache.git ."/>
+                </exec>
+                <exec executable="git" dir="externals/gwc" failonerror="true">
+                  <arg line="pull origin master"/>
+                </exec>
+                <exec executable="git" dir="externals/gwc" failonerror="true">
+                   <arg line="checkout ${gwc.rev}"/>
+                </exec>
+
+                <mkdir dir="src"/>
+                <delete includeemptydirs="true">
+                  <fileset dir="src" includes="**/*"/>
+                </delete>
+                <copy todir="src">
+                  <fileset dir="externals/gwc/documentation/en/user/source" includes="**/*"/>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>compile</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <!-- remove this copy when gwc #153 is fixed -->
+                <copy file="conf.py" todir="src" overwrite="true"/>
+
+                <exec executable="sphinx-build" failonerror="true" dir="${basedir}/src">
+                  <arg line="-D html_theme='gwc' -b html -d ${build.directory}/doctrees . ${build.directory}/html"/>
+                </exec>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+     </plugin>
+   </plugins>
+ </build>
+
+ <properties>
+   <gwc.rev>0f615de2e1156655d3b8c7538a91b0d2cfb3ddde</gwc.rev>
+ </properties>
+
+</project>

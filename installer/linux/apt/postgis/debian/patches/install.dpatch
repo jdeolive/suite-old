@@ -1,0 +1,21 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## java.dpatch by Francesco Paolo Lovergine <frankie@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fixing missing var
+
+@DPATCH@
+diff -urNad postgis-1.4.0~/java/jdbc/Makefile postgis-1.4.0/java/jdbc/Makefile
+--- postgis-1.4.0~/java/jdbc/Makefile	2008-07-03 19:08:49.000000000 +0200
++++ postgis-1.4.0/java/jdbc/Makefile	2009-09-12 12:28:26.000000000 +0200
+@@ -251,8 +251,8 @@
+ install: jar installdirs
+ 	@echo Testing for successful inclusion of ../Makefile.config
+ 	test ../Makefile.config
+-	$(INSTALL_DATA) postgis.jar $(DESTDIR)
+-	$(INSTALL_DATA) postgis_debug.jar $(DESTDIR)
++	install -m 644 postgis.jar $(DESTDIR)
++	install -m 644 postgis_debug.jar $(DESTDIR)
+ 
+ installdirs:
+ 	@mkdir -p $(DESTDIR)

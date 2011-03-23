@@ -1,0 +1,113 @@
+dpis: [75, 150, 300]
+
+scales:
+    - 524288000
+    - 262144000
+    - 131072000
+    - 65536000
+    - 32768000
+    - 16384000
+    - 8192000
+    - 4096000
+    - 2048000
+    - 1024000
+    - 512000
+    - 256000
+    - 128000
+    - 64000
+    - 32000
+    - 16000
+    - 8000
+    - 4000
+    - 2000
+    - 1000
+
+hosts:
+    - !localMatch
+        dummy: true
+    - !ipMatch
+        ip: 0.0.0.0
+        mask: 0.0.0.0
+
+layouts:
+
+    A4:
+        metaData: &commonMetaData
+            title: "${mapTitle}"
+            author: "GeoExplorer"
+            subject: "Map printed with the OpenGeo Suite"
+            keywords: "map,print"
+            creator: "OpenGeo Suite"
+        mainPage:
+            pageSize: A4
+            rotation: true
+            items:
+                - !text
+                    text: "${mapTitle}"
+                    fontSize: 30
+                    spacingAfter: 30
+                    align: center
+                - !map
+                    spacingAfter: 10
+                    width: 440
+                    height: 600
+                - !scalebar
+                    type: bar
+                    maxSize: 100
+                    barBgColor: white
+                    fontSize: 8
+                    align: right
+                    spacingAfter: 10
+                - !text
+                    text: "${comment}"
+
+    Legal:
+        metaData: *commonMetaData
+        mainPage:
+            pageSize: LEGAL
+            rotation: true
+            items:
+                - !text
+                    text: "${mapTitle}"
+                    fontSize: 30
+                    spacingAfter: 30
+                    align: center
+                - !map
+                    spacingAfter: 10
+                    width: 440
+                    height: 650
+                - !scalebar
+                    type: bar
+                    maxSize: 100
+                    barBgColor: white
+                    fontSize: 8
+                    align: right
+                    spacingAfter: 10
+                - !text
+                    text: "${comment}"
+
+    Letter:
+        metaData: *commonMetaData
+        mainPage:
+            pageSize: LETTER
+            rotation: true
+            items:
+                - !text
+                    text: "${mapTitle}"
+                    fontSize: 30
+                    spacingAfter: 30
+                    align: center
+                - !map
+                    spacingAfter: 10
+                    width: 440
+                    height: 550
+                - !scalebar
+                    type: bar
+                    maxSize: 100
+                    barBgColor: white
+                    fontSize: 8
+                    align: right
+                    spacingAfter: 10
+                - !text
+                    text: "${comment}"
+

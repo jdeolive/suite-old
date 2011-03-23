@@ -1,0 +1,7 @@
+usr/lib/libproj.a
+usr/lib/libproj.la
+usr/lib/libproj.so
+usr/include/org_proj4_Projections.h
+usr/include/nad_list.h
+usr/include/proj_api.h
+usr/include/projects.h

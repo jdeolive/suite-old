@@ -1,0 +1,29 @@
+Index: nad/Makefile.in
+===================================================================
+--- nad/Makefile.in	(revision 1841)
++++ nad/Makefile.in	(working copy)
+@@ -380,8 +380,8 @@
+ 	@if [ -f conus.lla -a ! -f conus ] ; then \
+ 	  for x in *.lla ; do \
+ 	    DEST=`basename $$x .lla`; \
+-	    echo "../src/nad2bin$(EXEEXT) $$DEST < $$x"; \
+-	    ../src/nad2bin$(EXEEXT) $$DEST < $$x ; \
++	    echo "../src/nad2bin $$DEST < $$x"; \
++	    ../src/nad2bin $$DEST < $$x ; \
+ 	  done; \
+ 	fi 
+ 
+@@ -390,10 +390,10 @@
+ 	@if [ -f conus.lla ] ; then \
+ 	  for x in *.lla ; do \
+ 	    DEST=$(DESTDIR)$(pkgdatadir)/`basename $$x .lla`; \
+-	    echo "../src/nad2bin$(EXEEXT) $$DEST < $$x"; \
+-	    ../src/nad2bin$(EXEEXT) $$DEST < $$x ; \
++	    echo "../src/nad2bin $$DEST < $$x"; \
++	    ../src/nad2bin $$DEST < $$x ; \
+ 	    if [ $$? -ne 0 ] ; then \
+-		echo "nad2bin$(EXEEXT) failed to install $$DEST"; \
++		echo "nad2bin failed to install $$DEST"; \
+ 		exit 1; \
+ 	    fi; \
+ 	  done; \

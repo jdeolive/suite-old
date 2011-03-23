@@ -1,0 +1,154 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/dpatch/dpatch.make
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+# Guessing geos version, which is required for C++ binding support
+VER_MAJOR=$(shell grep ^VERSION_MAJOR configure.in|cut -d= -f2)
+VER_MINOR=$(shell grep ^VERSION_MINOR configure.in|cut -d= -f2)
+VER_PATCH=$(shell grep ^VERSION_PATCH configure.in|cut -d= -f2|cut -dr -f1)
+VER=$(VER_MAJOR).$(VER_MINOR).$(VER_PATCH)
+ifeq (..,$(VER))
+$(error configure.in not found or version cannot be guessed)
+else
+$(info Guessed geos version is $(VER))
+endif
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+ifeq ($(DEB_HOST_GNU_TYPE),arm-linux-gnueabi)
+       CONFFLAGS += --disable-inline
+endif
+
+debian/control: 
+		@sed -e 's/@VERSION@/$(VER)/' debian/control.in >$@
+
+config.status: debian/control configure
+	dh_testdir
+	# Add here commands to configure the package.
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	mv config.sub config.sub.bak
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	mv config.guess config.guess.bak
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+	CFLAGS="$(CFLAGS)" ./configure \
+        --host=$(DEB_HOST_GNU_TYPE) \
+        --build=$(DEB_BUILD_GNU_TYPE) \
+        --enable-ruby \
+		--prefix=/usr \
+        --mandir=\$${prefix}/share/man \
+        --infodir=\$${prefix}/share/info $(CONFFLAGS)
+	cp debian/libgeos-c++.install debian/libgeos-$(VER).install
+	cp debian/libgeos-c++.dirs debian/libgeos-$(VER).dirs
+
+#Architecture
+build: patch build-arch build-indep
+
+build-arch: build-arch-stamp
+build-arch-stamp:  config.status
+	# Add here commands to compile the arch part of the package.
+	$(MAKE)
+	touch $@
+
+build-indep: build-indep-stamp
+build-indep-stamp:  config.status
+	# Add here commands to compile the indep part of the package.
+	$(MAKE) -C doc doxygen-html
+	touch $@
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	[ ! -f Makefile ] || $(MAKE) distclean
+	[ -f config.sub.bak ] && mv config.sub.bak config.sub || true
+	[ -f config.guess.bak ] && mv config.guess.bak config.guess || true
+	dh_clean 
+	rm -f debian/libgeos-$(VER).install debian/libgeos-$(VER).dirs
+
+install: install-indep install-arch
+install-indep:
+	dh_testdir
+	dh_testroot
+	dh_prep -i
+	dh_installdirs -i
+	dh_install -i
+	# debian/libgeos-doc
+	# Install doxygen html files
+	install -m 644 doc/doxygen_docs/html/* debian/libgeos-doc/usr/share/doc/libgeos-doc/html
+	# Install example program source
+	install -m 644 doc/example.cpp debian/libgeos-doc/usr/share/doc/libgeos-doc/examples
+	install -m 644 debian/Makefile.example debian/libgeos-doc/usr/share/doc/libgeos-doc/examples/Makefile
+
+install-arch:
+	dh_testdir
+	dh_testroot
+	dh_prep -s
+	dh_installdirs -s
+	# Add here commands to install the arch part of the package into
+	# debian/tmp.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+	dh_install -s --sourcedir=debian/tmp
+	dh_installman -plibgeos-dev debian/geos-config.1
+	# remove the library from the -dev package
+	rm -f $(CURDIR)/debian/libgeos-dev/usr/lib/libgeos-*.so
+	# debian/libgeos-ruby1.8
+
+# Must not depend on anything. This is to be called by
+# binary-arch/binary-indep
+# in another 'make' thread.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installexamples
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs -V
+	dh_installdeb
+	dh_shlibdeps
+	for i in $$(grep ^Package: debian/control|cut -d' ' -f2); do \
+			echo "geos:Version=$(VER)" >> $$i.substvars; \
+	done
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture independant packages using the common target.
+binary-indep: build-indep install-indep
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build-arch install-arch
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch debian/control

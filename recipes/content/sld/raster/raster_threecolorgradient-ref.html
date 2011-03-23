@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Three-Color Gradient</h1>
+        <div class="description">
+          This example creates a three-color gradient in primary colors. In addition, the gradient doesn’t span the entire range of data values, leading some data not to be rendered at all.        
+        </div>
+        <div class="content">
+            <p>This example creates a three-color gradient based on a <tt>&lt;ColorMap&gt;</tt> with three entries on <strong>lines 9-13</strong>: <strong>line 10</strong> specifies the lower bound (150) be styled in blue (<tt>#0000FF</tt>), <strong>line 11</strong> specifies an intermediate point (200) be styled in yellow (<tt>#FFFF00</tt>), and <strong>line 12</strong> specifies the upper bound (250) be styled in red (<tt>#FF0000</tt>).</p>
+
+            <p>Since our data values run between 70 and 256, some data points are not accounted for in this style. Those values below the lowest entry in the color map (the range from 70 to 149) are styled the same color as the lower bound, in this case blue. On the other hand, values above the upper bound in the color map (the range from 251 to 256) are not rendered at all.</p>
+        </div>
+    </body>
+</html>

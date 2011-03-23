@@ -1,0 +1,62 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 99_java.dpatch by  <jetty@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: limiting memory used for compile
+
+@DPATCH@
+
+*** postgis-orig/java/jdbc/Makefile	2011-01-19 03:30:49.000000000 +0000
+--- postgis/java/jdbc/Makefile	2011-01-19 03:32:15.000000000 +0000
+***************
+*** 28,33 ****
+--- 28,34 ----
+  # Configure the helper executables used during build.
+  
+  JAVAC?=javac -target 1.2 -source 1.2
++ JAVAC_OPTS?=-J-Xmx32m
+  JAVA?=java
+  JAR?=jar
+  MKDIR?=mkdir -p
+***************
+*** 188,198 ****
+  	$(CP) ../../Version.config $(VERSIONTARGET)
+  
+  stubcompile: $(STUBBUILD) $(SRCCONF) $(STUBSRC)
+! 	$(JAVAC) -d $(STUBBUILD) $(STUBSRC)
+  	touch stubcompile
+  
+  compile: stubcompile $(BUILD) $(SRCCONF) $(SRC) $(VERSIONTARGET)
+! 	$(JAVAC) $(COMP_ADDCP) "$(BUILDCP)" -d $(BUILD) $(SRC) 
+  	touch compile
+  
+  test:	postgis.jar
+--- 189,199 ----
+  	$(CP) ../../Version.config $(VERSIONTARGET)
+  
+  stubcompile: $(STUBBUILD) $(SRCCONF) $(STUBSRC)
+! 	$(JAVAC) $(JAVAC_OPTS) -d $(STUBBUILD) $(STUBSRC)
+  	touch stubcompile
+  
+  compile: stubcompile $(BUILD) $(SRCCONF) $(SRC) $(VERSIONTARGET)
+! 	$(JAVAC) $(JAVAC_OPTS) $(COMP_ADDCP) "$(BUILDCP)" -d $(BUILD) $(SRC) 
+  	touch compile
+  
+  test:	postgis.jar
+***************
+*** 276,282 ****
+  	$(MKDIR) $(JTSBUILD)
+  
+  jtscompile: compile stubcompile $(JTSBUILD) $(SRCCONF) $(JTSSRC)
+! 	$(JAVAC) $(COMP_ADDCP) "$(BUILD)$(CPSEP)$(BUILDCP)" -d $(JTSBUILD) $(JTSSRC) 
+  	touch jtscompile
+  	
+  jtstestoffline: jtscompile	
+--- 277,283 ----
+  	$(MKDIR) $(JTSBUILD)
+  
+  jtscompile: compile stubcompile $(JTSBUILD) $(SRCCONF) $(JTSSRC)
+! 	$(JAVAC) $(JAVAC_OPTS) $(COMP_ADDCP) "$(BUILD)$(CPSEP)$(BUILDCP)" -d $(JTSBUILD) $(JTSSRC) 
+  	touch jtscompile
+  	
+  jtstestoffline: jtscompile	

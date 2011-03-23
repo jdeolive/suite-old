@@ -1,0 +1,15 @@
+Source: opengeo-suite-data
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-suite-data
+Architecture: any
+Depends: debconf, tomcat6, ${misc:Depends}
+#,${shlibs:Depends}
+Description: Sample geospatial data required for use with the OpenGeo Suite.
+ A customized GeoServer data directory containing data required for use with 
+ the OpenGeo Suite.  

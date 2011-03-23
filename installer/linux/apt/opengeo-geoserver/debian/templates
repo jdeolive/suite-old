@@ -1,0 +1,27 @@
+Template: opengeo_geoserver/proxyurl
+Type: string
+Description: Please enter the proxy URL:
+ Please enter the URL that GeoServer is accessed through publicly. This is only
+ necessary if GeoServer is accessed through an external proxy. Hit enter to 
+ leave unset. 
+
+Template: opengeo_geoserver/username
+Type: string
+Default: admin
+Description: Please choose a username for the GeoServer admin account:
+ The default username is 'admin'. Hit enter to accept, or pick your own.
+
+Template: opengeo_geoserver/password
+Type: password
+Description: Please enter a password for the GeoServer admin password:
+ The default password is 'geoserver'. Hit enter to accept, or pick your own.
+
+Template: opengeo_geoserver/password_confirm
+Type: password
+Description: Password confirmation:
+
+Template: opengeo_geoserver/password_mismatch
+Type: password
+Description: Passwords did not match. Please try again:
+ The two passwords you entered were not the same.
+

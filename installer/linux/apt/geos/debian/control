@@ -1,0 +1,79 @@
+Source: geos
+Section: science
+Priority: optional
+Maintainer: Debian GIS Project <pkg-grass-devel@lists.alioth.debian.org>
+Uploaders: Francesco Paolo Lovergine <frankie@debian.org>
+Build-Depends: debhelper (>= 7), dpatch, doxygen, swig, 
+	       python-all, python-all-dev, python-central (>= 0.5)
+Standards-Version: 3.8.4
+Homepage: http://trac.osgeo.org/geos/
+Vcs-Browser: http://svn.debian.org/viewsvn/pkg-grass/packages/geos/trunk
+Vcs-Svn: svn://svn.debian.org/svn/pkg-grass/packages/geos/trunk
+
+Package: libgeos-dev
+Section: libdevel
+Architecture: any
+Depends: libgeos-3.2.2 (= ${binary:Version}), libgeos-c1 (= ${binary:Version})
+Suggests: libgdal-doc
+Description: Geometry engine for GIS - Development files
+ GEOS provides a spatial object model and fundamental geometric
+ functions. It implements the geometry model defined in the
+ OpenGIS Consortium Simple Features Specification for SQL. 
+ .
+ This package contains the headers and libraries needed to 
+ develop programs using GEOS.
+
+Package: libgeos-c1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Geometry engine for Geographic Information Systems - C Library
+ GEOS provides a spatial object model and fundamental geometric
+ functions. It implements the geometry model defined in the
+ OpenGIS Consortium Simple Features Specification for SQL.
+ Functions provided include:
+ .
+   * spatial predicates (based on the DE-9IM model),
+   * overlay functions (intersection, difference, union,
+     symmetric difference),
+   * buffer,
+   * convex hull,
+   * area and distance functions, and
+   * topological validity checking
+ .
+ This package contains the C library. A C++ library is provided
+ by the libgeos* package.
+
+Package: libgeos-3.2.2
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Geometry engine for Geographic Information Systems - C++ Library
+ GEOS provides a spatial object model and fundamental geometric 
+ functions. It implements the geometry model defined in the 
+ OpenGIS Consortium Simple Features Specification for SQL. 
+ Functions provided include:
+ .
+   * spatial predicates (based on the DE-9IM model),
+   * overlay functions (intersection, difference, union, 
+     symmetric difference),
+   * buffer,
+   * convex hull,
+   * area and distance functions, and
+   * topological validity checking
+ .
+ This package contains the C++ library. A C library is provided
+ by the libgeos-c* package.
+
+Package: libgeos-doc
+Section: doc
+Architecture: all
+Suggests: libgeos-dev (= ${binary:Version})
+Homepage: http://download.osgeo.org/geos/doxygen/
+Description: Documentation for the GEOS GIS geometry engine library
+ GEOS provides a spatial object model and fundamental geometric
+ functions. It implements the geometry model defined in the
+ OpenGIS Consortium Simple Features Specification for SQL.
+ .
+ This package contains the documentation for the GEOS API.
+

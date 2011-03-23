@@ -1,0 +1,44 @@
+diff -r -U4 --new-file openssl-0.9.8o-old/Configure openssl-0.9.8o/Configure
+--- openssl-0.9.8o-old/Configure	2010-05-20 10:36:23.000000000 -0700
++++ openssl-0.9.8o/Configure	2010-06-03 07:28:37.937772280 -0700
+@@ -1466,8 +1466,10 @@
+ 		$cflags .= " $wopt" unless ($cflags =~ /$wopt/)
+ 		}
+ 	}
+ 
++$shared_ldflag .= " -Wl,--version-script=openssl.ld";
++
+ open(IN,'<Makefile.org') || die "unable to read Makefile.org:$!\n";
+ unlink("$Makefile.new") || die "unable to remove old $Makefile.new:$!\n" if -e "$Makefile.new";
+ open(OUT,">$Makefile.new") || die "unable to create $Makefile.new:$!\n";
+ print OUT "### Generated automatically from Makefile.org by Configure.\n\n";
+diff -r -U4 --new-file openssl-0.9.8o-old/engines/openssl.ld openssl-0.9.8o/engines/openssl.ld
+--- openssl-0.9.8o-old/engines/openssl.ld	1969-12-31 16:00:00.000000000 -0800
++++ openssl-0.9.8o/engines/openssl.ld	2010-06-03 07:28:30.969770725 -0700
+@@ -0,0 +1,4 @@
++OPENSSL_0.9.8 {
++global:
++*;
++};
+diff -r -U4 --new-file openssl-0.9.8o-old/Makefile openssl-0.9.8o/Makefile
+--- openssl-0.9.8o-old/Makefile	2010-06-01 07:52:07.000000000 -0700
++++ openssl-0.9.8o/Makefile	2010-06-03 07:30:27.726802463 -0700
+@@ -170,9 +170,9 @@
+ SHARED_SSL=libssl$(SHLIB_EXT)
+ SHARED_FIPS=
+ SHARED_LIBS=
+ SHARED_LIBS_LINK_EXTS=
+-SHARED_LDFLAGS=
++SHARED_LDFLAGS=-Wl,--version-script=openssl.ld
+ 
+ GENERAL=        Makefile
+ BASENAME=       openssl
+ NAME=           $(BASENAME)-$(VERSION)
+diff -r -U4 --new-file openssl-0.9.8o-old/openssl.ld openssl-0.9.8o/openssl.ld
+--- openssl-0.9.8o-old/openssl.ld	1969-12-31 16:00:00.000000000 -0800
++++ openssl-0.9.8o/openssl.ld	2010-06-03 07:28:24.105286678 -0700
+@@ -0,0 +1,4 @@
++OPENSSL_0.9.8 {
++global:
++*;
++};

@@ -1,0 +1,15 @@
+Index: src/pj_mutex.c
+===================================================================
+--- src/pj_mutex.c	(revision 1841)
++++ src/pj_mutex.c	(working copy)
+@@ -37,8 +37,9 @@
+ #include <proj_api.h>
+ #endif
+ 
+-#ifdef _WIN32
++#ifdef _WIN32 && !defined(MUTEX_stub)
+ #  define MUTEX_win32
++#  undef MUTEX_pthread
+ #endif
+ 
+ #if !defined(MUTEX_stub) && !defined(MUTEX_pthread) && !defined(MUTEX_win32)

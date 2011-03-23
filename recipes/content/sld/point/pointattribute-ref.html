@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Documentation
+        </title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css"/>
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css"/>
+    </head>
+    <body class="reference-body">
+        <h1>Attribute-based Point Documentation
+        </h1>
+        <div class="description">
+            This example alters the size of the symbol based on the value of the population ("pop") attribute.
+        </div>
+        <div class="content">
+            This style contains three rules. Each 
+            &lt;Rule&gt; varies the style based on the value of the population ("pop") attribute for each point, with smaller values yielding a smaller circle, and larger values yielding a larger circle.
+
+                <p>The three rules are designed as follows:</p>
+                <table class="reference">
+                  <tr>
+                    <td><strong>Rule order</strong></td>
+                    <td><strong>Rule name / type</strong></td>
+                    <td><strong>Scale denominator</strong></td>
+                    <td><strong>Point size</strong></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>SmallPop</td>
+                    <td>Less than 50,000</td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>MediumPop</td>
+                    <td>50,000 to 100,000</td>
+                    <td>12</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>LargePop</td>
+                    <td>Greater than 100,000</td>
+                    <td>16</td>
+                  </tr>
+                </table>
+                <p>The order of the rules does not matter in this case, since each shape is only rendered by a single rule.
+                </p>
+                <p>
+                    The first rule, on <strong>lines 7-27</strong>, specifies the styling of those points whose population attribute is less than 50,000. <strong>Lines 10-15</strong> set this filter, with lines 6-9 setting the "less than" filter, <strong>line 12</strong> denoting the attribute ("pop"), and <strong>line 13</strong> the value of 50,000. The symbol is a circle (<strong>line 19</strong>), the color is dark blue (#0033CC, on <strong>line 21</strong>), and the size is 8 pixels in diameter (<strong>line 24</strong>).
+                </p>
+                <p>
+                    The second rule, on <strong>lines 28-54</strong>, specifies a style for points whose population attribute is greater than or equal to 50,000 and less than 100,000. The population filter is set on <strong>lines 31-42</strong>. This filter is longer than in the first rule because two criteria need to be specified instead of one: a "greater than or equal to" and a "less than" filter. Notice the ``And`` on <strong>line 32</strong> and <strong>line 41</strong>. This mandates that both filters need to be true for the rule to be applicable. The size of the graphic is set to 12 pixels on <strong>line 51</strong>. All other styling directives are identical to the first rule.
+                </p>
+                <p>
+                    The third rule, on <strong>lines 55-75</strong>, specifies a style for points whose population attribute is greater than or equal to 100,000. The population filter is set on <strong>lines 58-63</strong>, and the only other difference is the size of the circle, which in this rule (<strong>line 72</strong>) is 16 pixels.
+                </p>
+                <p>
+                    The result of this style is that cities with larger populations have larger points.
+                </p>
+            </div>
+        </body>
+    </html>

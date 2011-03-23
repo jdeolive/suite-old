@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Vector Layer (WFS)</title>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+
+            // the `map` variable is declared here for easy debugging
+            var map;
+            
+            // this function is assigned to the window load event
+            function init() {
+            
+                map = new OpenLayers.Map("map-id");
+                
+                var world = new OpenLayers.Layer.WMS(
+                    "Global Imagery",
+                    "http://maps.opengeo.org/geowebcache/service/wms",
+                    {layers: "openstreetmap", format: "image/png"}
+                );
+                map.addLayer(world);
+                
+                var cities = new OpenLayers.Layer.Vector("WFS", {
+                    strategies: [new OpenLayers.Strategy.BBOX()],
+                    protocol: new OpenLayers.Protocol.WFS({
+                        url:  "/geoserver/wfs",
+                        featureType: "W_cities",
+                        featureNS: "http://www.geoserver.org/world"
+                    })
+                });
+                map.addLayer(cities);
+            
+                // set the map location
+                map.zoomToMaxExtent();
+               
+            }
+        </script>
+    </head>
+    <body onload="init()" class="recipe-body">
+        <h1>Vector Layer (from WFS)</h1>
+        <div class="description">
+            Rendering features from a WFS.
+        </div>
+        <div class="content">
+            <div id="map-id" class="map"></div>
+        </div>
+    </body>
+</html>

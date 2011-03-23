@@ -1,0 +1,33 @@
+<assembly>
+  <id>analytics</id>
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>assembly/target/dependency</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>analytics-*.jar</include>
+        <include>monitoring-*.jar</include>
+        <include>asm*.jar</include>
+        <include>cglib-*.jar</include>
+        <include>dom4j-*.jar</include>
+        <include>persistence-api*.jar</include>
+        <include>hibernate*.jar</include>
+        <include>ejb3-*.jar</include>
+        <include>ehcache-*.jar</include>
+        <include>spring-orm-*jar</include>
+        <include>jfreechart-*jar</include>
+        <include>jcommon-*jar</include>
+        <include>jta-*.jar</include>
+        <include>geoip-*.jar</include>
+        <include>joda-time-*.jar</include>
+        <include>poi-*.jar</include>
+        <include>wicket-datetime-*.jar</include>
+        <include>antlr-*.jar</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.opengeo.geoserver</groupId>
+    <artifactId>web</artifactId>
+    <version>2.4-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.opengeo.geoserver</groupId>
+  <artifactId>web-app</artifactId>
+  <packaging>jar</packaging>
+  <name>OpenGeo Suite GeoServer Web App Module</name>
+
+  <dependencies>
+    <!-- core geoserver modules -->
+    <dependency>
+      <groupId>org.geoserver.web</groupId>
+      <artifactId>web-app</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geoserver.web</groupId>
+      <artifactId>web-security</artifactId>
+    </dependency>
+
+    <!-- extension modules -->
+    <dependency>
+      <groupId>org.geoserver.extension</groupId>
+      <artifactId>charts</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geoserver.extension</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geoserver.community</groupId>
+      <artifactId>proxy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.geoserver.community</groupId>
+      <artifactId>printing</artifactId>
+      <exclusions>
+        <exclusion>
+           <groupId>com.vividsolutions</groupId>
+           <artifactId>jts</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-imageio-ext-gdal</artifactId>
+    </dependency>
+    
+    <!-- opengeo specific stuff -->
+    <dependency>
+      <groupId>org.opengeo.geoserver</groupId>
+      <artifactId>web-demo</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opengeo.geoserver</groupId>
+      <artifactId>web-theme</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opengeo</groupId>
+      <artifactId>styler</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+   <!-- Jetty test deps so that we can start GeoServer from an IDE as well -->
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty-naming</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty-plus</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+   <plugins>
+    <plugin>
+      <inherited>true</inherited>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <configuration>
+        <warName>geoserver</warName>
+        <webappDirectory>${project.build.directory}/geoserver</webappDirectory>
+        <webResources>
+          <resource>
+            <directory>../../../styler/target</directory>
+            <targetPath>www</targetPath>
+            <includes>
+              <include>styler/**</include>
+            </includes>
+          </resource>
+        </webResources>
+      </configuration>
+      <executions>
+        <execution>
+           <phase>install</phase> 
+           <goals>
+             <goal>war</goal>
+           </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.geoserver.maven</groupId>
+      <artifactId>config</artifactId>
+      <version>${gs.version}</version>
+      <executions>
+        <execution>
+          <id>configPackage</id>
+          <configuration>
+            <configDirectory>${basedir}/../../..</configDirectory>
+            <configId>data_dir</configId>
+          </configuration>
+         <phase>compile</phase>
+         <goals>
+           <goal>config</goal>
+         </goals>
+       </execution>
+       <execution>
+         <id>configClean</id>
+         <phase>clean</phase>
+         <goals>
+           <goal>clean</goal>
+         </goals>
+       </execution>
+      </executions>
+    </plugin>
+    <plugin>
+       <artifactId>maven-antrun-plugin</artifactId>
+       <executions>
+         <execution>
+           <id>hack-printing</id>
+           <phase>install</phase>
+            <configuration>
+              <tasks>
+                <property name="target" value="${build.directory}"/>
+                <property name="tmp" value="${target}/tmp"/>
+
+                <mkdir dir="${tmp}"/>
+                <unjar src="${target}/geoserver/WEB-INF/lib/printing-${gs.version}.jar" dest="${tmp}"/>
+
+                <copy file="../../../data_dir/printing/config.yaml" tofile="${tmp}/org/geoserver/printing/default-config.yaml" overwrite="yes"/>
+                <jar destfile="${target}/printing-${gs.version}.jar" basedir="${tmp}"/>
+                <delete dir="${target}/tmp"/>
+
+                <copy file="${target}/printing-${gs.version}.jar" todir="${target}/geoserver/WEB-INF/lib" overwrite="true"/>
+               
+                <delete file="${target}/geoserver.war"/>
+                <jar destfile="${target}/geoserver.war" basedir="${target}/geoserver"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+         </execution>
+       </executions>
+    </plugin>
+
+   </plugins>
+  </build>
+
+  <profiles>
+     <profile>
+       <id>analytics</id>
+       <dependencies> 
+         <dependency>
+           <groupId>org.opengeo.geoserver</groupId>
+           <artifactId>analytics</artifactId>
+           <version>${project.version}</version>
+         </dependency>
+       </dependencies> 
+     </profile>
+     <profile>
+       <id>importer</id>
+       <dependencies> 
+         <dependency>
+           <groupId>org.opengeo.geoserver</groupId>
+           <artifactId>importer</artifactId>
+           <version>${project.version}</version>
+         </dependency>
+       </dependencies> 
+     </profile>
+     <profile>
+       <id>ee</id>
+       <dependencies> 
+         <dependency>
+           <groupId>org.geoserver.extension</groupId>
+           <artifactId>control-flow</artifactId>
+         </dependency>
+         <dependency>
+           <groupId>org.opengeo.geoserver</groupId>
+           <artifactId>analytics</artifactId>
+           <version>${project.version}</version>
+         </dependency>
+         <dependency>
+           <groupId>org.opengeo.geoserver</groupId>
+           <artifactId>importer</artifactId>
+           <version>${project.version}</version>
+         </dependency>
+        </dependencies> 
+     </profile>
+     <profile>
+       <id>dbconfig</id>
+       <dependencies> 
+         <dependency>
+           <groupId>org.geoserver.community</groupId>
+           <artifactId>dbconfig</artifactId>
+         </dependency>
+       </dependencies> 
+     </profile>
+  </profiles>
+
+</project>

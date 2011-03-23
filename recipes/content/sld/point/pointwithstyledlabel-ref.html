@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Point with Styled Label Documentation</h1>
+        <div class="description">
+This example improves the label style from the Point with default label example by centering the label above the point and providing a different font name and size.</div>
+        <div class="content">
+            In this example, <strong>lines 8-18</strong> are identical to the Simple point example above. The <tt>&lt;TextSymbolizer&gt;</tt> on <strong>lines 19-44</strong> contains many more details about the label styling than the previous example, Point with default label. <strong>Lines 20-22</strong> once again specify the "name" attribute as text to display. <strong>Lines 23-28</strong> set the font information: <strong>line 24</strong> sets the font family to be "Arial", <strong>line 25</strong> sets the font size to 12, <strong>line 26</strong> sets the font style to "normal" (as opposed to "italic" or "oblique"), and <strong>line 27</strong> sets the font weight to "bold" (as opposed to "normal"). <strong>Lines 29-40</strong> (<tt>&lt;LabelPlacement&gt;</tt>) determine the placement of the label relative to the point. The <tt>&lt;AnchorPoint&gt;</tt> (<strong>lines 31-34</strong>) sets the point of intersection between the label and point, which here (<strong>line 32-33</strong>) sets the point to be centered (0.5) horizontally axis and bottom aligned (0.0) vertically with the label. There is also <tt>&lt;Displacement&gt;</tt> (<strong>lines 35-38</strong>), which sets the offset of the label relative to the line, which in this case is 0 pixels horizontally (<strong>line 36</strong>) and 5 pixels vertically (<strong>line 37</strong>). Finally, <strong>line 42</strong> sets the font color of the label to black (#000000).
+
+            The result is a centered bold label placed slightly above each point.
+        </div>
+    </body>
+</html>

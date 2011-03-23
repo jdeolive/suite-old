@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/dpatch/dpatch.make
+
+%:
+	dh $@ 
+install: unpack-gxp patch-stamp
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	mkdir -p $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite
+	cp -rp $(CURDIR)/dashboard.war $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/.
+	cp -rp $(CURDIR)/geoeditor.war $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/.
+	cp -rp $(CURDIR)/geowebcache.war $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/.
+	cp -rp $(CURDIR)/recipes.war $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/.
+	cp -rp $(CURDIR)/geoexplorer.war $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/.
+
+	#rm -rf $(CURDIR)/geoexplorer $(CURDIR)/geoexplorer.zip
+	#unzip $(CURDIR)/geoexplorer.war -d geoexplorer
+	#cp $(CURDIR)/debian/web.xml $(CURDIR)/geoexplorer/WEB-INF/web.xml
+	( cd geoexplorer ; zip ../geoexplorer.zip * -r ; cd ..)
+	cp -rp $(CURDIR)/geoexplorer.zip $(CURDIR)/debian/opengeo-suite/usr/share/opengeo-suite/geoexplorer.war
+	#rm -rf $(CURDIR)/geoexplorer $(CURDIR)/geoexplorer.zip
+	rm -rf $(CURDIR)/geoexplorer.zip
+
+unpack-gxp:
+	rm -rf $(CURDIR)/geoexplorer	
+	unzip $(CURDIR)/geoexplorer.war -d geoexplorer
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdebconf
+	dh_installdocs
+#       dh_installmenu
+#       dh_link
+#       dh_strip
+#       dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+#       .PHONY: build clean binary-indep binary-arch binary install
+
+clean: unpatch
+	dh_clean
+	rm -rf $(CURDIR)/geoexplorer

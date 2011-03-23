@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <style>
+       body {
+          font-family: Optima, Arial;
+          width: 500px;
+       }
+ 
+       p {
+          font-size: 14px;
+       }
+    </style>
+  </head>
+  <body>
+     <br>
+     <h2 style="text-align: center">OpenGeo Suite @VERSION@</h2>
+
+     <table width="100%" border="0">
+     <tr valign="middle">
+     <td width="60%">
+     <p>
+     The OpenGeo Suite provides a complete package for building geospatial web applications.</p> 
+     <p>
+     Built from the best of breed open source geospatial software available today, the OpenGeo Suite is a complete and fully integrated web mapping solution.
+     </p>
+
+     <p>
+     Find out more at <a href="http://opengeo.org/">http://opengeo.org</a>.
+     </p>
+
+     <p style="clear: both;">
+     This installer will now guide you through the installation process.</p> 
+     </td>
+     <td>
+     <img src="suite.png"/>
+     </td>
+    </tr>
+   </table>
+  <body>
+</html>

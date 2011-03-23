@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>OpenGeo Recipes</title>
+        <link rel="shortcut icon" href="resources/app/theme/img/opengeo.ico"/>
+
+        <link rel="stylesheet" type="text/css" href="resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="resources/ext/resources/css/xtheme-gray.css" />
+        <script src="resources/ext/adapter/ext/ext-base.js"></script>
+        <script src="resources/ext/ext-all.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="resources/highlighter/styles/shCore.css" />
+        <link rel="stylesheet" type="text/css" href="resources/highlighter/styles/shThemeDefault.css" />
+        <script src="resources/highlighter/scripts/shCore.js"></script>
+        <script src="resources/highlighter/scripts/shBrushJScript.js"></script>
+        <script src="resources/highlighter/scripts/shBrushXml.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="resources/app/theme/style.css" />
+        <script src="resources/app/script/PagingStore.js"></script>
+        <script src="resources/app/script/app.js"></script>
+
+        <script type="text/javascript">
+            SyntaxHighlighter.defaults.light = true;
+            Ext.BLANK_IMAGE_URL = "resources/ext/resources/images/default/s.gif";
+            var app = new og.Recipes({
+                index: "content/index.json",
+                startRecipe: "index"
+            });
+        </script>
+    </head>
+    <body class="index"></body>
+</html>

@@ -1,0 +1,65 @@
+Pending:
+
+I forsee:
+
+pg_start_server.sh
+pg_stop_server.sh
+postgis
+
+all become part of the primary init script. (which i can do)
+
+pg_config.sh
+pg_initdb.sh
+pg_install_data.sh
+pg_install_template.sh
+pg_install_user.sh
+pg_passwd.sh
+
+get rebuilt with a fixed location (/opt/pgsql) in mind.
+
+Quite a few of these errors during the bundling process.. These look like items that should get fixed (they appear to all be items fixable during the initial make)
+
+
+E: postgis: binary-or-shlib-defines-rpath ./opt/pgsql/lib/pageinspect.so /var/lib/hudson/buildroot/pgsql_build/lib
+http://lintian.debian.org/tags/binary-or-shlib-defines-rpath.html suggests how to fix that.
+
+Also
+
+E: postgis: incorrect-libdir-in-la-file opt/pgsql/lib/libproj.la /var/lib/hudson/buildroot//proj/lib !=   /opt/pgsql/lib
+http://lintian.debian.org/tags/incorrect-libdir-in-la-file.html
+
+E: postgis: unstripped-binary-or-object ./opt/pgsql/lib/pageinspect.so
+http://lintian.debian.org/tags/unstripped-binary-or-object.html
+
+E: postgis: shlib-with-executable-bit opt/pgsql/lib/libwx_gtk2u_gizmos-2.8.so.0.7.0 0755
+http://lintian.debian.org/tags/shlib-with-executable-bit.html
+
+
+
+Running the suite through the package manager, the following changes are suggested.
+
+Make .py and .sh executable (+x)
+make .ini, .js, .jar NOT executable (-x)
+
+make suite/jetty-start.jar 0755 (not 7777)
+make suite/og-jetty.jar 0755 (not 7777)
+make suite/opengeo-suite 0755 (not 0544)
+make suite/version.ini 0644 (not 7777) 
+
+To Build:
+Get the source
+unpack to a folder
+copy the debian/ folder for the package into the source folder
+use `debuild -uc -us` to build the deb
+
+debian/control handles name and dependencies
+debian/changelog handles version
+debian/rules handles bundling procedure (file copies and bash-level commands)
+
+rename these (remove .ex) to use
+postinst.ex handles after files are installed (start services here)
+postrm.ex  handles after files are removed (remove paths, users, etc)
+preinst.ex  handles before files are installed (ie, create users and paths)
+prerm.ex handles before files are removed (stop services)
+
+buildpkg.sh currently builds the 3 main packages... more work is required.

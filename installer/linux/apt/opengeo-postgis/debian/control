@@ -1,0 +1,17 @@
+Source: opengeo-postgis
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inqiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-postgis
+Architecture: any
+Depends: debconf, postgis, postgresql-8.4-postgis, postgresql-contrib, pgadmin3, opengeo-suite-data, ${misc:Depends}
+Description: Robust, spatially-enabled object-relational database built on PostgreSQL.
+ PostGIS adds support for geographic objects to the PostgreSQL object-relational database, 
+ allowing it to be used as a spatial database for geographic information systems (GIS). 
+ PostGIS follows the OGC "Simple Features Specification for SQL" specification and has been 
+ certified as compliant with the "Types and Functions" profile.  PostGIS is a core component 
+ of the OpenGeo Suite.

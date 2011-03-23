@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function usage() {
+  echo "Usage: $0 <start|stop>"
+}
+
+if [ $# -lt 1 ]; then
+  usage;
+fi
+
+# Load the common config functions and variables
+d=`dirname $0`
+source ${d}/pg_config.sh
+
+case "$1" in
+
+  start)
+    data=$(pg_check_data)
+
+    # There's a configured and ready directory!
+    if [ "$data" = "good" ]; then
+      ${d}/pg_start_server.sh
+      exit 0
+    fi
+
+    ${d}/pg_initdb.sh
+    ${d}/pg_start_server.sh
+    ${d}/pg_install_template.sh
+    ${d}/pg_install_user.sh
+    ${d}/pg_install_data.sh
+    ;;
+
+  stop)
+    ${d}/pg_stop_server.sh
+    ;;
+
+  *)
+    usage
+    ;;
+
+esac
+
+exit 0
+

@@ -1,0 +1,43 @@
+This package was debianized by Fabio Tranchitella <kobold@debian.org> on
+Mon, 15 May 2006 14:49:25 +0200.
+
+Additional debianization and changes by Stephen Frost <sfrost@debian.org>
+on or about Wed, 31 May 2006
+
+Additional debianization and changes by Stephen Frost <sfrost@debian.org>
+for PostGIS 1.2.1 on or about Mon, 28 May 2007 21:28:24 -0400
+
+It was downloaded from http://www.postgis.org/download/
+
+Copyright Holder: Refractions Research
+                  Sandro Santilli, Paul Ramsey, 
+                  Jeff Lounsbury and Chris Hodgson
+
+   lwgeom/lwgparse.c, lwgeom/wktparse.y and lwgeom/wktunparse.c:
+       Copyright holder: Ralph Mason ralph.mason@telogis.com, Telogis 2004
+
+   loader/dbfopen.c, loader/shapefil.h, loader/shpopen.c:
+       Copyright holder: Frank Warmerdam, warmerdam@pobox.com
+
+   See CREDITS for a ful list of contributors.
+
+
+License:
+
+   This package is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this package; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+

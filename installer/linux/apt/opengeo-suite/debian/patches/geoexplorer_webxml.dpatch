@@ -1,0 +1,24 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## gxp_webxml.dpatch by  <jetty@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: setting GEOEXPLORER_DATA
+
+@DPATCH@
+
+diff -rc opengeo-suite-orig/geoexplorer/WEB-INF/web.xml opengeo-suite/geoexplorer/WEB-INF/web.xml
+*** opengeo-suite-orig/geoexplorer/WEB-INF/web.xml	2011-01-20 01:16:48.000000000 +0000
+--- opengeo-suite/geoexplorer/WEB-INF/web.xml	2011-01-20 01:18:11.000000000 +0000
+***************
+*** 24,29 ****
+--- 24,33 ----
+              <param-name>app</param-name>
+              <param-value>app</param-value>
+          </init-param>
++         <init-param>
++             <param-name>GEOEXPLORER_DATA</param-name>
++             <param-value>/usr/share/opengeo-suite-data/geoexplorer_data</param-value>
++         </init-param>
+          <load-on-startup>1</load-on-startup>
+      </servlet>
+  

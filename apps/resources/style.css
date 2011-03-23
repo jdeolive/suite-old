@@ -1,0 +1,41 @@
+/* structural reset */
+
+html, body, div, form, fieldset, legend, label {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th, td {
+    text-align: left;
+    vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6, th, td, caption { 
+    font-weight: normal; 
+}
+
+img { 
+    border: 0; 
+}
+
+/* app style */
+
+body {
+    margin: 1em;
+    font-family: Helvetica, Arial, FreeSans, sans-serif;
+}
+
+a:link, a:visited {
+    color: #3366CC;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6C9400;
+    text-decoration: underline;
+}

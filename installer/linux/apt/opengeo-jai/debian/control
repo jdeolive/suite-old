@@ -1,0 +1,20 @@
+Source: opengeo-jai
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-jai
+Architecture: any
+Depends: debconf, sun-java6-jdk | openjdk-6-jdk, ${misc:Depends}
+Description: A set of Java toolkits to provide enhanced image rendering abilities for the OpenGeo Suite.
+ Java Advanced Imaging API (JAI) provides a set of object-oriented interfaces 
+ that supports a simple, high-level programming model which allows images to be 
+ manipulated easily in Java applications and applets.  Java Advanced Imaging 
+ Image I/O Tools provides JAI read and write operations which use the Java Image 
+ I/O Framework.
+ .
+ These toolkits provide enhanced image rendering for the OpenGeo Suite. 
+

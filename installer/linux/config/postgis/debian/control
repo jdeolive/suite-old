@@ -1,0 +1,13 @@
+Source: postgis
+Section: database
+Priority: extra
+Maintainer: aaron greengrass <aaron@greenbtn.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://opengeo.org
+
+Package: postgis
+Architecture: i386
+Depends: opengeosuite, ${misc:Depends}, ${shlibs:Depends}
+Description: PostGIS for geoserver suite
+ This provides PostGIS, to be used with OpenGEO Geoserver Suite 

@@ -1,0 +1,71 @@
+#!/bin/bash
+
+function usage() {
+  echo "Usage: opengeo-suite <start|stop>"
+}
+
+if [ "$1" == "" ]; then
+  usage
+  exit
+fi
+
+pushd "`dirname "$0"`" > /dev/null
+dir=`pwd`
+ 
+if [ ! -e "$dir/og-jetty.jar" ]; then
+  echo "Could not find og-jetty.jar"
+  exit -1
+fi
+
+_RUNJAVA=""
+if [ -e "$dir/jre" ]; then
+  _RUNJAVA="$dir/jre/bin/java"
+else
+  if [ "$JAVA_HOME" != "" ] && [ -e $JAVA_HOME/bin/java ]; then
+    _RUNJAVA=$JAVA_HOME/bin/java
+  else
+    which java > /dev/null
+    if [ "$?" == "1" ]; then
+      echo "JAVA_HOME is not defined, and java is not on the current PATH"
+      exit
+    fi
+    _RUNJAVA=`which java`
+  fi
+fi
+
+CLASSPATH=og-jetty.jar:jetty-start.jar:lib/ini4j-0.5.1.jar:lib/log4j-1.2.14.jar:lib/commons-logging-1.0.jar:lib/slf4j-jcl-1.0.1.jar
+VMOPTS="-Xms128m -Xmx512m -XX:MaxPermSize=128m"
+OPTS="-Dslf4j=false -cp $CLASSPATH"
+
+# Check for PostGIS script in Linux and OSX locations
+POSTGIS="../pgsql/8.4/scripts/postgis"
+if [ ! -f "$POSTGIS" ]; then
+  POSTGIS="../pgsql/scripts/postgis"
+fi
+
+case "$1" in
+
+  start)
+    #GDD=$GEOSERVER_DATA_DIR
+    #if [ "$GDD" == "" ]; then
+    #  GDD="$dir/data_dir"
+    #fi
+
+    if [ -x ${POSTGIS} ]; then
+      ${POSTGIS} start
+    fi
+    exec "$_RUNJAVA" $VMOPTS $OPTS org.opengeo.jetty.Start
+    ;;
+
+  stop)
+    if [ -x ${POSTGIS} ]; then
+      ${POSTGIS} stop
+    fi
+    exec "$_RUNJAVA" $VMOPTS $OPTS org.opengeo.jetty.Start --stop
+    ;;
+   
+  *)
+    usage
+esac
+
+popd > /dev/null

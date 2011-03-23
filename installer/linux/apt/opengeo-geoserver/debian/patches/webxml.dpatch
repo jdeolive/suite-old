@@ -1,0 +1,36 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## webxml.dpatch by  <jetty@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: setting GEOSERVER_DATA_DIR in web.xml
+
+@DPATCH@
+
+diff -rc orig/geoserver/WEB-INF/web.xml patched/geoserver/WEB-INF/web.xml
+*** orig/geoserver/WEB-INF/web.xml	2011-02-18 17:18:48.000000000 +0000
+--- patched/geoserver/WEB-INF/web.xml	2011-02-18 22:18:35.000000000 +0000
+***************
+*** 47,58 ****
+      </context-param>
+       -->
+     
+-      <!--
+      <context-param>
+         <param-name>GEOSERVER_DATA_DIR</param-name>
+!         <param-value>C:\eclipse\workspace\geoserver_trunk\cite\confCiteWFSPostGIS</param-value>
+      </context-param> 
+-    -->
+      
+      <!-- pick up all spring application contexts -->
+      <context-param>
+--- 47,56 ----
+      </context-param>
+       -->
+     
+      <context-param>
+         <param-name>GEOSERVER_DATA_DIR</param-name>
+!        <param-value>/usr/share/opengeo-suite-data/geoserver_data</param-value>
+      </context-param> 
+      
+      <!-- pick up all spring application contexts -->
+      <context-param>

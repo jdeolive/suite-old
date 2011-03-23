@@ -1,0 +1,13 @@
+Source: opengeo-jre
+Section: java
+Priority: extra
+Maintainer: aaron greengrass <aaron@greenbtn.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://opengeo.org
+
+Package: opengeo-jre
+Architecture: i386
+Depends:  opengeosuite, postgis, ${misc:Depends}
+Description: geoserver jre
+ This provides java for OpenGEO Geoserver Suite 

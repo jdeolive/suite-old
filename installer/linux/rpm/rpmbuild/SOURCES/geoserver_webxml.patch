@@ -1,0 +1,17 @@
+diff -ru geoserver_orig/WEB-INF/web.xml geoserver/WEB-INF/web.xml
+--- geoserver_orig/WEB-INF/web.xml	2011-02-18 17:18:48.000000000 +0300
++++ geoserver/WEB-INF/web.xml	2011-02-19 02:18:45.000000000 +0300
+@@ -47,12 +47,10 @@
+     </context-param>
+      -->
+    
+-     <!--
+     <context-param>
+        <param-name>GEOSERVER_DATA_DIR</param-name>
+-        <param-value>C:\eclipse\workspace\geoserver_trunk\cite\confCiteWFSPostGIS</param-value>
++       <param-value>/usr/share/opengeo-suite-data/geoserver_data</param-value>
+     </context-param> 
+-   -->
+     
+     <!-- pick up all spring application contexts -->
+     <context-param>

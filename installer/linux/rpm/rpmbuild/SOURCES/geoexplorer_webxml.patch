@@ -1,0 +1,14 @@
+diff -ru geoexplorer_orig/WEB-INF/web.xml geoexplorer/WEB-INF/web.xml
+--- geoexplorer_orig/WEB-INF/web.xml	2011-01-21 22:05:29.000000000 +0300
++++ geoexplorer/WEB-INF/web.xml	2011-01-21 22:06:17.000000000 +0300
+@@ -24,6 +24,10 @@
+             <param-name>app</param-name>
+             <param-value>app</param-value>
+         </init-param>
++        <init-param>
++            <param-name>GEOEXPLORER_DATA</param-name>
++            <param-value>/usr/share/opengeo-suite-data/geoexplorer_data</param-value>
++        </init-param>
+         <load-on-startup>1</load-on-startup>
+     </servlet>
+ 

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=pgAdmin III
+Comment=PostgreSQL Administration Tool
+Exec=pgadmin3
+Terminal=false
+Type=Application
+Icon=pgadmin3
+Categories=Development;Database;

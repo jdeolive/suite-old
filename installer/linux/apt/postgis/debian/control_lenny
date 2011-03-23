@@ -1,0 +1,68 @@
+Source: postgis
+Section: misc
+Priority: optional
+Maintainer: Debian GIS Project <pkg-grass-devel@lists.alioth.debian.org>
+Uploaders: Stephen Frost <sfrost@debian.org>, Francesco Paolo Lovergine <frankie@debian.org>
+Build-Depends: debhelper (>= 7), autotools-dev, flex, bison, postgresql-server-dev-8.3, postgresql-server-dev-8.4,
+ libgeos-dev (>= 3.0.0), libproj-dev (>= 4.5.0), libssl-dev, xsltproc, docbook, docbook-xsl, libpg-java, 
+ default-jdk, fastjar, libjts-java (>= 1.7), dpatch, imagemagick, libcunit1-dev, dblatex
+Standards-Version: 3.8.3
+Homepage: http://postgis.refractions.net/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-grass/packages/postgis/
+Vcs-Svn: svn://svn.debian.org/pkg-grass/packages/postgis/
+
+Package: postgresql-8.4-postgis
+Architecture: any
+Depends: ${shlibs:Depends}, postgis, postgresql-8.4, ${misc:Depends}
+Conflicts: postgis (<< 1.2.1)
+Description: geographic objects support for PostgreSQL 8.4
+ PostGIS adds support for geographic objects to the PostgreSQL object-relational
+ database. In effect, PostGIS "spatially enables" the PostgreSQL server, 
+ allowing it to be used as a backend spatial database for geographic information
+ systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+ follows the OpenGIS "Simple Features Specification for SQL".
+ .
+ This package supports PostgreSQL 8.4.
+
+Package: postgresql-8.3-postgis
+Architecture: any
+Depends: ${shlibs:Depends}, postgis, postgresql-8.3, ${misc:Depends}
+Conflicts: postgis (<< 1.2.1)
+Description: geographic objects support for PostgreSQL 8.3
+ PostGIS adds support for geographic objects to the PostgreSQL object-relational
+ database. In effect, PostGIS "spatially enables" the PostgreSQL server, 
+ allowing it to be used as a backend spatial database for geographic information
+ systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+ follows the OpenGIS "Simple Features Specification for SQL".
+ .
+ This package supports PostgreSQL 8.3.
+
+Package: postgis
+Suggests: postgresql-8.3-postgis | postgresql-8.4-postgis
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Architecture: any
+Description: geographic objects support for PostgreSQL -- common files
+ PostGIS adds support for geographic objects to the PostgreSQL object-relational
+ database. In effect, PostGIS "spatially enables" the PostgreSQL server, 
+ allowing it to be used as a backend spatial database for geographic information
+ systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+ follows the OpenGIS "Simple Features Specification for SQL".
+ .
+ This package contains the PostGIS userland binaries, common files and
+ documentation.
+
+Package: libpostgis-java
+Architecture: all
+Section: science
+Depends: libpg-java
+Suggests: postgresql-8.3-postgis | postgresql-8.4-postgis, ${misc:Depends}
+Conflicts: libpostgis-jdbc, libpostgisjava, postgresql-postgis-java
+Replaces: libpostgis-jdbc, libpostgisjava, postgresql-postgis-java
+Description: geographic objects support for PostgreSQL -- JDBC support
+ PostGIS adds support for geographic objects to the PostgreSQL object-relational
+ database. In effect, PostGIS "spatially enables" the PostgreSQL server, 
+ allowing it to be used as a backend spatial database for geographic information
+ systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+ follows the OpenGIS "Simple Features Specification for SQL".
+ .
+ This package contains JDBC support for PostGIS.

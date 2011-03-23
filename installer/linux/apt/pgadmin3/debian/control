@@ -1,0 +1,44 @@
+Source: pgadmin3
+Section: database
+Priority: optional
+Maintainer: Gerfried Fuchs <rhonda@debian.at>
+Build-Depends: debhelper (>= 7), libpq-dev (>= 8.1), devscripts,
+  libwxgtk2.8-dev, libxml2-dev, libxslt1-dev, dpkg-dev (>= 1.13.19),
+  autotools-dev
+Standards-Version: 3.8.4
+Homepage: http://www.pgadmin.org/
+Vcs-Svn: svn://svn.debian.org/svn/pkg-postgresql/trunk/pgadmin3/
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-postgresql/trunk/pgadmin3/?op=log
+
+Package: pgadmin3
+Architecture: any
+Depends: ${misc:Depends}, pgadmin3-data (= ${source:Version}), ${shlibs:Depends}
+Suggests: postgresql-contrib
+Recommends: pgagent, postgresql-client
+Description: graphical administration tool for PostgreSQL
+ pgAdmin III is a database design and management application for use with 
+ PostgreSQL. The application can be used to manage PostgreSQL 7.3 and above
+ running on any platform.
+ .
+ pgAdmin III is designed to answer the needs of all users, from writing
+ simple SQL queries to developing complex databases. The graphical
+ interface supports all PostgreSQL features and makes administration
+ easy. The application also includes a syntax highlighting SQL editor, a
+ server-side code editor, an SQL/batch/shell job scheduling agent,
+ support for the Slony-I replication engine and much more. Server
+ connection may be made using TCP/IP or Unix Domain Sockets (on *nix
+ platforms), and may be SSL encrypted for security. No additional
+ drivers are required to communicate with the database server.
+
+Package: pgadmin3-data
+Architecture: all
+Depends: ${misc:Depends}
+Enhances: pgadmin3 (>= ${source:Version})
+Conflicts: pgadmin3 (<< 1.0.2-1)
+Replaces: pgadmin3 (<< 1.0.2-1)
+Description: graphical administration tool for PostgreSQL - documentation
+ pgAdmin III is a database design and management application for use with 
+ PostgreSQL.
+ .
+ This package contains the documentation for pgAdmin III in English language.
+ This package is mandatory to get the pgAdmin III help system to run smoothly.

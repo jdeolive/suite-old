@@ -1,0 +1,11 @@
+The Oregon spatial data used in the OpenGeo Suite, was produced by the City of Medford, Oregon <http://www.ci.medford.or.us/> and the Jackson County Geographic Information System (GIS) Services <http://www.smartmap.org/>.
+Contact Information:
+
+Contact Information:
+Keith Massie
+City of Medford
+Keith.Massie@cityofmedford.org
+
+Len Jacobson
+Jackson County Geographic Information System Services
+JacobsLC@jacksoncounty.org

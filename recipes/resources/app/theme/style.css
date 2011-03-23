@@ -1,0 +1,202 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+body { line-height: 1.5; background: #fff; margin: 1em; }
+table { border-collapse: collapse; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight:400; }
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+a img { border: none; }
+input,textarea { margin: 0; }
+
+/* Removes Firefox imposed outline */
+a { outline: none; }
+
+body { font-size: 75%; }
+
+/* Default fonts and colors. */
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,dl,input,textarea { font-family: Helvetica, Arial, sans-serif; }
+
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 { font-weight: bold; }
+
+h1 { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
+h2 { font-size: 2em; margin-bottom: 0.75em; }
+h3 { font-size: 1.5em; line-height: 1; margin-bottom: 1em; }
+h4 { font-size: 1.2em; line-height: 1.25; margin-bottom: 1.25em; }
+h5 { font-size: 1em; margin-bottom: 1.5em; }
+h6 { font-size: 1em; }
+
+/* general overrides */
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333333;
+}
+
+h1 {
+    color:#0A2742;
+    font-family:Optima,Georgia, serif;
+    font-size:24px;
+    font-weight:normal;
+}
+
+
+h2, h3, h4, h5 {
+    color: #0A2742;
+}
+
+a, a:visited {
+    color: #3366CC;
+}
+
+/* selectors for the index page */
+
+.header { 
+    height: 65px;
+}
+
+.header h1 a {
+    color: #333333;
+    padding: 10px 210px;
+    font-size:48px;
+    background: transparent url(img/recipe.png) no-repeat 15px 18px;
+    text-decoration: none;
+}
+
+.west {
+    width: 300px;
+}
+
+.west  p {
+    line-height: 1.5;
+    margin: 10px;
+    font-size: 12px;
+}
+
+.searchbox {
+    padding: 1em 1em 0 1em;
+}
+
+.components {
+    font-size: 12px;
+}
+
+
+.index .recipe {
+    padding: 1em 1em;
+}
+
+.index .recipe h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #486300;
+    font-weight: bold;
+    font-family: Helvetica, Arial, FreeSans, sans-serif;
+}
+
+.index .recipe p {
+    color: #333333;
+    margin: 0;
+}
+
+.index .recipe.over {
+    cursor: pointer;
+    background-color: #F3F3F3;
+}
+
+.index .recipe.selected {
+    background-color: #EEEEEE;
+}
+
+/* selectors for individual recipes and reference docs */
+
+body.reference-body, body.recipe-body {
+    margin: 1em;
+    background-color: #FFFFFF;
+}
+
+.description {
+    margin: 1em 0 1em 0;
+    padding: 0.75em;
+    font-size: 13px;
+    background-color: #eeeeee;
+}
+
+.content {
+    margin: 1em 0;
+    padding: 0.75em;
+    font-size: 13px;
+}
+
+.content p {
+    margin: 1em 0 0 0;
+}
+
+.reference {
+    font-size: 12px;
+    width: 100%;
+} 
+
+.reference td {
+    border-bottom: 2px solid black;
+    width: auto;
+}
+
+.content ul {
+    padding-bottom: 10px;   
+}
+
+
+.map {
+    width: 100%;
+    height: 400px;
+}
+
+pre code {
+    padding: 1em;
+    font-size: 0.9em;
+}
+
+tt {
+    font-family: 'Consolas','Deja Vu Sans Mono','Bitstream Vera Sans Mono',monospace;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
+}
+
+strong {
+    font-weight: bolder;
+}
+
+/* Layout classes */
+
+.x-border-layout-ct {
+    background: #ffffff;
+}
+
+/*overriding specific tab styling*/
+
+.x-tab-strip span.x-tab-strip-text  {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #333333; 
+    padding-top: 8px;
+}
+
+/* overriding syntax highlighter declarations */
+.syntaxhighlighter table td {
+    white-space: nowrap;
+}
+.syntaxhighlighter table td {
+    font-size: 0.95em !important;
+}
+.syntaxhighlighter .script {
+    background-color: #ffffcc !important;
+}
+.syntaxhighlighter .line .content {
+    border: transparent 0px none important!;
+}
+
+.x-tree-node { /* override size of nodes in tree */
+    font-size: 12px;
+}

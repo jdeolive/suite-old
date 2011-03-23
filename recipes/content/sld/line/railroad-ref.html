@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Railroad Documentation</h1>
+        <div class="description">
+          This example uses hatching to create a railroad style. Both the line and the hatches are black, with a 2 pixel thickness for the main line and a 1 pixel width for the perpendicular hatches.
+        </div>
+        <div class="content">
+            In this example, there are two rules, each containing a <tt>&lt;LineSymbolizer&gt;</tt>. (Each <tt>&lt;LineSymbolizer&gt;</tt>  must exist in its own rule.) The first rule, on <strong>lines 7-13</strong>, draws a standard line, with <strong>line 10</strong> drawing the lines as dark gray (#333333) and <strong>line 11</strong> setting the width of the lines to be 2 pixels.
+
+            <p>The hatching is invoked in the second rule, on <strong>lines 15-32</strong>. <strong>Line 21</strong> specifies that the rule draw a vertical line hatch (``shape://vertline``) perpendicular to the line geometry. <strong>Lines 23-24</strong> set the hatch color to dark gray (#333333) and width to 1 pixel. Finally, <strong>line 27</strong> specifies both the length of the hatch and the distance between each hatch to both be 12 pixels.</p>
+            
+            <p> Note: This example leverages an SLD extension in GeoServer. Hatching is not part of the standard SLD 1.0 specification.</p>
+        </div>
+    </body>
+</html>

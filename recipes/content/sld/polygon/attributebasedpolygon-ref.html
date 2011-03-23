@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Attribute-based Polygon</h1>
+        <div class="description">
+          This example styles the polygons differently based on the "pop" (Population) attribute.
+        </div>
+        <div class="content">
+          Each polygon in our fictional country has a population that is represented by the population ("pop") attribute. This style contains three rules that alter the fill based on the value of "pop" attribute, with smaller values yielding a lighter color and larger values yielding a darker color.
+
+          <p>The three rules are designed as follows:</p>
+          <table class="reference">
+            <tr>
+              <td><strong>Rule order</strong></td>
+              <td><strong>Rule name / type</strong></td>
+              <td><strong>Population ("pop")</strong></td>
+              <td><strong>Color</strong></td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>SmallPop</td>
+              <td>Less than 200,000</td>
+              <td>#66FF66</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>MediumPop</td>
+              <td>200,000 to 500,000</td>
+              <td>#33CC33</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>LargePop</td>
+              <td>Greater than 500,000</td>
+              <td>#009900</td>
+            </tr>
+          </table>
+
+          <p>The order of the rules does not matter in this case, since each shape is only rendered by a single rule.</p>
+
+          <p>The first rule, on <strong>lines 7-21</strong>, specifies the styling of polygons whose population attribute is less than 200,000. <strong>Lines 10-15</strong> set this filter, with <strong>lines 11-14</strong> setting the "less than" filter, <strong>line 12</strong> denoting the attribute ("pop"), and <strong>line 13</strong> the value of 200,000. The color of the polygon fill is set to a light green (<tt>#66FF66</tt>) on <strong>line 18</strong>.</p>
+
+          <p>The second rule, on <strong>lines 22-42</strong>, is similar, specifying a style for polygons whose population attribute is greater than or equal to 200,000 but less than 500,000. The filter is set on <strong>lines 25-36</strong>. This filter is longer than in the first rule because two criteria need to be specified instead of one: a "greater than or equal to" and a "less than" filter. Notice the <tt>And</tt> on <strong>line 26</strong> and <strong>line 35</strong>. This mandates that both filters need to be true for the rule to be applicable. The color of the polygon fill is set to a medium green on (<tt>#33CC33</tt>) on <strong>line 39</strong>.</p>
+
+          <p>The third rule, on <strong>lines 43-57</strong>, specifies a style for polygons whose population attribute is greater than or equal to 500,000. The filter is set on <strong>lines 46-51</strong>. The color of the polygon fill is the only other difference in this rule, which is set to a dark green (<tt>#009900</tt>) on <strong>line 54</strong>.</p>
+            
+        </div>
+    </body>
+</html>

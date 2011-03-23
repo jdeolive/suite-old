@@ -1,0 +1,257 @@
+proj (4.7.0-1+opengeo) unstable; urgency=low
+
+  * OpenGeo Patched version
+
+ -- Aaron Greengrass <aaron@thatserver.ca>  Mon, 29 Nov 2010 16:28:55 +0200
+
+proj (4.7.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Datum grids files updated to version 1.5.
+    (closes: #548297)
+  * Removed manpages.dpatch, applied upstream.
+  * Generalized libproj0.install file.
+  * Policy changed to 3.8.3, without futher changes.
+  * Minor change to nad2bin.1 man page.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 05 Oct 2009 16:28:55 +0200
+
+proj (4.6.1-5) unstable; urgency=high
+
+  * Changed proj-data in an arch-dependent package, because one half of the files
+    are non endianess-aware and generated at build time on the host. That
+    could possibly change in the future, so better still having a single package.
+    (closes: #530818)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 28 May 2009 21:10:23 +0200
+
+proj (4.6.1-4) unstable; urgency=low
+
+  * Added Replaces/Conflicts for old proj into proj-data and changed revision
+    numbers.
+    (closes: #521402)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 27 Mar 2009 12:59:57 +0100
+
+proj (4.6.1-3) unstable; urgency=low
+
+  * Sigh, dh_clean and dh_prep called in the wrong targets caused missing
+    indep binaries in .changes.
+    (closes: #521100)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 24 Mar 2009 22:09:24 +0100
+
+proj (4.6.1-2) unstable; urgency=low
+
+  * Reordered dh_* rules.
+  * Now moving to a usual set of packages, with libraries, tools and 
+    dev files split in different packages. The old proj package
+    is now a pure transitional meta-package, to be removed after Squeeze
+    release.
+  * Removed dummy postinst/postrm/shlibs in repository, because managed
+    by dh_makeshlibs.
+  * Fixed debian/rules targets to be idempotent.
+  * Other minor clenaups in debian/rules, such as .PHONY.
+  * Added Swiss datugrids file, taken from PROJ4 home page.
+  * Added useful Replaces/Conflicts to avoid problems in upgrading.
+  * Datum grids are now installed in a separate proj-data package. 
+  * Suitable sections chosen for all packages.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sun, 15 Mar 2009 21:30:01 +0100
+
+proj (4.6.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Added Homepage and Vcs-* fields into debian/control.
+  * Policy bumped to 3.8.0 (no changes).
+  * Added US NAD83/NAD27, Canadian and French datum grids as distributed
+    in http://download.osgeo.org/proj/proj-datumgrid-1.4.zip 
+    (closes: #458369)
+  * Added dpatch support.
+  * [PATCH] manpages fixes manpages known typos. 
+    (closes: #407399, #407400, #407401, #407402)
+  * Added a README.sources with comments about datum grids.
+  * Moved to level debhelper level 7.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Wed, 26 Nov 2008 17:49:22 +0100
+
+proj (4.6.0-2) unstable; urgency=low
+
+  * proj.3 link moved in the right directory.
+  * Fixing manpages in debian/rules to avoid too narrow rendering.
+    (closes: #495995)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 28 Aug 2008 19:31:20 +0200
+
+proj (4.6.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Peter Galbraith <psg@dnydns.org>  Sat, 21 Dec 2007 16:46:09 -0500
+
+proj (4.5.0-2) unstable; urgency=low
+
+  * Releasing for unstable.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sun,  8 Apr 2007 11:23:57 +0200
+
+proj (4.5.0-1) experimental; urgency=low
+
+  * New upstream release.
+  * Moved to DebianGis Team maintainership, with Peter consent.
+  * Added Peter and me as Uploaders.
+  * Added a debian/watch file.
+  * Moved to debhelper level 5.
+  * Policy bumped to 3.7.2 without changes.
+  * Now using dh_link instead of manual sym links
+  * Now using makeshlibs again with default postrm/postinst
+  * Added a packaging TODO memo in debian/ dir.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon,  2 Apr 2007 00:50:09 +0200
+
+proj (4.4.9d-2) unstable; urgency=low
+
+  * Bug fix: "proj(GNU/k*BSD): FTBFS: out of date
+    config.sub/config.guess", thanks to Aurelien Jarno (Closes: #340013).
+    I copied the files from the autotools-dev package and asked upstream
+    to update the files as well.
+  
+ -- Peter S Galbraith <psg@debian.org>  Mon, 21 Nov 2005 20:36:24 -0500
+
+proj (4.4.9d-1) unstable; urgency=low
+
+  * Add built-in datum conversion support into upstream version 4.4.9
+    Thanks to Stephan Holl (Closes: #339470).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 16 Nov 2005 11:23:11 -0500
+
+proj (4.4.9-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Peter S Galbraith <psg@debian.org>  Sat,  6 Nov 2004 19:44:53 -0500
+
+proj (4.4.8-3) unstable; urgency=low
+
+  * Bug fix: "proj_4.4.8-2(mipsel/unstable): configure built with broken
+    libtool.m4", thanks to Ryan Murray for reporting and specifying how to
+    fix it.  I ran 'autoreconf --force' to rebuild the configure file
+    (Closes: #260683).
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 21 Jul 2004 22:57:32 -0400
+
+proj (4.4.8-2) unstable; urgency=low
+
+  * Use new /usr/share/misc/config.guess and config.sub instead of using
+    patch from 4.4.7-3 as in 4.4.8-1, which led to wrong library so names
+    (lacking the .so part).
+
+ -- Peter S Galbraith <psg@debian.org>  Sat, 17 Jul 2004 12:16:26 -0400
+
+proj (4.4.8-1) unstable; urgency=low
+
+  * New upstream release.  Bug fix: "proj: [wish] new version of PROJ.4
+    available", thanks to Hamish for reminding me (Closes: #255488).
+  * Update to Standards-Version 3.6.1 without changes.
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 13 Jul 2004 20:56:33 -0400
+
+proj (4.4.7-3) unstable; urgency=low
+
+  * autoreconf with libtool from unstable so that package may build on
+    mips (closes: #188684)
+
+ -- Peter S Galbraith <psg@debian.org>  Fri,  2 May 2003 22:56:05 -0400
+
+proj (4.4.7-2) unstable; urgency=low
+
+  * Updated README.Debian and nad2bin mane page concerning the creation of
+    datum conversion data files.
+  * Tweak geod man page (closes: #181998)
+
+ -- Peter S Galbraith <psg@debian.org>  Tue,  8 Apr 2003 22:44:39 -0400
+
+proj (4.4.7-1) unstable; urgency=low
+
+  * New upstream release
+  - Updated config.sub and config.status. (closes: #186586)
+  - Removed the -V flag from the cs2cs.1 man page. (closes: #162331)
+  - Corrected cs2cs to honour -f for z values (closes: #169056)
+  * Upgrade to Standards-Version 3.5.9, but have not yet implemented
+    parsing of DEB_BUILD_OPTIONS for optimization.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 31 Mar 2003 13:43:02 -0500
+
+proj (4.4.6-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Peter S Galbraith <psg@debian.org>  Wed, 19 Mar 2003 14:26:17 -0500
+
+proj (4.4.5-1) unstable; urgency=low
+
+  * New upstream version (Bug fix release).
+  * debian/control Fix minor spelling mistake (closes: #125272)
+  * Update to Standards-Version 3.5.6, parse DEB_BUILD_OPTIONS for debug.
+  * debian/postrm: Add debhelper token (bug fix!).
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 11 Jan 2002 10:27:12 -0500
+
+proj (4.4.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * Undo patches to config.guess and config.sub from 4.4.3-2 since this
+    was folded-in upstream.
+  * debian/postinst: Run ldconfig on configure only.
+  * debian/postrm (new file): Run ldconfig on remove.
+
+ -- Peter S Galbraith <psg@debian.org>  Mon, 17 Sep 2001 10:10:34 -0400
+
+proj (4.4.3-2) unstable; urgency=low
+
+  * Update config.guess and config.sub files from
+    http://subversions.gnu.org/cgi-bin/cvsweb/config (closes: #97374).
+    This was done in upstream CVS in response to this bug, but I shouldn't
+    wait any longer to update the package since woody freeze is starting
+    soon, and we want the archive sources to match the binary used on
+    PARISC.
+  * debian/control: change priority to extra (to match override file).
+
+ -- Peter S Galbraith <psg@debian.org>  Tue, 10 Jul 2001 16:02:47 -0400
+
+proj (4.4.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Change to section science.
+  * Includes cs2cs man page.
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 20 Apr 2001 16:24:21 -0400
+
+proj (4.4.2-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 22 Sep 2000 13:05:35 -0400
+
+proj (4.4.1-2) unstable; urgency=low
+
+  * Fixed rules file for doing `make distclean' when no Makefile exists yet.
+    closes: #69847: freshly unpacked source cannot be cleaned
+
+ -- Peter S Galbraith <psg@debian.org>  Thu, 24 Aug 2000 09:34:06 -0400
+
+proj (4.4.1-1) unstable; urgency=low
+
+  * New upstream version (builds shared library now).
+  * Update to Standards-Version 3.1.1, adding Build-Depends.
+  * closes: #69380
+
+ -- Peter S Galbraith <psg@debian.org>  Fri, 18 Aug 2000 11:16:42 -0400
+
+proj (4.3.3-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Peter S Galbraith <psg@debian.org>  Sun, 24 Oct 1999 14:13:26 -0400
+
+

@@ -1,0 +1,247 @@
+Debian README for Postgis
+=========================
+
+These are the PostGIS packages for Debian. PostGIS is split into three
+Debian packages:
+
+postgresql-8.4-postgis
+  This is the PostGIS module for the PostgreSQL server itself.  It contains
+  the library which is loaded by the server (postgis.so), the SQL script
+  for creating the SQL functions in a given database (postgis.sql), and an 
+  SQL script which contains the OpenGIS Spatial References 
+  (spatial_ref_sys.sql).
+
+  	psql -d [yourdatabase] -f postgis.sql
+  	psql -d [yourdatabase] -f spatial_ref_sys.sql
+
+  NOTE: To install PostGIS you must run the postgis.sql script in each
+  PostgreSQL database you want PostGIS in as the PostgreSQL superuser
+  (generally the 'postgres' user)!  The Debian utilities do not do
+  this automatically as they can't be sure what state your database is in,
+  what database(s) you would want PostGIS installed in, or how to 
+  authenticate as the PostgreSQL superuser to your database.  It is likely
+  that a PostGIS user would also want the Spatial References installed and
+  so it is recommended that the spatial_ref_sys.sql also be run in each
+  database you have PostGIS installed in.
+
+  If you wish to add comments to the PostGIS functions, the final step is 
+  to load the postgis_comments.sql into your spatial database. The comments 
+  can be viewed by simply typing \dd [function_name] from a psql terminal window.
+
+  	psql -d [yourdatabase] -f postgis_comments.sql 
+
+  These scripts can be found in the /usr/share/postgresql-8.4/postgis
+  directory.
+
+postgis
+  This package contains the user-oriented PostGIS utilities for loading
+  data into and pulling data out of a PostGIS-enabled PostgreSQL database.
+  These utilities are: pgsql2shp and shp2pgsql.  These utilities can be
+  installed and used separately from the server module on client machines.
+
+libpostgis-java
+  This package contains the Java library for using JDBC with a PostGIS-
+  enabled PostgreSQL server.
+
+[
+ Note that the Postgis extension could be provided also for another
+ version of PostgreSQL (e.g. 8.3). All information are also valid
+ in that case.
+]
+
+How to create a Postgis-enabled database
+========================================
+
+Type as root:
+
+  # Become a postgresql superuser
+  su - postgres
+
+  # Create the user (allowed to log in and with password)
+  createuser <username> -l -W
+
+  # Shall the new role be a superuser? (y/n) n
+  # Shall the new role be allowed to create databases? (y/n) n
+  # Shall the new role be allowed to create more new roles? (y/n) n
+  # Password: <type the user password>
+
+  # create database ownered by user
+  createdb <databasename> --o <username>
+
+  # Need to enable plpgsql for the database before loading the functions
+  createlang plpgsql -d <databasename>
+
+  # Finally, load the functions and reference system tables
+  psql <databasename> -f /usr/share/postgresql-8.4-postgis/postgis.sql
+  psql <databasename> -f /usr/share/postgresql-8.4-postgis/spatial_ref_sys.sql
+
+  # login in new database (still as superuser postgres)
+  psql <databasename>
+
+  # grant privilege on standard ogc tables to user
+  grant all on geometry_columns to <username>;
+  grant select on spatial_ref_sys to <username>;
+
+  # exit from postgres
+  \q
+
+  # log out from unix user postgres and from root. As normal user, enter
+  # in your new db:
+  psql -h <host> -U <username> -d <databasename>
+
+  # you are in your new geodb
+  # have a look of tables
+  \dt
+
+  # have a look of functions
+  \df
+
+  # have a look of spatial_ref_sys
+  select * from spatial_ref_sys;
+
+
+
+How to create a Postgis-enabled template database
+=================================================
+
+If you want to create a template_gis to use as template for every new
+geodatabase, type as root:
+
+  # Become a postgresql superuser
+  su - postgres
+
+  # create database (owner:postgres)
+  createdb template_gis
+
+  # Need to enable plpgsql for the database beforeloading the functions
+  createlang plpgsql -d template_gis
+
+  # Finally, load the functions and reference system tables
+  psql template_gis -f /usr/share/postgresql-8.4-postgis/postgis.sql
+  psql template_gis -f /usr/share/postgresql-8.4-postgis/spatial_ref_sys.sql
+
+  # login in new database (still as superuser postgres)
+  psql template_gis
+
+  # transform new db in template
+  update pg_database SET datistemplate='true' where datname='template_gis';
+
+  # exit from postgres
+  \q
+
+
+How to create a Postgis-enabled database using the template
+===========================================================
+
+Type as root:
+
+  # Become a postgresql superuser (or another superuser if there is)
+  su - postgres
+
+  # Create the user  (allowed to log in and with password, wich must 
+  # beo wner of new db) skip if you still have your user
+  createuser <username> -l -W
+
+  # Shall the new role be a superuser? (y/n) n
+  # Shall the new role be allowed to create databases? (y/n) n
+  # Shall the new role be allowed to create more new roles? (y/n) n
+  # Password: <type the user password>
+
+  # create database (from template_gis) ownered by user
+  createdb <databasename> --o <username> - T template_gis
+
+  # login in new database (still as superuser postgres)
+  psql <databasename>
+
+  # grant privilege on standard ogc tables to user
+  grant all on geometry_columns to <username>;
+  grant select on spatial_ref_sys to <username>;
+
+  # exit from postgres
+  \q
+
+  # log out from unix user postgres and from root. As normal user, enter
+  # in your new db:
+  psql -h <host> -U <username> -d <databasename>
+
+  # you are in your new geodb
+  # have a look of tables
+  \dt
+
+  # have a look of functions
+  \df
+
+  # have a look of spatial_ref_sys
+  select * from spatial_ref_sys;
+
+
+Upgrading existing spatial databases
+====================================
+
+Upgrading existing spatial databases can be tricky as it requires
+replacement or introduction of new PostGIS object definitions.
+
+Unfortunately not all definitions can be easily replaced in 
+a live database, so sometimes your best bet is a dump/reload
+process. 
+
+PostGIS provides a SOFT UPGRADE procedure for minor or bugfix
+releases, and an HARD UPGRADE procedure for major releases.
+
+--- SOFT UPGRADE ---
+
+Soft upgrade consists of sourcing the postgis_upgrade.sql
+script in your spatial database:
+
+  psql -f postgis_upgrade.sql -d your_spatial_database
+
+If a soft upgrade is not possible the script will abort and 
+you will be warned about HARD UPGRADE being required,
+so do not hesitate to try a soft upgrade first.
+
+--- HARD UPGRADE ---
+
+Hard upgrade is a PostgreSQL dump/restore procedure combined 
+with a filter to selectively update PostGIS functions and 
+objects to point to a new library version.
+
+Hard upgrades are required when object definitions have changed,
+aggregates have changed or been added, and when the underlying
+PostgreSQL database itself has undergone a major update.
+
+For this purpose, PostGIS provides a utility script to restore a dump
+in "custom" format. The hard upgrade procedure is as follows:
+
+	# Create a "custom-format" dump of the database you want
+	# to upgrade (let's call it "olddb")
+	$ pg_dump -Fc olddb olddb.dump
+
+	# Restore the dump while upgrading postgis into
+	# a new database. 
+        # Note: The new database does NOT have to exist.
+	# Let's call it "newdb"
+	$ sh utils/postgis_restore.pl postgis.sql newdb olddb.dump > restore.log
+
+	# Check that all restored dump objects really had to be 
+    # restored from dump and do not conflict with the 
+    # ones defined in postgis.sql
+	$ grep ^KEEPING restore.log | less
+
+	# If upgrading from PostgreSQL < 8.0 to >= 8.0 you will want to 
+	# drop the attrelid, varattnum and stats columns in the geometry_columns
+	# table, which are no-more needed. Keeping them won't hurt.
+	# !!! DROPPING THEM WHEN REALLY NEEDED WILL DO HARM !!!!
+	$ psql newdb -c "ALTER TABLE geometry_columns DROP attrelid"
+	$ psql newdb -c "ALTER TABLE geometry_columns DROP varattnum"
+	$ psql newdb -c "ALTER TABLE geometry_columns DROP stats"
+
+	# The spatial_ref_sys table is restored from the dump, to 
+        # ensure your custom additions are kept, but the distributed 
+        # one might contain modification so you should backup your 
+        # entries, drop the table and source the new one.
+	# If you did make additions we assume you know how to backup them before
+	# upgrading the table. Replace it with the new like this:
+	$ psql newdb
+	newdb=> DELETE FROM spatial_ref_sys;
+	DROP
+	newdb=> \i spatial_ref_sys.sql

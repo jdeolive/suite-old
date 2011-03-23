@@ -1,0 +1,4 @@
+version=3
+# Site/Directory                                         Pattern                    Version  Script
+opts="uversionmangle=s/-rc/~rc/" \
+http://ftp.de.postgresql.org/packages/databases/PostgreSQL/pgadmin3/release/v([\d.rc-]+)/src/pgadmin3-([\d.rc-]+)\.tar\.gz

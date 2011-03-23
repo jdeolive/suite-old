@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Layer Tree with Filter</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+            
+            // the `panel` and `tree` variables are declared here for easy debugging
+            var panel, tree;
+
+            Ext.onReady(function() {
+
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "Transportation",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "openstreetmap", format: "image/png"}
+                        ),
+                        new OpenLayers.Layer.WMS(
+                            "Global Imagery",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "bluemarble"},
+                            {visibility: false}
+                        ),
+                        new OpenLayers.Layer.WMS(
+                            "State Boundaries",
+                            "http://v2.suite.opengeo.org/geoserver/wms",
+                            {layers: "usa:states", format: "image/gif", transparent: "true"}
+                        )
+                    ],
+                    center: [-120, 48],
+                    zoom: 5
+                });
+
+                tree = new Ext.tree.TreePanel({
+                    renderTo: "tree-id",
+                    border: false,
+                    root: new GeoExt.tree.LayerContainer({
+                        text: "State Boundaries",
+                        layerStore: panel.layers,
+                        leaf: false,
+                        expanded: true,
+                        loader: {
+                            filter: function(record) {
+                                return record.get("layer").name.indexOf("State Boundaries") !== -1
+                            }
+                        }
+
+                    })
+                });
+
+            });
+            
+        </script>
+        <style>
+            .content {
+                position: relative;
+            }
+            #tree-id {
+                position: absolute;
+                left: 0px;
+                width: 170px;
+                height: 300px;
+            }
+            #map-id {
+                margin-left: 190px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body class="recipe-body">
+        <h1>Filtering a Layer Tree</h1>
+        <div class="description">
+            Filter layers in a tree.
+        </div>
+        <div class="content">
+            <div id="tree-id"></div>
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,2 @@
+version=3
+http://download.osgeo.org/geos/geos-([\d\.]+)\.tar\.bz2	debian	uupdate

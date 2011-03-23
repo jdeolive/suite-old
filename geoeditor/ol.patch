@@ -1,0 +1,14 @@
+Index: externals/openlayers/lib/OpenLayers/Protocol/WFS/v1.js
+===================================================================
+--- externals/openlayers/lib/OpenLayers/Protocol/WFS/v1.js	(revision 9631)
++++ externals/openlayers/lib/OpenLayers/Protocol/WFS/v1.js	(working copy)
+@@ -149,6 +149,9 @@
+     read: function(options) {
+         options = OpenLayers.Util.extend({}, options);
+         OpenLayers.Util.applyDefaults(options, this.options || {});
++        if (this.options.filter && !options.filter) {
++            options.filter = this.options.filter;
++        }
+         var response = new OpenLayers.Protocol.Response({requestType: "read"});
+         
+         var data = OpenLayers.Format.XML.prototype.write.apply(

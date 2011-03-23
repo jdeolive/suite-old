@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## generator.dpatch by Francesco Paolo Lovergine <frankie@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' postgis-1.5.1~/doc/html/image_src/generator.c postgis-1.5.1/doc/html/image_src/generator.c
+--- postgis-1.5.1~/doc/html/image_src/generator.c	2010-02-01 18:35:55.000000000 +0100
++++ postgis-1.5.1/doc/html/image_src/generator.c	2010-05-17 14:21:04.000000000 +0200
+@@ -363,7 +363,7 @@
+ 	while ( fgets ( line, sizeof line, pfile ) != NULL && !isspace(*line) )
+ 	{
+ 
+-		char output[2048];
++		char output[4096];
+ 		char *ptr = output;
+ 		char *styleName;
+ 		int useDefaultStyle;

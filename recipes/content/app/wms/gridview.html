@@ -1,0 +1,67 @@
+<html>
+  
+  <head>
+    <title>
+      GeoExt WMS Browser
+    </title>
+    </title>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/xtheme-gray.css" />
+    <link rel="stylesheet" href="http://dev.openlayers.org/releases/OpenLayers-2.9.1/theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    <script src="http://dev.openlayers.org/releases/OpenLayers-2.9.1/OpenLayers.js"></script>
+    <script src="http://api.geoext.org/0.7/script/GeoExt.js"></script>
+
+    <script type="text/javascript">
+      Ext.BLANK_IMAGE_URL = "http://extjs.cachefly.net/ext-3.2.1/resources/images/default/s.gif";
+      OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.9.1/img/";
+
+      Ext.onReady(function() {
+
+        var grid = new Ext.grid.GridPanel({
+          title: "Available WMS Layers",
+          renderTo: "map-id",
+          width: 800,
+          height: 150,
+          viewConfig: {
+            forceFit: true
+          },
+          store: new GeoExt.data.WMSCapabilitiesStore({
+            url: "/geoserver/ows?SERVICE=WMS&REQUEST=GetCapabilities",
+            autoLoad: true
+          }),
+          columns: [
+            {
+            header: "Name",
+            dataIndex: "name",
+            sortable: true},
+          {
+            header: "Title",
+            dataIndex: "title",
+            sortable: true},
+          {
+            header: "Abstract",
+            dataIndex: "abstract"}
+          ]
+        });
+      });
+    </script>
+  </head>
+  
+  <body class="recipe-body">
+    <h1>
+      Grid View of WMS Capabilities
+    </h1>
+    <div class="description">
+      With a GeoExt.data.WMSCapabilitiesStore create a grid record from a WMS
+      GetCapabilities response.
+    </div>
+    <div class="content">
+      <div id="map-id">
+      </div>
+    </div>
+  </body>
+
+</html>

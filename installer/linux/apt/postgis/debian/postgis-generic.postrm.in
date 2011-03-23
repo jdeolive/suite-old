@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+# Removes all postgis shared libs links
+if [ "$1" = "purge" ]; then
+	 for version in @POSTGRES_VERSIONS@ 
+	 do 
+	     find /usr/lib/postgresql/$version/lib -type f -name "postgis-@SOVERSION@.so" -delete || true
+	 done
+fi
+
+#DEBHELPER#
+
+exit 0

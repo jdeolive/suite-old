@@ -1,0 +1,14 @@
+<dataStore>
+  <id>DataStoreInfoImpl--443f995f:123c9690267:-7fff</id>
+  <name>World</name>
+  <description>Cities and continent borders</description>
+  <type>Directory of spatial files</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-68b76edb:123c95ae60d:-7fff</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="namespace">http://world.opengeo.org</entry>
+    <entry key="url">file:data/world/</entry>
+  </connectionParameters>
+</dataStore>

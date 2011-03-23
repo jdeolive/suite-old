@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="install" default="build" basedir=".">
+
+  <target name="build">
+    <property environment="env"/>
+    <condition property="pdflatex">
+      <or>
+        <available file="pdflatex" filepath="${env.PATH}"/>
+        <available file="pdflatex.exe" filepath="${env.Path}"/>
+        <available file="pdflatex.exe" filepath="${env.PATH}"/>
+      </or>
+    </condition>
+    <antcall target="html"/>
+    <antcall target="text"/>
+    <antcall target="pdf"/>
+  </target>
+
+  <target name="html">
+     <exec executable="sphinx-build" failonerror="true" dir="${basedir}/source">
+        <arg line="-D html_theme='opengeo' -b html -d ${build.directory}/doctrees . ${build.directory}/html"/>
+     </exec>
+  </target>
+  
+  <target name="text">
+     <exec executable="sphinx-build" failonerror="true" dir="${basedir}/source">
+        <arg line="-b text -d ${build.directory}/doctrees . ${build.directory}/text"/>
+     </exec>
+  </target>
+
+  <target name="pdf" depends="pdf-if,pdf-else"/>
+  <target name="pdf-if" if="pdflatex">
+     <exec executable="sphinx-build" failonerror="true" dir="${basedir}/source">
+        <arg line="-b latex -d ${build.directory}/doctrees . ${build.directory}/latex"/>
+     </exec>
+     <exec executable="make" failonerror="true" dir="${build.directory}/latex">
+        <arg line="all-pdf"/>
+     </exec>
+  </target>
+  <target name="pdf-else" unless="pdflatex">
+      <echo message="No PDF generated because pdflatex is not on PATH.  This may make installer assembly fail."/>
+  </target>
+
+</project>

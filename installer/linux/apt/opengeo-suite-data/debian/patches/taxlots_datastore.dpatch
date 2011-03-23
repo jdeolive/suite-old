@@ -1,0 +1,47 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## taxlots_datastore.dpatch by  <jetty@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Update to taxlots database connection info
+
+@DPATCH@
+
+diff -rc opengeo-suite-data-orig/data_dir/workspaces/medford/Taxlots/datastore.xml opengeo-suite-data/data_dir/workspaces/medford/Taxlots/datastore.xml
+*** opengeo-suite-data-orig/data_dir/workspaces/medford/Taxlots/datastore.xml	2011-01-19 21:58:29.000000000 +0000
+--- opengeo-suite-data/data_dir/workspaces/medford/Taxlots/datastore.xml	2011-01-19 22:02:07.000000000 +0000
+***************
+*** 9,16 ****
+    </workspace>
+    <connectionParameters>
+      <entry key="Connection timeout">20</entry>
+!     <entry key="port">54321</entry>
+!     <entry key="passwd"></entry>
+      <entry key="dbtype">postgis</entry>
+      <entry key="host">localhost</entry>
+      <entry key="validate connections">false</entry>
+--- 9,16 ----
+    </workspace>
+    <connectionParameters>
+      <entry key="Connection timeout">20</entry>
+!     <entry key="port">5432</entry>
+!     <entry key="passwd">opengeo</entry>
+      <entry key="dbtype">postgis</entry>
+      <entry key="host">localhost</entry>
+      <entry key="validate connections">false</entry>
+***************
+*** 23,29 ****
+      <entry key="Max open prepared statements">50</entry>
+      <entry key="fetch size">1000</entry>
+      <entry key="preparedStatements">false</entry>
+!     <entry key="user">postgres</entry>
+      <entry key="min connections">1</entry>
+    </connectionParameters>
+  </dataStore>
+--- 23,29 ----
+      <entry key="Max open prepared statements">50</entry>
+      <entry key="fetch size">1000</entry>
+      <entry key="preparedStatements">false</entry>
+!     <entry key="user">opengeo</entry>
+      <entry key="min connections">1</entry>
+    </connectionParameters>
+  </dataStore>

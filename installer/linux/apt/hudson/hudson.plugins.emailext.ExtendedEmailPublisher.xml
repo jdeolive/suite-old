@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.emailext.ExtendedEmailPublisherDescriptor>
+  <hudsonUrl>http://packaging-u1040-32:8080/hudson/</hudsonUrl>
+  <smtpAuthUsername>monitor@openplans.org</smtpAuthUsername>
+  <smtpAuthPassword>oKW/KsxZ+PE8Wx96qkNKjTj8h8nJ9xN/SSD/5I6aS6A=</smtpAuthPassword>
+  <adminAddress>Hudson &lt;monitor@openplans.org&gt;</adminAddress>
+  <smtpHost>smtp.googlemail.com</smtpHost>
+  <useSsl>true</useSsl>
+  <smtpPort>465</smtpPort>
+  <defaultContentType>text/plain</defaultContentType>
+  <defaultSubject>$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!</defaultSubject>
+  <defaultBody>$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:&#xd;
+&#xd;
+Check console output at $BUILD_URL to view the results.</defaultBody>
+  <overrideGlobalSettings>false</overrideGlobalSettings>
+</hudson.plugins.emailext.ExtendedEmailPublisherDescriptor>

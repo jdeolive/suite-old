@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+# remove old doc directory
+if dpkg --compare-versions "$2" le-nl "1.8.4-2"; then
+	if [ -d /usr/share/doc/pgadmin3 ]; then
+		if rmdir /usr/share/doc/pgadmin3; then
+			ln -s pgadmin3-data /usr/share/doc/pgadmin3
+		fi
+	fi
+fi
+
+#DEBHELPER#

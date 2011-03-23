@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="assembly" default="build" basedir=".">
+
+  <property name="data" value="http://data.opengeo.org/suite"/>
+  <property name="db.ver" value="${dashboard.version}"/>
+
+  <target name="build"> 
+    <tstamp/>
+
+    <get src="${data}/suite-jre-6-win.zip" dest="jre-win.zip" usetimestamp="yes"/>
+    <delete dir="jre-win"/>
+    <unzip src="jre-win.zip" dest="jre-win" overwrite="false"/>
+
+    <get src="${data}/suite-gdal-1.4.5-win.zip" dest="gdal-win.zip" usetimestamp="yes"/>
+    <delete dir="gdal-win"/>
+    <unzip src="gdal-win.zip" dest="gdal-win" overwrite="false"/>
+
+    <!-- Windows PostgreSQL / PostGIS -->
+    <!-- http://downloads.enterprisedb.com/postgresql/postgresql-8.4.3-1-windows-binaries.zip -->
+    <!-- Windows assembly combines PostGIS binaries with PgSQL binaries at assembly time -->
+    <get src="${data}/postgresql-8.4.5-1-windows-binaries.zip" dest="postgres-win.zip" usetimestamp="yes" /> 
+    <get src="${data}/pgsql-postgis-1.5.2-2-win.zip" dest="postgis-win.zip" usetimestamp="yes"/>
+    <delete dir="postgres-win"/>
+    <unzip src="postgres-win.zip" dest="postgres-win" overwrite="false"/>
+    <unzip src="postgis-win.zip" dest="postgres-win/pgsql" overwrite="true"/>
+
+    <!-- MacOSX PostgreSQL / PostGIS -->
+    <!-- OSX assembly uses PgSQL/PostGIS precombined during the build process -->
+    <get src="${data}/pgsql-8.4.3-postgis-1.5.1-4-osx.zip" dest="postgres-osx.zip" usetimestamp="yes"/>
+    <delete dir="postgres-osx"/>
+    <mkdir dir="postgres-osx"/>
+    <unzip src="postgres-osx.zip" dest="postgres-osx/pgsql" overwrite="true"/>
+
+    <antcall target="dashboard-osx"/>
+    <antcall target="dashboard-win32"/>
+    <antcall target="dashboard-lin32"/>
+    <tstamp/>
+    <antcall target="dashboard-lin64"/>
+
+    <!-- postgis medford data -->
+    <delete dir="pgdata"/>
+    <mkdir dir="pgdata"/>
+    <get src="${data}/medford_taxlots.zip" dest="medford_taxlots.zip" usetimestamp="yes"/>
+    <unzip src="medford_taxlots.zip" dest="pgdata"/>
+
+    <!-- geoserver jboss war -->
+    <antcall target="geoserver-war-jboss"/>
+  </target>
+
+  <target name="dashboard-osx">
+    <!-- Dashboard Mac OSX -->
+    <get src="${data}/dashboard-${db.ver}-osx.zip" dest="dashboard-${db.ver}-osx.zip" usetimestamp="yes"/>
+    <delete dir="dashboard-${db.ver}-osx"/>
+    <mkdir dir="dashboard-${db.ver}-osx"/>
+    <exec executable="unzip" failonerror="true">
+        <arg value="dashboard-${db.ver}-osx.zip"/>
+    </exec>
+    <!--copy todir="dashboard-${db.ver}-osx/OpenGeo Dashboard.app/Contents/Resources">
+        <fileset dir="../dashboard/target/resources">
+            <exclude name="**/.svn/"/>
+            <exclude name="**/.svn*"/>
+        </fileset>
+    </copy>
+    <copy todir="dashboard-${db.ver}-osx/OpenGeo Dashboard.app/Contents">
+        <fileset dir="../dashboard/OpenGeo Dashboard"
+                 includes="CHANGELOG.txt,LICENSE.txt,manifest,tiapp.xml,timanifest"/>
+    </copy-->
+    
+  </target>
+
+  <target name="dashboard-win32">
+    <!-- Dashboard Win32 -->
+    <get src="${data}/dashboard-${db.ver}-win32.zip" dest="dashboard-${db.ver}-win32.zip" usetimestamp="yes"/>
+    <delete dir="dashboard-${db.ver}-win32"/>
+    <mkdir dir="dashboard-${db.ver}-win32"/>
+    <exec executable="unzip" failonerror="true">
+        <arg value="dashboard-${db.ver}-win32.zip"/>
+    </exec>
+    <!--copy todir="dashboard-${db.ver}-win32/OpenGeo Dashboard/Resources">
+        <fileset dir="../dashboard/target/resources">
+            <exclude name="**/.svn/"/>
+            <exclude name="**/.svn*"/>
+        </fileset>
+    </copy>
+    <copy todir="dashboard-${db.ver}-win32/OpenGeo Dashboard/">
+        <fileset dir="../dashboard/OpenGeo Dashboard"
+                 includes="CHANGELOG.txt,LICENSE.txt,manifest,tiapp.xml,timanifest"/>
+    </copy-->
+  </target>
+
+  <target name="dashboard-lin32"> 
+    <!-- Dashboard Linux32 -->
+    <get src="${data}/dashboard-${db.ver}-lin32.zip" dest="dashboard-${db.ver}-lin32.zip" usetimestamp="yes"/>
+    <delete dir="dashboard-${db.ver}-lin32"/>
+    <exec executable="unzip" failonerror="true">
+        <arg value="dashboard-${db.ver}-lin32.zip"/>
+    </exec>
+    <!--copy todir="dashboard-${db.ver}-lin32/OpenGeo Dashboard/Resources">
+        <fileset dir="../dashboard/target/resources">
+            <exclude name="**/.svn/"/>
+            <exclude name="**/.svn*"/>
+        </fileset>
+    </copy>
+    <copy todir="dashboard-${db.ver}-lin32/OpenGeo Dashboard/">
+        <fileset dir="../dashboard/OpenGeo Dashboard"
+                 includes="CHANGELOG.txt,LICENSE.txt,manifest,tiapp.xml,timanifest"/>
+    </copy-->
+  </target>
+
+  <target name="dashboard-lin64">
+    <!-- Dashboard Linux64 -->
+    <get src="${data}/dashboard-${db.ver}-lin64.zip" dest="dashboard-${db.ver}-lin64.zip" usetimestamp="yes"/>
+    <delete dir="dashboard-${db.ver}-lin64"/>
+    <exec executable="unzip" failonerror="true">
+        <arg value="dashboard-${db.ver}-lin64.zip"/>
+    </exec>
+    <!--copy todir="dashboard-${db.ver}-lin64/OpenGeo Dashboard/Resources">
+        <fileset dir="../dashboard/target/resources">
+            <exclude name="**/.svn/"/>
+            <exclude name="**/.svn*"/>
+        </fileset>
+    </copy>
+    <copy todir="dashboard-${db.ver}-lin64/OpenGeo Dashboard/">
+        <fileset dir="../dashboard/OpenGeo Dashboard"
+                 includes="CHANGELOG.txt,LICENSE.txt,manifest,tiapp.xml,timanifest"/>
+    </copy-->
+
+  </target>
+
+  <target name="geoserver-war-jboss">
+    <mkdir dir="target"/>
+    <jar destfile="target/geoserver-jboss.war">
+      <fileset dir="../geoserver/web/app/target/geoserver">
+        <exclude name="**/lib/xalan*.jar"/>
+        <exclude name="**/lib/xerces*.jar"/>
+      </fileset>
+      <fileset dir="geoserver" includes="WEB-INF/jboss-classloading.xml"/>
+    </jar>
+  </target>
+</project>

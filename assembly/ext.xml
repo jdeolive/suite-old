@@ -1,0 +1,30 @@
+<assembly>
+  <id>ext</id>
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  <baseDirectory>ext</baseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>geoserver/extension/target/dependency</directory>
+      <outputDirectory>oracle</outputDirectory>
+      <includes>
+        <include>gt-jdbc-oracle-*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>geoserver/extension/target/dependency</directory>
+      <outputDirectory>arcsde</outputDirectory>
+      <includes>
+        <include>gt-arcsde-*.jar</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  <files>
+    <file>
+      <source>target/version.ini</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+</assembly>

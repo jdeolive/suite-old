@@ -1,0 +1,290 @@
+[{
+    "id": "basic",
+    "text": "Basics",
+    "children": [{
+        "id": "basic/map",
+        "text": "Basic Map",
+        "leaf": true
+    }, {
+        "id": "basic/mappanel",
+        "text": "Map Panel",
+        "leaf": true        
+    }, {
+        "id": "basic/layergrid",
+        "text": "Layer Grid",
+        "leaf": true
+    }, {
+        "id": "basic/layertree",
+        "text": "Layer Tree",
+        "leaf": true
+    }, {
+        "id": "basic/treefilter",
+        "text": "Layer Tree with Filter",
+        "leaf": true
+    }, {
+        "id": "basic/sublayer",
+        "text": "Layer Tree with Sub-layers",
+        "leaf": true
+    }, {
+        "id": "basic/popup",
+        "text": "Feature Popups",
+        "leaf": true
+    }, {
+        "id": "basic/info",
+        "text": "Popup with Feature Information",
+        "leaf": true
+    }, {
+        "id": "basic/button",
+        "text": "Button Control",
+        "leaf": true
+    },  {
+        "id": "basic/tools",
+        "text": "Map Tools",
+        "leaf": true
+    }]
+}, {
+    "text": "Vector Features",
+    "children": [{
+        "id": "vector/wfs",
+        "text": "Vector Layer (WFS)",
+        "leaf": true
+    }, {
+        "id": "vector/external-graphic",
+        "text": "External Graphic",
+        "leaf": true
+    }]
+}, {
+    "text": "Editing",
+    "children": [{
+        "id": "editing/draw",
+        "text": "Drawing Vector Features",
+        "leaf": true
+    }, {
+        "id": "editing/drag",
+        "text": "Dragging Vector Features",
+        "leaf": true
+    }, {
+        "id": "editing/attributes",
+        "text": "Feature Attribute Editing",
+        "leaf": true
+    }, {
+        "id": "editing/snap-split",
+        "text": "Snapping & Splitting",
+        "leaf": true
+    }]
+},  {
+    "text": "SLD Cookbook",
+    "children": [{
+        "text": "Points", 
+        "children": [{
+            "id": "sld/point/simplepoint",
+            "text": "Simple Point",
+            "leaf": true
+        }, {
+            "id": "sld/point/simplepointwithstroke",
+            "text": "Simple Point with Stroke",
+            "leaf": true
+        }, {
+            "id": "sld/point/rotatedsquare",
+            "text": "Rotated Square",
+            "leaf": true
+        }, {
+            "id": "sld/point/transparenttriangle",
+            "text": "Transparent Triangle",
+            "leaf": true
+        }, {
+            "id": "sld/point/pointasgraphic",
+            "text": "Point as Graphic",
+            "leaf": true
+        }, {
+            "id": "sld/point/pointwithdefaultlabel",
+            "text": "Point with Default Label",
+            "leaf": true
+        }, {
+            "id": "sld/point/pointwithstyledlabel",
+            "text": "Point with Styled Label",
+            "leaf": true
+        }, {
+            "id": "sld/point/pointwithrotatedlabel",
+            "text": "Point with Rotated Label",
+            "leaf": true
+        }, {
+            "id": "sld/point/pointattribute",
+            "text": "Point Based on Attribute",
+            "leaf": true
+        }, {
+            "id": "sld/point/zoombasedpoint",
+            "text": "Point Based on Zoom",
+            "leaf": true
+        }]
+    }, { 
+        "text": "Lines",
+        "children": [{
+            "id": "sld/line/simpleline",
+            "text": "Simple Line",
+            "leaf": true
+        }, {
+            "id": "sld/line/linewithborder",
+            "text": "Line with Border",
+            "leaf": true
+        }, {
+            "id": "sld/line/dashedline",
+            "text": "Dashed Line",
+            "leaf": true
+        }, {
+            "id": "sld/line/railroad",
+            "text": "Railroad",
+            "leaf": true
+        }, {
+            "id": "sld/line/linewithdefaultlabel",
+            "text": "Line with Default Label",
+            "leaf": true
+        }, {
+            "id": "sld/line/labelfollowingline",
+            "text": "Label Following Line",
+            "leaf": true
+        }, {
+            "id": "sld/line/optimizedlabel",
+            "text": "Optimized Label",
+            "leaf": true
+        }, {
+            "id": "sld/line/optimizedstyledlabel",
+            "text": "Optimized Styled Label",
+            "leaf": true
+        }, {
+            "id": "sld/line/attributebasedlabel",
+            "text": "Attribute-based Line",
+            "leaf": true
+        }, {
+            "id": "sld/line/zoombasedline",
+            "text": "Zoom-based Line",
+            "leaf": true
+        }]
+    }, { 
+        "text": "Polygons",
+        "children": [{
+            "id": "sld/polygon/simplepolygon",
+            "text": "Simple Polygon",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/simplepolygonwithstroke",
+            "text": "Polygon with Stroke",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/transparentpolygon",
+            "text": "Transparent Polygon",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/graphicfill",
+            "text": "Graphic Fill",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/hatchingfill",
+            "text": "Hatching Fill",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/polygonwithdefaultlabel",
+            "text": "Default Polygon Label",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/labelhalo",
+            "text": "Label Halo",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/polygonwithstyledlabel",
+            "text": "Styled Polygon Label",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/attributebasedpolygon",
+            "text": "Attribute-based polygon",
+            "leaf": true
+        }, {
+            "id": "sld/polygon/zoombasedpolygon",
+            "text": "Zoom-based polygon",
+            "leaf": true
+        }]
+    },  { 
+        "text": "Rasters",
+        "children": [{
+            "id": "sld/raster/raster_twocolorgradient",
+            "text": "Two-Color Gradient",
+            "leaf": true
+        }, {
+            "id": "sld/raster/raster_transparentgradient",
+            "text": "Transparent Gradient",
+            "leaf": true
+        }, {
+            "id": "sld/raster/raster_brightnessandcontrast",
+            "text": "Brightness and Contrast",
+            "leaf": true
+        }, {
+            "id": "sld/raster/raster_threecolorgradient",
+            "text": "Three-Color Gradient",
+            "leaf": true
+        }, {
+            "id": "sld/raster/raster_alphachannel",
+            "text": "Alpha Channel Effect",
+            "leaf": true
+        }, {
+            "id": "sld/raster/raster_discretecolors",
+            "text": "Discrete Colors",
+            "leaf": true
+        }]
+    }]
+},  {
+    "text": "GeoExt",
+    "children": [{
+        "text": "WMS", 
+        "children": [{
+            "id": "app/wms/mapwindow",
+            "text": "Map Window",
+            "leaf": true
+        }, {
+            "id": "app/wms/gridview",
+            "text": "Grid View",
+            "leaf": true
+        }, {
+            "id": "app/wms/gridviewpanel",
+            "text": "WMS Map and Grid",
+            "leaf": true
+        }, {
+            "id": "app/wms/gridviewpaneltree",
+            "text": "Tree Panel",
+            "leaf": true
+        }, {
+            "id": "app/wms/gridviewpaneltreelegend",
+            "text": "Map Legend",
+            "leaf": true
+        }, {
+            "id": "app/wms/gridviewpaneltreelegendcombo",
+            "text": "Scale Store",
+            "leaf": true
+        }]
+    }, { 
+        "text": "WFS",
+        "children": [{
+            "id": "app/wfs/gridview",
+            "text": "Grid View",
+            "leaf": true
+        }, {
+            "id": "app/wfs/synchronizedmap",
+            "text": "Synchronized Map",
+            "leaf": true
+        }, {
+            "id": "app/wfs/editingfeaturesattributes",
+            "text": "Editing Features and Attributes",
+            "leaf": true
+        }, {
+            "id": "app/wfs/commitedits",
+            "text": "Commit Edits",
+            "leaf": true
+        }]
+    }, { 
+        "text": "Advanced",
+        "children": [{
+            "id": "app/more/browsequeryfilter",
+            "text": "Demo Application",
+            "leaf": true
+        }]
+    }]
+}]

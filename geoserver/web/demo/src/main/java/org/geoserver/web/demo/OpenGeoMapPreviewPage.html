@@ -1,0 +1,24 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<head>
+<title><wicket:message key="page.title">Layer Preview</wicket:message></title>
+</head>
+<body>
+<wicket:extend>
+  <!-- the table component -->
+  <div wicket:id="table"></div>
+  
+  <!-- The fragment for the icon -->
+  <wicket:fragment wicket:id="iconFragment">
+    <img wicket:id="layerIcon"/>
+  </wicket:fragment>
+  
+  <!-- The fragment for the common links -->
+  <wicket:fragment wicket:id="newpagelink">
+    <a target="_blank" wicket:id="link"></a>
+  </wicket:fragment>
+  <wicket:fragment wicket:id="exlink">
+    <a wicket:id="link"></a>
+  </wicket:fragment>
+</wicket:extend>
+</body>
+</html>

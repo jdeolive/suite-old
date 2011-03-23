@@ -1,0 +1,410 @@
+{
+    "recipes": [{
+        "id": "basic/map",
+        "title": "Basic Map",
+        "description": "Add a map to any web page.",
+        "components": ["OpenLayers", "GeoWebCache"],
+        "reference": "basic/map-ref"
+    }, {
+        "id": "basic/mappanel",
+        "title": "Map Panel",
+        "description": "Use of a GeoExt MapPanel.",
+        "components": ["GeoExt", "GeoWebCache"]
+    }, {
+        "id": "basic/layergrid",
+        "title": "Layer Grid",
+        "description": "List map layers in a grid.",
+        "components": ["GeoExt", "GeoWebCache"],
+        "reference": "basic/layergrid-ref"
+    },  {
+        "id": "basic/layertree",
+        "title": "Layer Tree",
+        "description": "List map layers in a tree.",
+        "components": ["GeoExt", "GeoWebCache"],
+        "reference": "basic/layertree-ref"
+    },  {
+        "id": "basic/treefilter",
+        "title": "Layer Tree with Filter",
+        "description": "Filter a list of map layers.",
+        "components": ["GeoExt", "GeoWebCache"],
+        "reference": "basic/treefilter-ref"
+    },  {
+        "id": "basic/sublayer",
+        "title": "Layer Tree with Sub-layers",
+        "description": "Make a layer tree with sub-layers.",
+        "components": ["GeoExt", "OpenLayers", "GeoWebCache"],
+        "reference": "basic/sublayer-ref"
+    },{
+        "id": "basic/popup",
+        "title": "Feature Popups",
+        "description": "Learn how to open a popup when a feature is selected.",
+        "components": ["GeoExt", "OpenLayers"]
+    }, {
+        "id": "basic/info",
+        "title": "Popup with Feature Information",
+        "description": "Use a GetFeatureInfo control and display results in a popup.",
+        "components": ["GeoExt", "OpenLayers"]
+    },  {
+        "id": "basic/button",
+        "title": "Button Control",
+        "description": "Create a simple button for measuring distance.",
+        "components": ["GeoExt", "OpenLayers"],
+        "reference": "basic/button-ref"
+    },  {
+        "id": "basic/tools",
+        "title": "Map Tools",
+        "description": "Display map tools in a toolbar.",
+        "components": ["GeoExt", "OpenLayers"]
+    },  {
+        "id": "vector/wfs",
+        "title": "Vector Layer (WFS)",
+        "description": "Render features from a WFS",
+        "components": ["OpenLayers", "GeoServer"]
+    },  {
+        "id": "vector/external-graphic",
+        "title": "External Graphic",
+        "description": "Style points with an external graphic.",
+        "components": ["OpenLayers"]
+    }, {
+        "id": "editing/draw",
+        "title": "Drawing Vector Features",
+        "description": "Draw points, lines, and polygons on a vector layer.",
+        "components": ["OpenLayers", "GeoExt"]
+    }, {
+        "id": "editing/drag",
+        "title": "Dragging Vector Features",
+        "description": "Drag features on a vector layer.",
+        "components": ["OpenLayers", "GeoExt"]
+    }, {
+        "id": "editing/attributes",
+        "title": "Feature Attribute Editing",
+        "description": "Edit feature attributes in a property grid.",
+        "components": ["OpenLayers", "GeoExt"]
+    }, {
+        "id": "editing/snap-split",
+        "title": "Snapping & Splitting",
+        "description": "Learn how to enable snapping and splitting while editing features in OpenLayers.",
+        "components": ["OpenLayers"],
+        "reference": "editing/snap-split-ref"
+    }, {
+        "id": "sld/point/simplepoint",
+        "title": "Simple Point",
+        "description": "Points styled as red circles with a diameter of 6 pixels.",
+        "components": ["GeoServer"],
+        "reference": "sld/point/simplepoint-ref",
+        "sourcepath": "sld/point/simplepoint.sld"
+    }, {
+        "id": "sld/point/simplepointwithstroke",
+        "title": "Simple Point with Stroke",
+        "description": "Add a stroke (or border) around a Simple point",
+        "components": ["GeoServer"],
+        "reference": "sld/point/simplepointwithstroke-ref",
+        "sourcepath": "sld/point/simplepointwithstroke.sld"
+    }, {
+        "id": "sld/point/rotatedsquare",
+        "title": "Simple Point with Stroke",
+        "description": "Create a square instead of a circle",
+        "components": ["GeoServer"],
+        "reference": "sld/point/rotatedsquare-ref",
+        "sourcepath": "sld/point/rotatedsquare.sld"
+    }, {
+        "id": "sld/point/transparenttriangle",
+        "title": "Transparent Triangle",
+        "description": "Draw a triangle with 20% opacity",
+        "components": ["GeoServer"],
+        "reference": "sld/point/transparenttriangle-ref",
+        "sourcepath": "sld/point/transparenttriangle.sld"
+    }, {
+        "id": "sld/point/pointasgraphic",
+        "title": "Transparent Triangle",
+        "description": "Style a point as a graphic",
+        "components": ["GeoServer"],
+        "reference": "sld/point/pointasgraphic-ref",
+        "sourcepath": "sld/point/pointasgraphic.sld"
+    }, {
+        "id": "sld/point/pointwithdefaultlabel",
+        "title": "Point with Default Lavel",
+        "description": "Display a default label",
+        "components": ["GeoServer"],
+        "reference": "sld/point/pointwithdefaultlabel-ref",
+        "sourcepath": "sld/point/pointwithdefaultlabel.sld"
+    }, {
+        "id": "sld/point/pointwithstyledlabel",
+        "title": "Point with Styled Lavel",
+        "description": "Display a styled label",
+        "components": ["GeoServer"],
+        "reference": "sld/point/pointwithstyledlabel-ref",
+        "sourcepath": "sld/point/pointwithstyledlabel.sld"
+    }, {
+        "id": "sld/point/pointwithrotatedlabel",
+        "title": "Point with Rotated Lavel",
+        "description": "Rotate a label 45 degress",
+        "components": ["GeoServer"],
+        "reference": "sld/point/pointwithrotatedlabel-ref",
+        "sourcepath": "sld/point/pointwithrotatedlabel.sld"
+    }, {
+        "id": "sld/point/pointattribute",
+        "title": "Point with Rotated Lavel",
+        "description": "Alter a symbol based on an attribute",
+        "components": ["GeoServer"],
+        "reference": "sld/point/pointattribute-ref",
+        "sourcepath": "sld/point/pointattribute.sld"
+    }, {
+        "id": "sld/point/zoombasedpoint",
+        "title": "Point with Rotated Lavel",
+        "description": "Alter a point style at different zoom levels",
+        "components": ["GeoServer"],
+        "reference": "sld/point/zoombasedpoint-ref",
+        "sourcepath": "sld/point/zoombasedpoint.sld"
+    }, {
+        "id": "sld/line/simpleline",
+        "title": "Simple Line",
+        "description": "Lines Styled with black 3 pixel stroke",
+        "components": ["GeoServer"],
+        "reference": "sld/line/simpleline-ref",
+        "sourcepath": "sld/line/simpleline.sld"
+    }, {
+        "id": "sld/line/linewithborder",
+        "title": "Line with Border",
+        "description": "Styled stroke with a border",
+        "components": ["GeoServer"],
+        "reference": "sld/line/linewithborder-ref",
+        "sourcepath": "sld/line/linewithborder.sld"
+    }, {
+        "id": "sld/line/dashedline",
+        "title": "Dashed Line",
+        "description": "Create dashed lines",
+        "components": ["GeoServer"],
+        "reference": "sld/line/dashedline-ref",
+        "sourcepath": "sld/line/dashedline.sld"
+    }, {
+        "id": "sld/line/railroad",
+        "title": "Railroad",
+        "description": "Use hatching to create a railroad style",
+        "components": ["GeoServer"],
+        "reference": "sld/line/railroad-ref",
+        "sourcepath": "sld/line/railroad.sld"
+    }, {
+        "id": "sld/line/linewithdefaultlabel",
+        "title": "Line with Default Label",
+        "description": "Show a text label on the simple line",
+        "components": ["GeoServer"],
+        "reference": "sld/line/linewithdefaultlabel-ref",
+        "sourcepath": "sld/line/linewithdefaultlabel.sld"
+    }, {
+        "id": "sld/line/labelfollowingline",
+        "title": "Label Following Line",
+        "description": "Render a label to follow a line",
+        "components": ["GeoServer"],
+        "reference": "sld/line/labelfollowingline-ref",
+        "sourcepath": "sld/line/labelfollowingline.sld"
+    }, {
+        "id": "sld/line/optimizedlabel",
+        "title": "Optimized Label",
+        "description": "Optimize label placement for lines",
+        "components": ["GeoServer"],
+        "reference": "sld/line/optimizedlabel-ref",
+        "sourcepath": "sld/line/optimizedlabel.sld"
+    }, {
+        "id": "sld/line/optimizedstyledlabel",
+        "title": "Optimized Styled Label",
+        "description": "Style optimally placed labels",
+        "components": ["GeoServer"],
+        "reference": "sld/line/optimizedstyledlabel-ref",
+        "sourcepath": "sld/line/optimizedstyledlabel.sld"
+    }, {
+        "id": "sld/line/attributebasedlabel",
+        "title": "Attribute-based Line",
+        "description": "Alter a line based on road type",
+        "components": ["GeoServer"],
+        "reference": "sld/line/attributebasedlabel-ref",
+        "sourcepath": "sld/line/attributebasedlabel.sld"
+    }, {
+        "id": "sld/line/zoombasedline",
+        "title": "Zoom-based Line",
+        "description": "Style a line based on zoom level",
+        "components": ["GeoServer"],
+        "reference": "sld/line/zoombasedline-ref",
+        "sourcepath": "sld/line/zoombasedline.sld"
+    }, {
+        "id": "sld/polygon/simplepolygon",
+        "title": "Simple Polygon",
+        "description": "Polygon filled with blue",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/simplepolygon-ref",
+        "sourcepath": "sld/polygon/simplepolygon.sld"
+    }, {
+        "id": "sld/polygon/simplepolygonwithstroke",
+        "title": "Polygon with Stroke",
+        "description": "Blue polygon with a white stroke",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/simplepolygonwithstroke-ref",
+        "sourcepath": "sld/polygon/simplepolygonwithstroke.sld"
+    }, {
+        "id": "sld/polygon/transparentpolygon",
+        "title": "Transparent Polygon",
+        "description": "Style a polygon with a transparent fill",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/transparentpolygon-ref",
+        "sourcepath": "sld/polygon/transparentpolygon.sld"
+    }, {
+        "id": "sld/polygon/graphicfill",
+        "title": "Graphic Fill",
+        "description": "Style polygons with a tiled graphic",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/graphicfill-ref",
+        "sourcepath": "sld/polygon/graphicfill.sld"
+    }, {
+        "id": "sld/polygon/hatchingfill",
+        "title": "Hatching Fill",
+        "description": "Style polygons with a hatching pattern",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/hatchingfill-ref",
+        "sourcepath": "sld/polygon/hatchingfill.sld"
+    }, {
+        "id": "sld/polygon/polygonwithdefaultlabel",
+        "title": "Polygon with Default Label",
+        "description": "Add a text label to a polygon",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/polygonwithdefaultlabel-ref",
+        "sourcepath": "sld/polygon/polygonwithdefaultlabel.sld"
+    }, {
+        "id": "sld/polygon/labelhalo",
+        "title": "Label Halo",
+        "description": "Add a white halo to a label",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/labelhalo-ref",
+        "sourcepath": "sld/polygon/labelhalo.sld"
+    }, {
+        "id": "sld/polygon/polygonwithstyledlabel",
+        "title": "Polygon with Default Label",
+        "description": "Add a styled label to a polygon",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/polygonwithstyledlabel-ref",
+        "sourcepath": "sld/polygon/polygonwithstyledlabel.sld"        
+    }, {
+        "id": "sld/polygon/attributebasedpolygon",
+        "title": "Style a polygon based on population",
+        "description": "Attribute-based polygon",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/attributebasedpolygon-ref",
+        "sourcepath": "sld/polygon/attributebasedpolygon.sld"
+    }, {
+        "id": "sld/polygon/zoombasedpolygon",
+        "title": "Style a polygon based on zoom levl",
+        "description": "Zoom-based polygon",
+        "components": ["GeoServer"],
+        "reference": "sld/polygon/zoombasedpolygon-ref",
+        "sourcepath": "sld/polygon/zoombasedpolygon.sld"
+    }, {
+        "id": "sld/raster/raster_twocolorgradient",
+        "title": "Create a two-color gradient",
+        "description": "Two-Color Gradient",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_twocolorgradient-ref",
+        "sourcepath": "sld/raster/raster_twocolorgradient.sld"
+    }, {
+        "id": "sld/raster/raster_transparentgradient",
+        "title": "Add transparency to a color gradient",
+        "description": "Transparent Gradient",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_transparentgradient-ref",
+        "sourcepath": "sld/raster/raster_transparentgradient.sld"
+    }, {
+        "id": "sld/raster/raster_brightnessandcontrast",
+        "title": "Increase the brightness and contrast",
+        "description": "Brightness and contrast",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_brightnessandcontrast-ref",
+        "sourcepath": "sld/raster/raster_brightnessandcontrast.sld"
+    }, {
+        "id": "sld/raster/raster_threecolorgradient",
+        "title": "Render a three-color style",
+        "description": "Three-color Gradient",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_threecolorgradient-ref",
+        "sourcepath": "sld/raster/raster_threecolorgradient.sld"
+    }, {
+        "id": "sld/raster/raster_alphachannel",
+        "title": "Create an alpha channel effect",
+        "description": "Alpha Channel",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_alphachannel-ref",
+        "sourcepath": "sld/raster/raster_alphachannel.sld"
+    }, {
+        "id": "sld/raster/raster_discretecolors",
+        "title": "Adjust a gradient to 3 discrete colors",
+        "description": "Discrete Colors",
+        "components": ["GeoServer"],
+        "reference": "sld/raster/raster_discretecolors-ref",
+        "sourcepath": "sld/raster/raster_discretecolors.sld"
+    }, {
+        "id": "app/wms/mapwindow",
+        "title": "Creating a map window",
+        "description": "Map Window",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/mapwindow-ref"
+    }, {
+        "id": "app/wms/gridview",
+        "title": "Populate a WMS Grid View",
+        "description": "Basic WMS grid",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/gridview-ref"
+    }, {
+        "id": "app/wms/gridviewpanel",
+        "title": "Add Map Layers from a Grid View",
+        "description": "WMS map and grid",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/gridviewpanel-ref"
+    }, {
+        "id": "app/wms/gridviewpaneltree",
+        "title": "Use a Tree Panel for Layer Management",
+        "description": "Tree Panel",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/gridviewpaneltree-ref"
+    }, {
+        "id": "app/wms/gridviewpaneltreelegend",
+        "title": "Create a map legend",
+        "description": "Map Legend",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/gridviewpaneltreelegend-ref"
+    }, {
+        "id": "app/wms/gridviewpaneltreelegendcombo",
+        "title": "Use a scale store",
+        "description": "Scale Store",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wms/gridviewpaneltreelegend-ref"
+    }, {
+        "id": "app/wfs/gridview",
+        "title": "Create a WFS Grid View",
+        "description": "Grid View",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wfs/gridview-ref"
+    }, {
+        "id": "app/wfs/synchronizedmap",
+        "title": "Synchronized Map",
+        "description": "A Synchronized Map and Table View",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wfs/synchronizedmap-ref"
+    }, {
+        "id": "app/wfs/editingfeaturesattributes",
+        "title": "Edit Features and Attributes",
+        "description": "Features and Attributes",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wfs/editingfeaturesattributes-ref"
+    }, {
+        "id": "app/wfs/commitedits",
+        "title": "Committing Feature Modifications",
+        "description": "Commit Edits",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/wfs/commitedits-ref"
+    }, {
+        "id": "app/more/browsequeryfilter",
+        "title": "WFS, DescribeFeatureType, Filters and SLD",
+        "description": "Demo Application",
+        "components": ["OpenLayers, GeoExt"],
+        "reference": "app/more/browsequeryfilter-ref"
+    }
+          
+]
+}

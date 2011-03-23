@@ -1,0 +1,135 @@
+<html>
+	<head>
+		<title>GeoExt Filter Encoding</title>
+
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-all-debug.js"></script>
+		<script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/xtheme-gray.css" />
+    <link rel="stylesheet" href="http://dev.openlayers.org/releases/OpenLayers-2.9.1/theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    <script src="http://dev.openlayers.org/releases/OpenLayers-2.9.1/OpenLayers.js"></script>
+    <script src="http://api.geoext.org/0.7/script/GeoExt.js"></script>
+		<script type="text/javascript" src="../../../resources/extras/ComparisonComboBox.js"></script>
+	  <script type="text/javascript" src="../../../resources/extras/FilterBuilder.js"></script>
+	  <script type="text/javascript" src="../../../resources/extras/FilterField.js"></script>
+   	<script type="text/javascript" src="../../../resources/extras/QueryPanel.js"></script>
+    
+		<link rel="stylesheet" type="text/css" href="../../../extras/extras.css" />
+	
+    <script type="text/javascript">
+      Ext.BLANK_IMAGE_URL = "http://extjs.cachefly.net/ext-3.2.1/resources/images/default/s.gif";
+      OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.9.1/img/";
+
+			var owsUrl = "/geoserver/ows";
+			OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
+			var symbolizer = OpenLayers.Feature.Vector.style["default"];
+			symbolizer.graphicName = "square";
+			var store;
+			Ext.onReady(function () {
+			  store = new GeoExt.data.WFSCapabilitiesStore({
+			    url: Ext.urlAppend(owsUrl, "SERVICE=WFS&VERSION=1.0.0&REQUEST=GetCapabilities"),
+			    protocolOptions: {
+			      version: "1.1.0"
+			    },
+			    autoLoad: true,
+			    listeners: {
+			      load: initApp
+			    }
+			  });
+			});
+			function initApp() {
+			  var vecLayer = new OpenLayers.Layer.Vector("WFS", {
+			    eventListeners: {
+			      featuresadded: function () {
+			        var extent = vecLayer.getDataExtent()
+			        mapPanelWMS.map.zoomToExtent(extent);
+			        mapPanelWFS.map.zoomToExtent(extent);
+			        wms.setVisibility(true);
+			      }
+			    }
+			  });
+			  var wms = new OpenLayers.Layer.WMS.Post("WMS", owsUrl, {
+			    format: "image/png"
+			  }, {
+			    visibility: false
+			  });
+			  var mapPanelWFS = new GeoExt.MapPanel({
+			    title: "WFS",
+			    height: 224,
+			    layers: [vecLayer]
+			  });
+			  var mapPanelWMS = new GeoExt.MapPanel({
+			    title: "WMS",
+			    height: 224,
+			    layers: [wms]
+			  });
+			  var queryPanel = new gxp.QueryPanel({
+			    title: "Query Panel",
+			    region: "west",
+			    width: 400,
+			    bodyStyle: "padding: 10px",
+			    autoScroll: true,
+			    layerStore: store,
+			    bbar: ["->",
+			    {
+			      text: "Query",
+			      handler: function () {
+			        queryPanel.query();
+			      }
+			    }],
+			    listeners: {
+			      query: function (panel, store) {
+			        wms.setVisibility(false);
+			        var rule = new OpenLayers.Rule({
+			          filter: panel.getFilter()
+			        });
+			        rule.symbolizer[queryPanel.symbolizerType] = symbolizer;
+			        var style = new OpenLayers.Style("", {
+			          rules: [rule]
+			        });
+			        wms.mergeNewParams({
+			          sld_body: new OpenLayers.Format.SLD().write({
+			            namedLayers: [{
+			              name: panel.selectedLayer.get("name"),
+			              userStyles: [style]
+			            }]
+			          })
+			        });
+			        store.bind(vecLayer, {
+			          initDir: GeoExt.data.FeatureStore.STORE_TO_LAYER
+			        });
+			      }
+			    }
+			  });
+			  var mainPanel = new Ext.Panel({
+			    renderTo: "map-id",
+			    layout: "border",
+			    width: 800,
+			    height: 450,
+			    items: [{
+			      region: "center",
+			      xtype: "container",
+			      items: [mapPanelWMS, mapPanelWFS]
+			    },
+			    queryPanel]
+			  });
+			} 
+		</script>
+	</head>
+			  
+  <body class="recipe-body">
+    <h1>
+      Full Application
+    </h1>
+    <div class="description">
+      Create an application for WFS browsing, querying and SLD filtering.
+    </div>
+    <div class="content">
+      <div id="map-id">
+      </div>
+    </div>
+  </body>
+
+</html>

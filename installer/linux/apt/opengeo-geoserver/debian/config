@@ -1,0 +1,42 @@
+#!/bin/bash
+
+. /usr/share/debconf/confmodule
+
+
+set -e
+
+#set -v -x; DEBIAN_SCRIPT_TRACE=1
+#${DEBIAN_SCRIPT_TRACE:+ echo "#42#DEBUG# RUNNING $0 $*" 1>&2 }
+
+db_input high opengeo_geoserver/proxyurl || true
+db_go
+
+db_input high opengeo_geoserver/username || true
+db_go
+
+db_input high opengeo_geoserver/password || true
+db_go
+db_get opengeo_geoserver/password
+
+if [ ! -z "$RET" ]; then 
+   password="$RET"
+
+   password_ok=0
+   while [ $password_ok -ne 1 ]; do
+     db_input high opengeo_geoserver/password_confirm || true
+     db_go
+     db_get opengeo_geoserver/password_confirm
+     if [ "$RET" == "$password" ]; then
+        password_ok=1
+     else
+        db_input high opengeo_geoserver/password_mismatch || true
+        db_go
+        db_get opengeo_geoserver/password_mismatch
+        password=$RET
+     fi
+   done
+   
+else
+   password="geoserver"
+fi
+

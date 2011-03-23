@@ -1,0 +1,381 @@
+body {
+    font-family: Helvetica, Arial, FreeSans, sans-serif;
+    font-size: 12px;
+    color: #333333;
+}
+
+p {
+    color: #333333;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    text-align: left;
+}
+
+strong {
+  font-weight: bold;
+}
+
+a {
+    color: #3366CC;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6C9400;
+}
+
+a.app-disabled,
+a.app-disabled:hover,
+a.app-disabled-permanently,
+a.app-disabled-permanently:hover {
+    cursor: default;
+    color: #999999;
+}
+
+.callout {
+  background: #F9F4B3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  padding: 1em;
+}
+
+.dash-panel-body {
+    padding: 16px 14px 10px;
+}
+
+.dash-panel-body h1,
+.dash-panel-body h1 a {
+    color: #0A2742;
+    font-family: Optima,Helvetica,Arial,sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+.dash-panel-body h1 small {
+    color: #333333;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    padding-left: 5px;
+    font-weight: normal;
+}
+.dash-panel-body h2,
+.dash-panel-body h3 {
+    color: #486300;
+    font-family: Optima,Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 12px 0 8px;
+}
+.dash-panel-body h3,
+.dash-panel-body h4 {
+    font-family: Helvetica,Arial,sans-serif;
+    color: #6C9400;
+    font-size: 14px;
+}
+
+.dash-panel-body ol,
+.dash-panel-body ul {
+    line-height: 1.5;
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: square;
+    margin: 0 0 10px;
+}
+
+.dash-panel-body ol ul,
+.dash-panel-body ul ul,
+.dash-panel-body ol ol,
+.dash-panel-body ul ol{
+    padding-left: 15px;    
+}
+
+.dash-panel-body ol {
+    list-style-type: decimal;
+}
+
+/* COMPONENTS PAGE ITEMS */
+.dash-panel-content-item {
+    margin: 10px 0;
+    padding: 10px 0 0 65px;
+    min-height: 55px;
+    position: relative;
+    border-top: 1px solid #EEE;
+    background-repeat: no-repeat;
+    background-position: left 10px;
+}
+.dash-panel-content-item h2 {
+    margin-top: 0;
+}
+.dash-panel-content-item p {
+    width: 33em;
+}
+.dash-panel-content-item.geoserver {
+    background-image: url(img/geoserver-sm.png);
+}
+.dash-panel-content-item.geoexplorer {
+    background-image: url(img/geoexplorer-sm.png);
+}
+.dash-panel-content-item.styler {
+    background-image: url(img/styler_sm.png);
+}
+.dash-panel-content-item.geoeditor {
+    background-image: url(img/geoeditor-sm.png);
+}
+.dash-panel-content-item.geowebcache {
+    background-image: url(img/geowebcache_sm.png);
+}
+.dash-panel-content-item.postgis {
+    background-image: url(img/postgis_sm.png);
+}
+.dash-panel-content-item ul.quick-links {
+    position: absolute;
+    top: 8px;
+    right: 0;
+}
+
+/* AT A GLANCE TABLE */
+.dash-panel-table {
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    width: 100%;
+    border-bottom: 1px solid #DEE6F5;
+}
+.dash-panel-table:last-child {
+    margin-bottom: 0;
+}
+.dash-panel-table th {
+    padding: 8px;
+}
+.dash-panel-table td {
+    padding: 4px;
+    padding-left: 8px;
+}
+.dash-panel-table thead th {
+    background: #BBB;
+    font-weight: bold;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#999));
+    /* For debugging in Firefox */
+    background: -moz-linear-gradient(top, #CCC, #999);
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+}
+.dash-panel-table tbody tr:nth-child(odd) {
+    background-color: #DEE6F5;
+}
+td.dash-panel-table-primary {
+    width: 35%;
+}
+td.dash-panel-table-primary.geoexplorer a,
+td.dash-panel-table-primary.geoexplorer span.icon {
+    background: url(img/geoexplorer-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary.styler a,
+td.dash-panel-table-primary.styler span.icon {
+    background: url(img/styler-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary.geoeditor a,
+td.dash-panel-table-primary.geoeditor span.icon {
+    background: url(img/geoeditor-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary.geowebcache a,
+td.dash-panel-table-primary.geowebcache span.icon {
+    background: url(img/geowebcache-ent-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary.geoserver a,
+td.dash-panel-table-primary.geoserver span.icon {
+    background: url(img/geoserver-ent-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary.postgis a,
+td.dash-panel-table-primary.postgis span.icon {
+    background: url(img/postgis-ent-16.png) no-repeat left top;
+    padding-left: 20px;
+}
+td.dash-panel-table-primary strong {
+    font-weight: bold;
+}
+td.dash-panel-table-actions {
+    font-size: 12px;
+}
+
+/* Only display quick links on hover */
+tr.dash-glance-component {
+    height: 34px;
+}
+
+tr:nth-child(odd).dash-glance-component:hover,
+tr.dash-glance-component:hover  {
+    background-color: #EEE;
+} 
+
+tr.dash-glance-component ul {
+    display: none;
+}
+tr.dash-glance-component:hover ul {
+    display: block;
+}
+
+/* QUICK LINKS */
+
+ul.quick-links {
+    margin: 0;
+}
+.quick-links li {
+    display: inline-block;
+    min-width: 4em;
+    margin: 4px 0;
+    padding: 0 8px;
+    border-left: 1px solid #999;
+    text-align: center;
+}
+.quick-links li:first-child {
+    padding-left: 0;
+    border: none;
+}
+
+
+.dash-warning-header {
+    background: url(img/error.png)
+}
+.dash-warning {
+    padding: 10px;
+}
+
+.dash-info-header {
+    background: url(img/information.png);
+}
+.dash_info {
+    padding: 10px;
+}
+
+.dash-dialog-working {
+    background: url(img/indicator.gif) no-repeat;
+    background-position: left;
+    padding-left: 20px;
+    padding-top: 4px;
+}
+
+/* override left hand menu*/
+.x-tab-panel-left ul.x-grouptabs-strip a.x-grouptabs-text {
+    font-family: Helvetica,Arial,FreeSans,sans-serif;
+    color: #0A2742;
+    font-size: 12px;
+}
+
+/* override background color */
+.x-border-layout-ct {
+    background-color: #ffffff;
+}
+
+/* control panel */
+.app-panels-control {
+    background: transparent;
+    position: absolute;
+    top: 15px;
+    left: 145px;
+    right: 15px;
+    z-index: 2;
+    height: 50px;
+}
+
+.app-panels-control * {
+    background: transparent;
+}
+
+.app-panels-control strong {
+    color: #291C17;
+    font-family: Optima,Helvetica,Arial,sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+.app-panels-control strong small {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    padding-left: 5px;
+    font-weight: normal;
+}
+
+.app-panels-control>div {
+    background: -webkit-gradient(linear, left top, left bottom, from(#CCC), to(#999));
+    background: -moz-linear-gradient(top, #CCC, #999);
+    -webkit-border-top-right-radius: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topright: 8px;
+    -moz-border-radius-topleft: 8px;
+    height: 30px;
+    padding: 10px 15px;
+}
+
+.app-panels-control-msg {
+/*background: #FFFFFF url('img/information.png') no-repeat;*/
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 20px;
+    padding-top: 1px;
+}
+
+.app-panels-control .x-btn.control-button {
+    position: absolute;
+    left: auto !important;
+    right: 0;
+    padding: 3px 4px 4px;
+    background: green;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+.app-panels-control .x-btn.control-button.x-btn-pressed {
+    background: maroon;
+}
+
+.app-panels-control .x-btn.control-button button {
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.app-msg-warn {
+    background: url('img/delete.png') no-repeat;
+    color: #ff4748;
+    top: 8px !important;
+}
+
+.app-msg-info {
+    background: url('img/information.png') no-repeat;
+}
+
+.app-msg-ok {
+    background: url('img/tick.png') no-repeat;
+    color: #81cb77;
+    top: 8px !important;
+    
+}
+
+/* Buttons on Logs page */
+.x-btn .cancel-button, .x-btn .refresh-button,.x-btn .view-button { text-transform: capitalize; }
+.x-btn .cancel-button { background-image: url(img/cancel.png); }
+.x-btn .refresh-button { background-image: url(img/arrow_refresh.png); }
+.x-btn .view-button { background-image: url(img/page_white_magnify.png); }
+
+.working-dialog {
+    text-align: center;
+    padding: 0.5em 1em 2em;
+    margin-bottom: 1em;
+    background: transparent url(img/indicator.gif) no-repeat bottom center;
+}
+
+a.app-home-link {
+    display: block;
+    position: absolute;
+    width: 115px;
+    height: 33px;
+    bottom: 15px;
+    left: 15px;
+    background: transparent url(img/opengeo-small.png) no-repeat;
+}

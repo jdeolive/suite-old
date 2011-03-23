@@ -1,0 +1,29 @@
+OpenGeo Suite RPM Packaging
+===========================
+
+Setup
+-----
+
+In order to build rpm packages the following must be installed on the system:
+
+  yum install rpm-build zip unzip gcc gcc-c++ libtool doxygen swig ruby python-devel ruby-devel postgresql84-devel postgresql84 libxslt-devel dos2unix flex desktop-file-utils openssl-devel
+
+Install wxGTK:
+  
+  yum install gtk+ gtk+-devel libjpeg-devel libpng-devel libtiff-devel
+  yum install ORBit2 SDL GConf2 gstreamer gstreamer-plugins-base libGLU libGLU-devel gtk2-devel desktop-file-utils openssl-devel
+
+Grab wxGTK rpms from http://download.fedora.redhat.com/pub/epel/5/i386/ :
+
+    wxBase-2.8.11-2.el5.i386.rpm
+    wxGTK-2.8.11-2.el5.i386.rpm
+    wxGTK-devel-2.8.11-2.el5.i386.rpm
+    wxGTK-gl-2.8.11-2.el5.i386.rpm  
+    bakefile-0.2.8-3.el5.i386.rpm
+    python-empy-3.3-5.el5.noarch.rpm
+
+Create a file .rpmmacros in the home directory of the user who will build the
+packages. Do *NOT* build as them as root. The file should have the following
+contents:
+
+  %_topdir <path to rpmbuild directory>

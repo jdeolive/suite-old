@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Discrete colors</h1>
+        <div class="description">
+          Create a gradient that is not linearly interpolated but instead has values mapped precisely to one of three specific colors.        
+        </div>
+        <div class="content">
+          <p>Sometimes color bands in discrete steps are more appropriate than a color gradient. The <tt>type="intervals"</tt> parameter added to the <tt>&lt;ColorMap&gt;</tt> on <strong>line 9</strong> sets the display to output discrete colors instead of a gradient. The values in each entry correspond to the upper bound for the color band such that colors are mapped to values less than the value of one entry but greater than or equal to the next lower entry. For example, <strong>line 10</strong> colors all values less than 150 to dark green (<tt>#008000</tt>) and <strong>line 11</strong> colors all values less than 256 but greater than or equal to 150 to dark brown (<tt>#663333</tt>).</p>
+        </div>
+    </body>
+</html>

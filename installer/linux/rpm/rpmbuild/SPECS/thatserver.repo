@@ -1,0 +1,5 @@
+[thatserver]
+name=thatserver
+baseurl=http://apt:opengeo@rpm.thatserver.ca/base
+enabled=1
+gpgcheck=0

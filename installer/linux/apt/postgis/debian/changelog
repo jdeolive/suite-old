@@ -1,0 +1,486 @@
+postgis (1.5.2-1) unstable; urgency=low
+
+  * New upstream release, with a few bug fixes.
+  * Added shp2pgsql-gui binary.
+  * Removed patches, applied upstream: getopt.	
+
+ -- Alan Boudreault <aboudreault@mapgears.com>  Wed, 29 Sep 2010 09:16:10 -0400
+
+postgis (1.5.1-5) unstable; urgency=high
+
+  * This version requires geos >= 3.1.1, debian/control updated.
+    (closes: #580462)
+  * Moved libpostgis-java to java section.
+  * README.Debian has been fixed for old lwpostgis.sql since ages. Just ack.
+    (closes: #575622)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 24 May 2010 09:40:32 +0200
+
+postgis (1.5.1-4) unstable; urgency=high
+
+  * [PATCH] getopt.dpatch added to avoid var collisions among Postgis getopt
+    and glibc one. That solves a FTBS on mips/mipsel.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 22 May 2010 19:03:39 +0200
+
+postgis (1.5.1-3) unstable; urgency=medium
+
+  * Removed custom CFLAGS which probably caused FTBS on mips/mipsel archs.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 22 May 2010 11:20:44 +0200
+
+postgis (1.5.1-2) unstable; urgency=low
+
+  * Added generator.dpatch to avoid a buffer overflow on alpha due to 
+    a too narrow buffer apparently.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 17 May 2010 14:21:37 +0200
+
+postgis (1.5.1-1) unstable; urgency=low
+
+  * New upstream release, with a few bug fixes.
+
+ -- Alan Boudreault <aboudreault@mapgears.com>  Sun, 16 May 2010 14:42:21 -0400
+
+postgis (1.5.0-1) unstable; urgency=low
+
+  * New upstream major release, with many enhancements.
+  * Policy bumped to 3.8.4, no changes.
+  * Added libxml2-dev as new build-dep. 
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Wed, 10 Mar 2010 09:32:20 +0100
+
+postgis (1.4.0-2) unstable; urgency=low
+
+  * Upload to unstable.
+  * Better parameterized debian/rules against postgis $(VERSION).
+  * Added dblatex and libcunit1-dev among build-deps.
+  * Added postgis_comments.sql to contrib/ SQL templates.
+  * Dropping 8.3 support, no more supported for squeeze.
+    (closes: #559587)
+  * Do not stop on error in postrm if the target dir does not exist.
+    (closes: #560409)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 11 Dec 2009 13:10:34 +0100
+
+postgis (1.4.0-1) experimental; urgency=low
+
+  * New upstream release. 
+  * Updated configure arguments now obsolete/changed.
+  * Required some new var initialization for installing in debian/ its trees.
+  * The liblwgeom solib is now named postgis, so changed a few things around.
+  * Updated build-dep: proj -> libproj-dev.
+  * Policy bumped to 3.8.3. No changes.
+  * Debhelper level set to 7.
+  * Added ${misc:Depends}.
+  * Now postgresql >= 8.3, geos >= 3 and proj >= 4.5 are required. This is
+    reflected in debian/control for safety.
+  * Added PostgreSQL 8.4 support, the 8.3 version will be dropped when 
+    required. Now the .in template for postrm changed for multiversioning.
+  * Now build-dep on default-jdk which is DFSG-safe.
+  * Removed Fabio Tranchitella among Uploaders because retired from DebianGis.
+  * Now build-dep on imagemagick because doc generation requires convert tool.
+  * Added patch install.dpatch to manage minor inconsistencies in the java
+    inatallation scripts. 
+  * stamp files are now auto-cleaned.
+  * Cleaned debian/rules to be idempotent.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 14 Sep 2009 11:58:45 +0200
+
+postgis (1.3.5-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/control: bumped Standard-Versions to 3.8.0, no changes needed.
+  * debian/rules: copy utils/*.pl to the binary package. (Closes: #491154)
+
+ -- Fabio Tranchitella <kobold@debian.org>  Thu, 05 Mar 2009 22:47:15 +0100
+
+postgis (1.3.3-3) unstable; urgency=low
+
+  * Added Vcs-* fields in debian/control.
+  * Fixed download URL in debian/copyright.
+  * Now it installs the shared lib in a private postgis path and makes a
+    hard link in the postgres library path at configure time. That would
+    allow coexistence of different flavors of the library which could be
+    used by different DBs at run-time and allowing soft/hard-upgrade scripts
+    working. (closes: #441794, #441797)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 09 Jun 2008 13:03:04 +0200
+
+postgis (1.3.3-2) unstable; urgency=high
+
+  * Dropped postgresql 8.2 support due to removal in Lenny.
+    (closes: #474287)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 06 Jun 2008 23:57:45 +0200
+
+postgis (1.3.3-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Tue, 15 Apr 2008 09:01:58 +0200
+
+postgis (1.3.2-2) unstable; urgency=low
+
+  * Add support for postgresql-8.3. (Closes: #466417, #471689)
+
+ -- Fabio Tranchitella <kobold@debian.org>  Wed, 19 Mar 2008 19:23:00 +0100
+
+postgis (1.3.2-1) unstable; urgency=low
+
+  [ Francesco Paolo Lovergine ]
+  * Added Homepage field in debian/control
+  * Fixed lintian warning: debian-rules-ignores-make-clean-error
+
+  [ Fabio Tranchitella ]
+  * New upstream release.
+  * Updated Standard-Version to 3.7.3.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Mon, 31 Dec 2007 10:57:12 +0100
+
+postgis (1.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Mon, 10 Sep 2007 10:36:30 +0200
+
+postgis (1.2.1-2) unstable; urgency=low
+
+  * Added build-dep from libjts-java 1.7
+    (closes: #425919)
+  * Added me among uploaders.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 16 Jun 2007 01:00:49 +0200
+
+postgis (1.2.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Migrate to PostgreSQL 8.2-only (Closes: #419297)
+  * Remove busted templategis from the build (new in 1.2.1 anyway).
+    (Currently attempts to install files in /etc/default, doesn't
+     respect $DESTDIR and overall looks like a godawful mess)
+
+ -- Stephen Frost <sfrost@debian.org>  Fri, 13 Apr 2007 09:19:18 +0200
+
+postgis (1.1.6-2) unstable; urgency=low
+
+  * debian/README.Debian: added documentation for the new users on how to use
+    postgis and how to enable it for new or existent databases.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Mon, 18 Dec 2006 17:19:27 +0100
+
+postgis (1.1.6-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Tue,  7 Nov 2006 09:47:00 +0100
+
+postgis (1.1.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Tue, 31 Oct 2006 21:56:32 +0100
+
+postgis (1.1.4-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Fri,  6 Oct 2006 10:51:51 +0200
+
+postgis (1.1.3-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Fabio Tranchitella <kobold@debian.org>  Sun, 16 Jul 2006 22:19:25 +0200
+
+postgis (1.1.2-1) unstable; urgency=low
+
+  - Fabio Tranchitella <kobold@debian.org>
+    * New upstream release. (Closes: #314854)
+    * Renamed packages to follow the actual naming conventions. 
+      (Closes: #312675)
+    * Re-packaging, let's try to have postgis in etch. (Closes: #309528, #310094)
+    * Fixed several FTBFS and uninstallable bugs.
+      (Closes: #316519, #335631, #363946, #323120)
+    * Fixed libpostgis-java package FTBFS. (Closes: #308848)
+    * Move to the new postgresql infrastructure. (Closes: #321913, #312676)
+    * Team maintainership, added myself as uploader.
+
+  - Stephen Frost <sfrost@debian.org>
+    * Added myself as uploader
+    * Removed Alex from uploaders (for now at least)
+    * Cleaned up doc/html/postgis.html handling
+    * Renamed postgis-common -> postgis
+    * Made postgis package Arch: any
+    * Moved PostGIS binaries into base postgis package
+    * Changed postgis package to only suggest server packages (could very
+      reasonably be installed on a non-server machine for the PostGIS
+      binaries)
+    * Dropped extra extraneous linking (previously the server module and
+      the binaries were linking to everything the Postgres server linked
+      to, unnecessary and potentially dangerous)
+    * Dropped support for 7.4, after discussion with Martin Pitt and others
+      it's clear that there isn't any need for a 7.4 version of PostGIS in
+      etch.
+    * New upstream release Closes: #311732
+
+ -- Stephen Frost <sfrost@debian.org>  Wed, 31 May 2006 16:33:48 -0400
+
+postgis (1.1.0-7) unstable; urgency=low
+
+  * postgresql-postgis-common should depend on postgresql-common | postgresql, 
+    not the other way.
+  
+ -- Alex Bodnaru <alexbodn@012.net.il>  Tue, 21 Mar 2006 03:13:04 +0200
+
+postgis (1.1.0-6) unstable; urgency=low
+
+  * Closes: #312675
+    postgresql-postgis-utils is the only utils package, replacing the 
+    previous postgresql-pg_version-postgis-utils. a further elimination 
+    of older method reminiscence.
+  
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sat, 18 Mar 2006 23:13:04 +0200
+
+postgis (1.1.0-5) unstable; urgency=low
+
+  * Closes: #312675
+    postgresql-postgis-utils is the only utils package, replacing the 
+    previous postgresql-pg_version-postgis-utils.
+  * Closes: 335631
+    Depends on libgeos which passed c2 ABI transition.
+  * Uses /usr/share/postgresql-common/supported-versions to dynamically
+    detect postgresql supported versions. thanks martin.
+  
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 9 Mar 2006 04:26:05 +0200
+
+postgis (1.1.0-4) unstable; urgency=low
+
+  * made invariable control file to match standards. the control file 
+    may be made automatically by calling 'debian/rules maintainer-configure'
+  * the supported postgresql versions may be filtered, by filling 
+    'debian/_supported.postgresql'.
+  * the postgis binary packages have been renamed, to obey the postgresql 
+    standard for extension packages: now their name allways begins with 
+    'postgresql', eventually followed by the postgresql major and minor 
+    version, if a specific one is needed.
+    'libpostgis' has become 'postgis'.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Mon, 27 Feb 2006 03:26:15 +0200
+
+postgis (1.1.0-3) unstable; urgency=low
+
+  * minor bug fixes
+  * recompilation
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 26 Feb 2006 05:16:09 +0200
+
+postgis (1.1.0-2) unstable; urgency=low
+
+  * minor bug fixes
+  * the package builds again on systems without multiclustering postgresql.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Wed, 28 Dec 2005 07:11:39 +0200
+
+postgis (1.1.0-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Wed, 21 Dec 2005 05:15:37 +0200
+
+postgis (1.0.4-2) unstable; urgency=low
+
+  * Closes: #321913 Closes: #312676
+    Support of multiple postgis installations on the same postgresql server.
+    Please note:
+    - The template database will be template_gis#SONAME#,
+    - The famous (lw)?postgis.sql file will be postgis#SONAME#.sql,
+    where #SONAME# is roughly the major upstream postgis version.
+  * Closes: #323120
+    The building process is autodetecting the appropriate postgresql-dev.
+  * README.Debian updated to support multiversion postgresql architecture.
+  * Closes: #314854
+    Newer upstream version.
+  * Minor improvements to make the build process more quiet.
+  * Default variables are being kept in configuration files. Thus, the same 
+    package diff will serve for postgis-0.9 and 1.0.
+  * Closes: #310100
+    The template database is no longer been installed/removed with every
+    installation/remove/upgrade of postgis. It should have received finer 
+    grained parameters, anyway .
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 16 Oct 2005 03:31:03 +0200
+
+postgis (0.9.2-1) unstable; urgency=low
+
+  * Basic support for libpostgis0.
+    The only package(s) made are the library and examples one(s), so that 
+    postgis-0.9.2 databases can be created and used, while not clashing with 
+    files and utilities for postgis-1.0.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 9 Oct 2005 09:49:04 +0200
+
+postgis (1.0.4-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+  * Closes: #316519
+    Changed the dependencies in control file to work with multiversion 
+    postgresql.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sat, 1 Oct 2005 18:07:37 +0300
+
+postgis (1.0.3-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+  * Adapted regress/test_index_concurrency to createdb.postgis method.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 1 Sep 2005 04:27:26 +0300
+
+postgis (1.0.1-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+  * Closes: #309528
+    binary-all has been separated from binary-arch
+  * Closes: #311732
+    upstream fix: problem with ' char in field names.
+  * Closes: #310094
+    all warnings have been clarified and/or the issues have been fixed
+  * libpostgis-java-debug has been split from libpostgis-java
+  * bug #308728 has been reassigned to postgresql
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Fri, 27 May 2005 17:17:06 +0300
+
+postgis (1.0.0-2) unstable; urgency=low
+
+  * Closes: #308848
+    gcj has been specifically set as the required java compiler, although other
+    java compilers would do as well
+  * Closes: #310101
+    createdb.postgis documentation updated
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Fri,  27 May 2005 05:02:45 +0300
+
+postgis (1.0.0-1) unstable; urgency=low
+
+  * First official release for the Debian archive.
+  * Corrected build-depends.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu,  5 May 2005 10:02:45 +0200
+
+postgis (1.0.0RELEASE-4) unstable; urgency=low
+
+  * example wkb_reader now compiles generically. tested with i386 and ppc.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 5 May 2005 05:14:02 +0300
+
+postgis (1.0.0RELEASE-3) unstable; urgency=low
+
+  * mktemplate_gis and rmtemplate_gis work on dash.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sat, 30 Apr 2005 17:34:02 +0300
+postgis (1.0.0RELEASE-2) unstable; urgency=low
+
+  * Fixed minor typos in manual pages.
+  * Documented the special debian usage of the ogc_test_suite.
+  * Fixed bug in automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sat, 30 Apr 2005 16:25:22 +0300
+
+
+postgis (1.0.0RELEASE-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sat, 30 Apr 2005 15:33:00 +0300
+
+postgis (1.0.0RELEASE-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+  * added libpostgisjava replacement directive.
+  * improved automatic upstream version sensing: adding RELEASE for clean
+    upstream versions.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 24 Apr 2005 20:04:36 +0300
+
+postgis (1.0.0RC6-6) unstable; urgency=low
+
+  * renamed libpostgisjava to libpostgis-java
+  * specified libgeos2 version 2.1.1 and above as a dependency. 
+    upstream authors will be warned to document this too.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Fri, 22 Apr 2005 18:49:01 +0200
+
+postgis (1.0.0RC6-5) unstable; urgency=low
+
+  * Cleaned up removal of .cvsignore files, so it will not be imposed on upstream.
+  * Added optional usage of postgresql-dev installed at custom location.
+  * NOTICE: Since manpages have been added and constantly updated after 1.0.0rc6 
+    was released, please     copy them from postgis-cvs to the orig directory, or 
+    use orig file uploaded with this package
+  * Improved the dependencies system, following suggestions from 
+    Markus Schaber <markus@schabi.de>
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Fri, 15 Apr 2005 14:49:01 +0200
+
+postgis (1.0.0RC6-4) unstable; urgency=low
+
+  * Adjusted useless i386-linux-gcc to gcc (existent for postgresql 7.4 only), thanks to comments from
+    Giuseppe Sacco <giuseppe@eppesuigoccas.homedns.org>
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Tue, 12 Apr 2005 04:12:01 +0200
+
+postgis (1.0.0RC6-3) unstable; urgency=low
+
+  * Improved build-depends, thanks to comments from
+    Giuseppe Sacco <giuseppe@eppesuigoccas.homedns.org>
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Mon, 11 Apr 2005 05:15:01 +0200
+
+postgis (1.0.0RC6-2) unstable; urgency=low
+
+  * Improved mktemplate_gis, and renamed from mktemplate_gis.sh.
+  * Updated man pages.
+  * Using createdb.postgis as the main method of creating gis enambled databases.
+  * Updated upstream testing scripts to use createdb.postgis.
+  * Fixind problem: postgres should be able to call mktemplate_gis.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 31 Mar 2005 05:05:41 +0200
+
+postgis (1.0.0RC6-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 31 Mar 2005 05:05:41 +0200
+
+postgis (1.0.0RC4-2) unstable; urgency=low
+
+  * Minor bugfix in debian/rules
+  * Removed need for executable files in ./debian. rules is the only executable.
+  * Improvement for mktemplate_gis: now it may be run to grant full privileges to any user as argument.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Tue, 22 Mar 2005 03:51:20 +0200
+
+postgis (1.0.0RC4-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 6 Mar 2005 05:06:51 +0200
+
+postgis (1.0.0RC3-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Thu, 3 Mar 2005 04:30:58 +0200
+
+postgis (1.0.0RC2-1) unstable; urgency=low
+
+  * Automatic upstream version tracking.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun, 30 Jan 2005 05:18:50 +0200
+
+postgis (0.9.0-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Alex Bodnaru <alexbodn@012.net.il>  Sun,  7 Nov 2004 23:39:53 +0200
+

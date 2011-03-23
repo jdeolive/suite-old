@@ -1,0 +1,5 @@
+debian/tmp/usr/share/man/man1/cs2cs.1
+debian/tmp/usr/share/man/man1/geod.1
+debian/tmp/usr/share/man/man1/proj.1
+debian/tmp/usr/share/man/man1/nad2nad.1
+debian/nad2bin.1

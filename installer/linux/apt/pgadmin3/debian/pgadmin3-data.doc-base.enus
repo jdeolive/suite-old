@@ -1,0 +1,8 @@
+Document: pgadmin3-enus
+Title: pgAdmin III
+Abstract: These pages will guide you into how to use pgAdmin III, pgAgent and the support for Slony-I.
+Section: Data Management
+
+Format: HTML
+Index: /usr/share/doc/pgadmin3-data/html/en_US/index.html
+Files: /usr/share/doc/pgadmin3-data/html/en_US/*

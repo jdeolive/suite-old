@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+# Creates a link for the shared lib in the postgres area
+if [ "$1" = "configure" ]; then
+	if [ -f /usr/lib/postgis/@POSTGIS_VERSION@/postgres/@POSTGRES_VERSION@/lib/postgis-@SOVERSION@.so ]; then
+		ln -f /usr/lib/postgis/@POSTGIS_VERSION@/postgres/@POSTGRES_VERSION@/lib/postgis-@SOVERSION@.so \
+		      /usr/lib/postgresql/@POSTGRES_VERSION@/lib/postgis-@SOVERSION@.so
+	else
+		echo "Postgis extension not found, something wrong did probably happen"
+	fi
+fi
+
+#DEBHELPER#
+
+exit 0

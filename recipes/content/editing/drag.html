@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>Dragging Features</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/geoext/resources/css/gxtheme-gray.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+
+            // the `panel` variable is declared here for easy debugging
+            var panel;
+            
+            Ext.onReady(function() {
+                
+                // create a vector layer that will contain features
+                var features = new OpenLayers.Layer.Vector("Features");
+                features.addFeatures([new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(-73, 40.8)
+                )]);
+
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    width: "100%",
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "World Map",
+                            "http://v2.suite.opengeo.org/geoserver/wms/",
+                            {layers: "world"}
+                        ),
+                        features
+                    ],
+                    center: [-74, 40.8],
+                    zoom: 5
+                });
+                
+                var drag = new OpenLayers.Control.DragFeature(features);
+                panel.map.addControl(drag);
+                drag.activate();
+                
+            });
+
+        </script>
+    </head>
+    <body class="recipe-body">
+        <h1>Dragging Features</h1>
+        <div class="description">
+            Drag features with a drag control.
+        </div>
+        <div class="content">
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

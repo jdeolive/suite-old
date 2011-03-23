@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Point as Graphic Documentation</h1>
+        <div class="description">
+This example styles each point as a graphic instead of as a simple shape.</div>
+        <div class="content">
+            This style uses a graphic instead of a simple shape to render the points. In SLD, this is known as an <tt>&lt;ExternalGraphic&gt;</tt>, to distinguish it from the commonly-used shapes such as squares and circles that are internal to the renderer. <strong>Lines 10-15</strong> specify the details of this graphic. <strong>Line 13</strong> sets the path and file name of the graphic, while <strong>line 9</strong> indicates the format (MIME type) of the graphic (image/png). In this example, the graphic is contained in the same directory as the SLD, so no path information is necessary in <strong>line 13</strong>, although a full URL could be used if desired. <strong>Line 16</strong> determines the size of the displayed graphic; this can be set independently of the dimensions of the graphic itself, although in this case they are the same (32 pixels). Should a graphic be rectangular, the &lt;Size&gt; value will apply to the height of the graphic only, with the width scaled proportionally.
+        </div>
+    </body>
+</html>

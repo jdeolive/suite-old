@@ -1,0 +1,20 @@
+<org.geoserver.proxy.ProxyConfig>
+  <mode>HOSTNAMEORMIMETYPE</mode>
+  <hostnameWhitelist/>
+  <mimetypeWhitelist>
+    <string>application/xml</string>
+    <string>text/xml</string>
+    <string>application/vnd.ogc.se_xml</string>
+    <string>application/vnd.ogc.se+xml</string>
+    <string>application/vnd.ogc.success+xml</string>
+    <string>application/vnd.ogc.wms_xml</string>
+    <string>application/vnd.ogc.context+xml</string>
+    <string>application/vnd.ogc.gml</string>
+    <string>application/vnd.ogc.sld+xml</string>
+    <string>application/vnd.google-earth.kml+xml</string>
+    <string>image/gif</string>
+    <string>image/png</string>
+    <string>text/html</string>
+  </mimetypeWhitelist>
+</org.geoserver.proxy.ProxyConfig>
+

@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Zoom-based Line</h1>
+        <div class="description">
+          This example alters a line style at different zoom levels.
+        </div>
+        <div class="content">
+            It is often desirable to make shapes larger at higher zoom levels when creating a natural-looking map. This example varies the thickness of the lines according to the zoom level (or more accurately, scale denominator). Scale denominators refer to the scale of the map. A scale denominator of 10,000 means the map has a scale of 1:10,000 in the units of the map projection.
+
+            <p>Note: Determining the appropriate scale denominators (zoom levels) to use is beyond the scope of this example.</p>
+
+           <p> This style contains three rules. The three rules are designed as follows:</p>
+           <table class="reference">
+             <tr>
+               <td><strong>Rule order</strong></td>
+               <td><strong>Rule name</strong></td>
+               <td><strong>Scale denominator</strong></td>
+               <td><strong>Line width</strong></td>
+             </tr>
+             <tr>
+               <td>1</td>
+               <td>Large</td>
+               <td>1:180,000,000 or less</td>
+               <td>6</td>
+             </tr>
+             <tr>
+               <td>2</td>
+               <td>Medium</td>
+               <td>1:180,000,000 to 1:360,000,00</td>
+               <td>4</td>
+             </tr>
+             <tr>
+               <td>3</td>
+               <td>Small</td>
+               <td>Greater than 1:360,000,000</td>
+               <td>2</td>
+             </tr>
+            </table>
+            
+            <p>The order of these rules does not matter since the scales denominated in each rule do not overlap.</p>
+
+            <p>The first rule (<strong>lines 7-16</strong>) is the smallest scale denominator, corresponding to when the view is "zoomed in". The scale rule is set on <strong>line 9</strong>, so that the rule will apply to any map with a scale denominator of 180,000,000 or less. <strong>Line 12-13</strong> draws the line to be dark green (#009933) with a width of 6 pixels.</p>
+
+            <p>The second rule (<strong>lines 17-27</strong>) is the intermediate scale denominator, corresponding to when the view is "partially zoomed". <strong>Lines 19-20</strong> set the scale such that the rule will apply to any map with scale denominators between 180,000,000 and 360,000,000. (The <tt>&lt;MinScaleDenominator&gt;</tt> is inclusive and the <tt>&lt;MaxScaleDenominator&gt;</tt> is exclusive, so a zoom level of exactly 360,000,000 would not apply here.) Aside from the scale, the only difference between this rule and the previous is the width of the lines, which is set to 4 pixels on <strong>line 19</strong>.</p>
+
+            <p>The third rule (<strong>lines 28-37</strong>) is the largest scale denominator, corresponding to when the map is "zoomed out". The scale rule is set on <strong>line 30</strong>, so that the rule will apply to any map with a scale denominator of 360,000,000 or greater. Again, the only other difference between this rule and the others is the width of the lines, which is set to 2 pixels on <strong>line 34</strong>.</p>
+
+            <p>The result of this style is that lines are drawn with larger widths as one zooms in and smaller widths as one zooms out.</p>
+        </div>
+    </body>
+</html>

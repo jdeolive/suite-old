@@ -1,0 +1,18 @@
+OpenGeo Suite Debian Packaging
+==============================
+
+Setup
+-----
+
+In order to build debian packages the following must be installed on the system:
+
+  apt-get install zip unzip build-essential devscripts debconf debhelper sharutils dpatch doxygen swig python-all python-all-dev autotools-dev flex bison docbook docbook-xsl libpg-java fastjar libjts-java imagemagick libcunit1-dev dblatex libxml2-dev libgtk2.0-dev libwxgtk2.8-dev libxslt1-dev  
+ 
+For ubuntu 10.04:
+
+  apt-get install postgresql-server-dev-8.4 default-jdk
+
+For ubuntu 8.04:
+
+  apt-get install sun-java6-jdk
+  update-java-alternatives -s java-6-sun

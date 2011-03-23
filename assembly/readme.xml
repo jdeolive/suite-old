@@ -1,0 +1,25 @@
+<assembly>
+  <id>readme</id>
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  <files>
+    <file>
+      <source>docs/install/windows/target/latex/README-windows.pdf</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>docs/install/mac/target/latex/README-mac.pdf</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>docs/install/linux/target/text/README-linux.txt</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>target/version.ini</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+</assembly>

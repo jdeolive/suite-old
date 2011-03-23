@@ -1,0 +1,37 @@
+<assembly>
+  <id>dashboard-win32</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <baseDirectory></baseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>assembly/dashboard-${dashboard.version}-win32</directory>
+      <outputDirectory>/</outputDirectory>
+      <excludes>
+        <exclude>**/manifest</exclude>
+        <exclude>**/timanifest</exclude>
+        <exclude>**/tiapp.xml</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>dashboard/target/resources</directory>
+      <outputDirectory>OpenGeo Dashboard/Resources</outputDirectory>
+      <excludes>
+       <exclude>**/.svn/</exclude>
+       <exclude>**/.svn*</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>dashboard/OpenGeo Dashboard</directory>
+      <outputDirectory>OpenGeo Dashboard</outputDirectory>
+      <includes>
+        <include>CHANGELOG.txt</include>
+        <include>LICENSE.txt</include>
+        <include>manifest</include>
+        <include>timanifest</include>
+        <include>tiapp.xml</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>

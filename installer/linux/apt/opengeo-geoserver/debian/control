@@ -1,0 +1,18 @@
+Source: opengeo-geoserver
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-geoserver
+Architecture: any
+Depends: debconf,  sun-java6-jre | openjdk-6-jre, tomcat6, opengeo-jai, opengeo-suite-data, unzip, ${misc:Depends}
+#,${shlibs:Depends}
+Description:  High performance, standards-compliant map and geospatial data server.
+ GeoServer is an open source software server written in Java that allows users to share 
+ and edit geospatial data. Designed for interoperability, it publishes data from any 
+ major spatial data source using open standards such as Web Features Server (WFS), Web 
+ Map Server (WMS), and Web Coverage Server (WCS).  This version of GeoServer is enhanced 
+ and designed for use with the OpenGeo Suite.

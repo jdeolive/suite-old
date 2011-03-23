@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Line with Border</h1>
+        <div class="description">
+          This example draws lines with a blue fill of 3 pixels and a gray stroke of 1 pixel.</div>
+        <div class="content">
+            Lines in SLD have no notion of a "fill", only "stroke". Thus, unlike points or polygons, it is not possible to style the "edge" of the line geometry. It is, however, possible to achieve this effect by drawing each line twice: once with a certain width and again with a slightly smaller width. This gives the illusion of fill and stroke by obscuring the larger lines everywhere except along the edges of the smaller lines.
+
+            <p>Since every line is drawn twice, the order of the rendering is very important. In this style, all of the gray lines are drawn first via the first <tt>&lt;FeatureTypeStyle&gt;</tt>, followed by all of the blue lines in a second <tt>&lt;FeatureTypeStyle&gt;</tt>. GeoServer will render every <tt>&lt;FeatureTypeStyle&gt;</tt> in the order that they are presented in the SLD. This not only ensures that the blue lines won't be obscured by the gray lines, but also ensures proper rendering at intersections, so that the blue lines "connect".</p>
+
+            <p>In this example, <strong>lines 6-16</strong> comprise the first <tt>&lt;FeatureTypeStyle&gt;</tt>, which is the outer line (or "stroke"). <strong>Line 10</strong> specifies the color of the line to be dark gray (#333333), <strong>line 11</strong> specifies the width of this line to be 5 pixels, and <strong>line 12</strong> renders the edges of the line to be rounded instead of flat. (When working with lines that have borders, using the stroke-linecap parameter ensures that the ends of the lines will have a properly-drawn border.)</p>
+
+            <p><strong>Lines 17-27</strong> comprise the second <tt>&lt;FeatureTypeStyle&gt;</tt>, which is the the inner line (or "fill"). <strong>Line 21</strong> specifies the color of the line to be a medium blue (#6699FF), <strong>line 22</strong> specifies the width of this line to be 3 pixels, and <strong>line 23</strong> again renders the edges of the line to be rounded instead of flat.</p>
+
+            <p>The result is a 3 pixel blue line with a 1 pixel gray border, since the 5 pixel gray line will display 1 pixel on each side of the 3 pixel blue line.</p>
+        </div>
+    </body>
+</html>

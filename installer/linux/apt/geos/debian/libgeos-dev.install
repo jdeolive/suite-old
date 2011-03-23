@@ -1,0 +1,4 @@
+usr/bin/geos-config
+usr/include/*
+usr/lib/*.a
+usr/lib/*.so

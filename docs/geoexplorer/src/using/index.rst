@@ -1,0 +1,1 @@
+.. _geoexplorer.using:Using GeoExplorer=================This section describes the various functions available through GeoExplorer... toctree::   :maxdepth: 2   add   upload   remove   layerproperties   style   getfeatureinfo   createfeature   editfeature   measure   save   export   print

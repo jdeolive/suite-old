@@ -1,0 +1,54 @@
+<html>
+  
+  <head>
+    <title>
+      GeoExt Map Window
+    </title>
+    </title>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js">
+    </script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css"
+    />
+    <script src="http://dev.openlayers.org/releases/OpenLayers-2.9.1/OpenLayers.js">
+    </script>
+    <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css"
+    />
+    <script type="text/javascript" src="http://api.geoext.org/0.7/script/GeoExt.js">
+    </script>
+    <script type="text/javascript">
+      Ext.BLANK_IMAGE_URL = "http://extjs.cachefly.net/ext-3.2.1/resources/images/default/s.gif";
+
+      Ext.onReady(function() {
+        new Ext.Window({
+          title: "My Map Window",
+          height: 290,
+          width: 528,
+          layout: "fit",
+          items: [{
+            xtype: "gx_mappanel",
+            renderTo: "map-id",
+            layers: [new OpenLayers.Layer.WMS("World", "http://v2.suite.opengeo.org/geoserver/ows?", {
+              layers: "world"
+            })]}]
+        }).show();
+      });
+    </script>
+  </head>
+  
+  <body class="recipe-body">
+    <h1>
+      Map Window
+    </h1>
+    <div class="description">
+      Use the Ext JS framework and the OpenLayers.Map object to create a map
+      window.
+    </div>
+    <div class="content">
+      <div id="map-id">
+      </div>
+    </div>
+  </body>
+
+</html>

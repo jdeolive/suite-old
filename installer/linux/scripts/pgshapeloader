@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Load the common config functions and variables
+d=`dirname $0`
+source ${d}/pg_config.sh
+
+export LD_LIBRARY_PATH="$pg_lib_dir"
+
+"$pg_bin_dir/shp2pgsql-gui" > /dev/null &
+

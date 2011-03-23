@@ -1,0 +1,24 @@
+proj (4.6.1-5) unstable; urgency=low
+
+  Note that current package includes datum shifts which are traditionally
+  distributed off the main tarball, and now maintained in a separate per arch
+  proj-data package. Ssome of the enclosed files are arch independent
+  and some other are not, because written as CTABLE structure. You need to use
+  the nad2bin utility to regenerate those files starting from the distributed one
+  if you wish, and the program must be run on the right target host.
+
+  The original datum shifts are at the date of this program:
+
+  http://download.osgeo.org/proj/proj-datumgrid-1.4.zip
+  and chenyx06.zip for the Swiss NTv2 grid.
+
+  Old packages did not contain the additional datum shifts due to an oversight
+  and needed to be integrated with the lacking information in order to work 
+  correctly with some projections and world areas (US, Canadian, French and 
+  New Zealand).
+  
+  Note also that Canada distributes also its own better quality datum shifts 
+  information in NTv2 format, but they are not re-distributable, so if you
+  would use those information you are on your own.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Fri, 29 May 2009 12:34:00 +0200

@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>Attribute Editor</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/geoext/resources/css/gxtheme-gray.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+
+            var panel;        
+            Ext.onReady(function() {
+                
+                var popup;
+            
+                // create a vector layer that will contain features
+                var features = new OpenLayers.Layer.Vector("Features");
+
+                // create a feature with some attribute values
+                var feature = new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(-74, 40.8),
+                    {
+                        name: "New York",
+                        population: 19490297,
+                        updated: new Date(Date.parse("12/18/2010")),
+                        confirmed: true
+                    }
+                );
+                features.addFeatures([feature]);    
+            
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    width: "100%",
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "Global Imagery",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "openstreetmap", format: "image/png"}
+                        ),
+                        features
+                    ],
+                    center: [-74, 40.8],
+                    zoom: 5
+                });
+                
+                // create a control for selecting features
+                var select = new OpenLayers.Control.SelectFeature(features);
+                panel.map.addControl(select);
+                select.activate();
+                
+                // register a listener for the feature selection and unselection
+                features.events.on({
+                    featureselected: function(event) {
+                        // create an open a popup when a feature is selected
+                        popup = new GeoExt.Popup({
+                            title: "Feature Attributes",
+                            feature: event.feature,
+                            collapsible: true,
+                            layout: "fit",
+                            width: 250,
+                            border: false,
+                            listeners: {
+                                close: function() {
+                                    select.unselectAll();
+                                }
+                            },
+                            items: [
+                                new Ext.grid.PropertyGrid({
+                                    autoHeight: true,
+                                    source: event.feature.attributes
+                                })
+                            ]
+                        });
+                        popup.show();
+                    },
+                    featureunselected: function(event) {
+                        // close (and destroy) the popup when the feature is unselected
+                        popup.destroy();
+                    }
+                });
+            
+            });
+        </script>
+    </head>
+    <body class="recipe-body">
+        <h1>Attribute Editor</h1>
+        <div class="description">
+            Feature attribute editing in a property grid.
+        </div>
+        <div class="content">
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

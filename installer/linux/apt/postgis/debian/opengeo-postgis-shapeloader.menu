@@ -1,0 +1,4 @@
+?package(opengeo-postgis-shapeloader):needs="x11" section="OpenGeo" \
+        title="PostGIS shape loader" command="/usr/sbin/shp2pgsql-gui" \
+        icon="/usr/share/pixmaps/shp2pgsql-gui.ico"
+

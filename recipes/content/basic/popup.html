@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <title>Popups</title>
+        <script type="text/javascript" src="../../resources/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../resources/ext/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../resources/openlayers/theme/default/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/app/theme/style.css" type="text/css" />
+        <link rel="stylesheet" href="../../resources/geoext/resources/css/gxtheme-gray.css" type="text/css" />
+        <script src="../../resources/openlayers/build/OpenLayers.js"></script>
+        <script src="../../resources/geoext/build/GeoExt.js"></script>
+        <script>
+            OpenLayers.ImgPath = "../../resources/openlayers/img/";
+            
+            // the `panel` variable is declared here for easy debugging
+            var panel, popup;
+            
+            Ext.onReady(function() {
+            
+                // create a vector layer that will contain features
+                var features = new OpenLayers.Layer.Vector("Features");
+                // create a feature with a point geometry and add to the layer
+                var feature = new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(-74, 40.8)
+                );
+                features.addFeatures([feature]);    
+            
+                panel = new GeoExt.MapPanel({
+                    title: "MapPanel",
+                    renderTo: "map-id",
+                    height: 300,
+                    width: "100%",
+                    layers: [
+                        new OpenLayers.Layer.WMS(
+                            "Global Imagery",
+                            "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "openstreetmap", format: "image/png"}
+                        ),
+                        features
+                    ],
+                    center: [-74, 40.8],
+                    zoom: 5
+                });
+                
+                // create a control for selecting features
+                var select = new OpenLayers.Control.SelectFeature(features);
+                panel.map.addControl(select);
+                select.activate();
+                
+                // register a listener for the feature selection and unselection
+                features.events.on({
+                    featureselected: function(event) {
+                        // create an open a popup when a feature is selected
+                        popup = new GeoExt.Popup({
+                            title: "Popup",
+                            feature: event.feature,
+                            width: 200,
+                            collapsible: true,
+                            listeners: {
+                                close: function() {
+                                    select.unselectAll();
+                                }
+                            },
+                            bodyStyle: {padding: 5},
+                            html: "Popups can be expanded and collapsed like other windows. " +
+                                  "If attached to a feature, the popup will be dragged with " +
+                                  "the map when panning.  The popup can be unpinned from a " +
+                                  "feature using the pin tool above."
+                        });
+                        popup.show();
+                    },
+                    featureunselected: function(event) {
+                        // close (and destroy) the popup when the feature is unselected
+                        popup.destroy();
+                    }
+                });
+                
+            
+            });
+
+        </script>
+    </head>
+    <body class="recipe-body">
+        <h1>Popups</h1>
+        <div class="description">
+            Using popups with a control for selecting features.
+        </div>
+        <div class="content">
+            <div id="map-id"></div>
+        </div>
+    </body>
+</html>

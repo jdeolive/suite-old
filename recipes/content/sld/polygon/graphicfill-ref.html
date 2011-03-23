@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Documentation</title>
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="../../../resources/ext/resources/css/xtheme-gray.css" />
+        <link rel="stylesheet" href="../../../resources/app/theme/style.css" type="text/css" />
+    </head>
+    <body class="reference-body">
+        <h1>Graphic Fill</h1>
+        <div class="description">
+          This example fills the polygons with a tiled graphic.
+        </div>
+        <div class="content">
+            This style fills the polygon with a tiled graphic. This is known as an <tt>&lt;ExternalGraphic&gt;</tt>  in SLD, to distinguish it from commonly-used shapes such as squares and circles that are "internal" to the renderer. <strong>Lines 12-17</strong>  specify details for the graphic, with <strong>line 15</strong> setting the path and file name of the graphic and <strong>line 16</strong> indicating the file format (MIME type) of the graphic (image/png). Although a full URL could be specified if desired, no path information is necessary in <strong>line 15</strong> because this graphic is contained in the same directory as the SLD. <strong>Line 18</strong> determines the height of the displayed graphic in pixels; if the value differs from the height of the graphic then it will be scaled accordingly while preserving the aspect ratio.
+        </div>
+    </body>
+</html>

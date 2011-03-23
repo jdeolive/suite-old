@@ -1,0 +1,206 @@
+OS/X Build of PostGIS (on Snow Leopard)
+---------------------------------------
+
+- Install XCode and ensure you install the OSX 10.4 compatibility
+  portion
+- Download the sources of GEOS
+  http://download.osgeo.org/geos/geos-3.2.2.tar.bz2
+- Download the sources of Proj
+  http://download.osgeo.org/proj/proj-4.7.0.tar.gz
+- Download the Proj grid shift files
+  http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+- Download the sources of PostGIS
+  http://postgis.org/download/postgis-1.5.1.tar.gz
+- Download the EDB PostgreSQL binaries from
+  http://www.enterprisedb.com/products/pgbindownload.do
+
+Unpack EDB
+----------
+
+ mkdir $HOME/osxbuild
+ unzip ebdfile.zip
+
+
+GEOS Build
+----------
+
+Note that we are building for 32 bit intel, and are installing into the EDB binaries directory.
+
+ cd $HOME/osxbuild
+ wget http://download.osgeo.org/geos/geos-3.2.2.tar.bz2
+ bzip2 -d -c geos-3.2.2.tar.bz2 | tar xfv -
+ cd geos-3.2.2
+ CXX=g++-4.0 CC=gcc-4.0 CXXFLAGS="-O2 -arch i386 -arch ppc -mmacosx-version-min=10.4" CFLAGS="-O2 -arch i386 -arch ppc -mmacosx-version-min=10.4" ./configure --prefix=$HOME/osxbuild/pgsql --disable-dependency-tracking
+ make clean && make && make install
+
+
+Proj Build
+----------
+
+Note that we are building for 32 bit intel, and are installing into the EDB binaries directory.
+
+ cd $HOME/osxbuild
+ wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz
+ wget http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+ tar xvfz proj-4.7.0.tar.gz
+ cd proj-4.7.0 
+ cd nad
+ unzip ../../proj-datumgrid-1.5.zip
+ cd ..
+ CXX=g++-4.0 CC=gcc-4.0 CFLAGS="-O2 -arch i386 -arch ppc -mmacosx-version-min=10.4" ./configure --prefix=$HOME/osxbuild/pgsql --disable-dependency-tracking
+ make clean && make && make install
+
+GTK+ Build
+----------
+
+Download http://downloads.sourceforge.net/sourceforge/gtk-osx/gtk-osx-build-setup.sh
+
+ sh gtk-osx-build-setup.sh
+ export PATH=$PATH:~/.local/bin
+
+Edit .jhbuildrc-custom:
+line  39:  moduleset="http://github.com/jralls/gtk-osx-build/raw/master/modulesets-stable/gtk-osx.modules"
+line  43:  modules = [ "meta-gtk-osx-bootstrap", "meta-gtk-osx-core", "gtk-quartz-engine", "ige-mac-integration" ]
+line 118:  setup_sdk(target="10.4", sdk_version="10.4u", architectures=["i386"])
+
+ # we ignore system so we build gettext too
+ jhbuild bootstrap --ignore-system
+ jhbuild build meta-gtk-osx-bootstrap
+ jhbuild build meta-gtk-osx-core
+ # so we can skin the app like OS/X sorta
+ jhbuild build gtk-quartz-engine
+ jhbuild build ige-mac-integration
+
+
+PostGIS Build
+-------------
+
+Note the "export PATH" line, VERY IMPORTANT! This puts the EDB binaries to the front of the path, so the custom pg_config, geos-config versions are what the PostGIS ./configure will pick up.
+
+Note again we are building and installing into the EDB directories. We add the -mmacosx-version-min=10.4 to match the EDB build.
+
+Building on OS/X 10.6 you may need to do the sudo symlinking steps below. This is because there's no way to override the CC value passed in by PGXS, it is what it is, and we need to build with gcc-4.0 in order to match the binaries in PgSQL.
+
+ # Swap our GCC version to 4.0
+ sudo rm /usr/bin/gcc
+ sudo ln -s /usr/bin/gcc-4.0 /usr/bin/gcc
+
+ # Enter the GTK build shell this (magically) gives us link paths
+ # and binary paths to the GTK stuff
+ jhbuild shell
+
+ # paths to find and link to pgsql stuffs
+ export PATH=$HOME/osxbuild/pgsql/bin:$HOME/gtk/inst/bin:$PATH
+ export DYLD_LIBRARY_PATH=$HOME/osxbuild/pgsql/lib
+
+ cd $HOME/osxbuild
+ wget http://postgis.org/download/postgis-1.5.1.tar.gz 
+ tar xvfz postgis-1.5.1.tar.gz
+ cd postgis-1.5.1
+
+ # first configure and build the postgis.so 
+ # using both ppc and i386 arch
+ CC=gcc-4.0 CFLAGS="-O2 -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+   ./configure \
+   --with-projdir=$HOME/osxbuild/pgsql \
+   --with-xml2config=/usr/bin/xml2-config \
+   --disable-dependency-tracking 
+ make clean
+ make
+ make install
+
+ # then configure and build the loader/dumper 
+ # using only the i386 arch
+ CC=gcc-4.0 CFLAGS="-O2 -arch i386 -mmacosx-version-min=10.4" \
+   ./configure \
+   --with-projdir=$HOME/osxbuild/pgsql \
+   --with-xml2config=/usr/bin/xml2-config \
+   --with-gui \
+   --disable-dependency-tracking 
+ make clean
+ cd liblwgeom 
+ make
+ cd ..
+ cd loader
+ make 
+ cp shp2pgsql-gui $HOME/osxbuild/pgsql/bin
+ cd ..
+
+ # Leave the jhbuild shell
+ exit
+
+ # Swap our GCC version back to 4.2
+ sudo rm /usr/bin/gcc
+ sudo ln -s /usr/bin/gcc-4.2 /usr/bin/gcc
+
+
+PostGIS Test
+------------
+
+ export DYLD_LIBRARY_PATH=$HOME/osxbuild/pgsql/lib
+ cd $HOME/osxbuild
+ mkdir pgtest
+ initdb ./pgtest
+ pg_ctl -D ./pgtest -l logfile start
+ createdb template_postgis
+ createlang plpgsql template_postgis
+ psql -d template_postgis -f $HOME/osxbuild/pgsql/share/postgresql/contrib/postgis-1.5/postgis.sql
+ psql -d template_postgis -f $HOME/osxbuild/pgsql/share/postgresql/contrib/postgis-1.5/spatial_ref_sys.sql
+ psql -d template_postgis -c "update pg_database set datistemplate = true where datname = 'template_postgis'"
+ psql -d template_postgis -c "select st_isvalid('POINT(0 0)')"
+ psql -d template_postgis -c "select st_astext(st_transform('SRID=4326;POINT(-126 45)',3005))"
+ pg_ctl -D ./pgtest stop
+
+
+Shp2Pgsql-GUI Bundling
+----------------------
+
+Download and install the ige-mac-bundler
+http://sourceforge.net/apps/trac/gtk-osx/wiki/Bundle
+
+Copy libpq into the gtk lib directory (!!)
+
+ cp pgsql/lib/libpq.*.dylib ~/gtk/inst/lib
+
+ # Enter the jhbuild shell
+ jhbuild shell
+ cd shp2pgsql-bundle
+ ~/.local/bin/ige-mac-bundler ShapeLoader.bundle
+
+pgShapeLoader.app should appear in osxbuild/pgsql
+
+Zip & Copy Package
+------------------
+
+zip -r9 pgsql-8.4.3-postgis-1.5.1-4-osx.zip pgsql
+scp pgsql-8.4.3-postgis-1.5.1-4-osx.zip pramsey@arachnia.opengeo.org:/sites/data.opengeo.org/htdocs/suite
+
+
+Package Maker Info
+------------------
+
+Creating a PostgreSQL user account
+  http://www.postgresql.org/docs/8.3/interactive/postgres-user.html
+
+Adding PgSQL tools to path
+  man path_helper 
+  /etc/paths.d /etc/manpaths.d
+
+Upping the shared memory limit
+  http://willbryant.net/software/mac_os_x/postgres_initdb_fatal_shared_memory_error_on_leopard
+
+Watch out for Environment Variables
+  PGUSER will over-ride local user name
+  PGDATA will over-ride local data
+  PGPORT will over-ride local port
+  etc
+
+Use pg_ctl in "fast" mode for shutdown
+  Shutdown modes are:
+  smart       quit after all clients have disconnected
+  fast        quit directly, with proper shutdown
+  immediate   quit without complete shutdown; will lead to recovery on restart
+
+Environment
+  
+

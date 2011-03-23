@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+
+ <parent>
+  <groupId>org.opengeo</groupId>
+  <artifactId>docs</artifactId>
+  <version>2.4-SNAPSHOT</version>
+ </parent>
+
+ <groupId>org.opengeo.docs</groupId>
+ <artifactId>postgis</artifactId>
+ <packaging>jar</packaging>
+ <name>OpenGeo PostGIS Doc Module</name>
+
+ <build>
+   <plugins>
+     <plugin>
+       <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <exec executable="sphinx-build" failonerror="true" dir="${basedir}/src">
+                  <arg line="-D html_theme='pg' -b html -d ${build.directory}/doctrees . ${build.directory}/html"/>
+                </exec>
+                
+                <get src="http://data.opengeo.org/suite/postgis-docs.zip" dest="doc.zip" usetimestamp="true"/>
+                <property name="pgdoc" value="${build.directory}/html/postgis"/>
+                <mkdir dir="${pgdoc}"/>
+                <unzip src="doc.zip" dest="${pgdoc}"/>
+                <copy file="style.css" todir="${pgdoc}/html" overwrite="true"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+     </plugin>
+   </plugins>
+ </build>
+
+</project>

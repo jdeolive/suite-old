@@ -1,0 +1,160 @@
+#!/bin/bash
+
+SVN_REPO=http://svn.opengeo.org/suite
+BUILDS=http://suite.opengeo.org/builds
+
+if [ "$REPO_PATH" == "" ]; then
+  REPO_PATH=trunk
+fi
+if [ "$REV" == "" ]; then
+  REV=latest
+fi
+
+BRANCH=${REPO_PATH//\//-}
+
+PACKAGE=`echo $0 | sed 's#^.*build_##g' | sed 's#\.sh##g'`
+RPM_BUILD_ROOT=`pwd`/rpmbuild
+RPM_SOURCE_DIR=`pwd`/rpmbuild/SOURCES
+RPM_BUILD_DIR=`pwd`/rpmbuild/BUILD
+PKG_SOURCE_DIR=${RPM_SOURCE_DIR}/$PACKAGE
+ARCH=`uname -i`	
+
+# build_info <package>
+function build_info() {
+  local pkg=$1
+  if [ "$pkg" != "" ]; then
+     name=$PACKAGE
+  fi
+  echo "Building $pkg from $REPO_PATH at revision $REV"
+}
+
+# checkrc <code> <message>
+function checkrc() {
+  if [ "$1" != 0 ]; then
+    echo "$2 failed returning $1"
+    exit 1
+  fi
+}
+
+# check_root
+check_root() {
+  if [ "$USER" != "root" ]; then
+    echo "This script must be run as root"
+    exit 1
+  fi
+}
+
+
+# get_file <url> [overwrite]
+function get_file() {
+  local url=$1
+  local file=`echo $url | sed 's#http://##g' | xargs basename`
+
+  if [ ! -d files ]; then
+     mkdir files
+     checkrc $? "mkdir files"
+  fi
+
+  if [ "$2" != "" ] ||  [ ! -e files/$file ]; then
+     wget $url
+     checkrc $? "downloading $url"
+
+     mv $file files
+     checkrc $? "mv $file files"
+  fi
+}
+
+# get_svn <repo_path> <path> <dir>
+function get_svn() {
+  local repo_path=$1
+  local path=$2
+  local dir=$3
+
+  if [ ! -d svn ]; then
+    mkdir svn
+    checkrc $? "mkdir svn"
+  fi
+
+  if [ ! -d svn/$repo_path ]; then
+    mkdir -p svn/$repo_path
+    checkrc $? "mkdir svn/$repo_path"
+  fi
+
+  pushd svn/$repo_path
+  if [ -d $dir ]; then
+    svn up $dir
+  else
+    svn co $SVN_REPO/$repo_path/$path $dir
+  fi
+  checkrc $? "svn update"
+  popd
+}
+
+# clean_src
+function clean_src() {
+  rm -rf ${PKG_SOURCE_DIR}
+}
+
+# build_rpm <proper>
+function build_rpm() {
+  
+  # clean out BUILDROOT
+  if [ -d ${RPM_BUILD_ROOT}/BUILDROOT ]; then
+     rm -rf ${RPM_BUILD_ROOT}/BUILDROOT/*
+  fi
+
+  pushd ${RPM_BUILD_ROOT}/SPECS
+  rpmbuild --buildroot ${RPM_BUILD_ROOT}/BUILDROOT -bb $PACKAGE.spec
+  rc=$?
+  popd
+  checkrc $rc "rpmbuild"
+
+  if [ ! -d build ]; then
+    mkdir build
+    checkrc $? "mkdir build"
+  fi
+  
+  rm -rf build/$PACKAGE
+  mkdir build/$PACKAGE
+  if [ "$1" != "" ]; then
+    mv ${RPM_BUILD_ROOT}/RPMS/${ARCH}/*.rpm build/$PACKAGE
+  else
+    mv ${RPM_BUILD_ROOT}/$PACKAGE-*.rpm build/$PACKAGE
+  fi
+  checkrc $? "mv rpm"
+
+}
+
+# publish_rpm <profile> <repo> <dist>
+publish_rpm() {
+  local profile=$1
+  local repo=$2
+  local dist=$3
+
+  if [ "$repo" == "" ]; then
+     repo=$REPO
+  fi
+  if [ "$repo" == "" ]; then
+     echo "repository not specified, aborting publish"
+  fi
+
+  if [ "$dist" == "" ]; then
+    dist=$DIST
+  fi
+  if [ "$dist" == "" ]; then
+    echo "distribution not specified, aborting publish"
+    exit 1
+  fi
+
+  pushd build/$PACKAGE
+  checkrc $? "push build/$PACKAGE"
+
+  scp -i ~/.ssh/id_rsa_apt * apt@apt.opengeo.org:/home/apt/yum/${profile}/incoming/$repo/$dist
+  checkrc $? "secure copy .rpm files"
+
+  ssh -i ~/.ssh/id_rsa_apt apt@apt.opengeo.org "./yum/publish_rpms.sh $repo $dist $(echo $profile|sed 's/\(.\{1,\}\)/-p \1/g')" 
+  checkrc $? "remote publish"
+
+  popd
+}
+

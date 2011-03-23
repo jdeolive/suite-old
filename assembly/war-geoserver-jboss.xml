@@ -1,0 +1,18 @@
+<assembly>
+  <id>war-geoserver-jboss</id>
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  <files>
+    <file>
+      <source>assembly/target/geoserver-jboss.war</source>
+      <outputDirectory>/</outputDirectory>
+      <destName>geoserver.war</destName>
+    </file>
+    <file>
+      <source>target/version.ini</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+  </files>
+</assembly>

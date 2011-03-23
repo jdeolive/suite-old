@@ -1,0 +1,66 @@
+'\" t
+.TH NAD2BIN 1
+.SH NAME 
+nad2bin \- convert nad ASCII files into binary format usable by nad2nad
+.SH DESCRIPTION
+
+This command is undocumented upstream.  This very rough documentation was
+quickly assembled by your friendly Debian maintainer (who doesn't use this
+command, and so is not the best person to document it!).
+
+The 
+.B proj
+package includes the 
+.I nad2nad
+binary, the North American Datum conversion filter used to convert data
+between North America Datum 1927 (NAD27) and North American Datum 1983, and
+.I cs2cs
+a binary that performs transformation between the source and destination
+cartographic coordinate system on a set of input points.  The coordinate
+system transformation can include translation between projected and
+geographic coordinates as well as the application of datum shifts.
+
+See the
+.I nad2nad(1)
+and
+.I cs2cs(1)
+man pages for more information.  
+
+.B nad2nad
+and
+.B cs2cs 
+need arch-dependent conversion data files in a library directory, 
+.I /usr/share/proj/
+Those files are included in the proj Debian package since 4.6.1-5.
+To produce/update them yourself, get the *.lla files from 
+
+.B http://download.osgeo.org/proj/proj-datumgrid-1.5.zip
+
+and then run 
+.B nad2bin 
+to produce the binary files used by 
+.B nad2nad
+and
+.B cs2cs
+like so:
+
+.B # nad2bin < conus.lla /usr/share/proj/conus
+
+Test nad2nad with the following example:
+
+.B $ nad2nad -i 83 -o 27 -r conus << EOF
+
+71d14'58.27"W   44d20'15.227"N
+
+EOF
+
+It should produce: 
+
+71d15'W 44d20'15"N
+
+.SH "SEE ALSO"
+.B
+nad2nad(1), cs2cs(1)
+
+.SH AUTHOR
+This manual page by Peter S Galbraith <psg@debian.org>.

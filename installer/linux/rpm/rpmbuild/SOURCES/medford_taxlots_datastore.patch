@@ -1,0 +1,23 @@
+diff -ru data_dir_orig/workspaces/medford/Taxlots/datastore.xml data_dir/workspaces/medford/Taxlots/datastore.xml
+--- data_dir_orig/workspaces/medford/Taxlots/datastore.xml	2011-01-21 07:27:58.000000000 +0300
++++ data_dir/workspaces/medford/Taxlots/datastore.xml	2011-01-21 07:29:13.000000000 +0300
+@@ -9,8 +9,8 @@
+   </workspace>
+   <connectionParameters>
+     <entry key="Connection timeout">20</entry>
+-    <entry key="port">54321</entry>
+-    <entry key="passwd"></entry>
++    <entry key="port">5432</entry>
++    <entry key="passwd">opengeo</entry>
+     <entry key="dbtype">postgis</entry>
+     <entry key="host">localhost</entry>
+     <entry key="validate connections">false</entry>
+@@ -23,7 +23,7 @@
+     <entry key="Max open prepared statements">50</entry>
+     <entry key="fetch size">1000</entry>
+     <entry key="preparedStatements">false</entry>
+-    <entry key="user">postgres</entry>
++    <entry key="user">opengeo</entry>
+     <entry key="min connections">1</entry>
+   </connectionParameters>
+ </dataStore>

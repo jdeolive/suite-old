@@ -226,6 +226,29 @@
      </plugins>
      </build>
    </profile>
+   <profile>
+     <id>cloud</id>
+     <build>
+     <plugins>
+       <plugin>
+         <artifactId>maven-assembly-plugin</artifactId>
+         <configuration>
+           <finalName>opengeosuite-cloud-${project.version}</finalName>
+           <descriptors>
+             <descriptor>assembly/bin.xml</descriptor>
+             <descriptor>assembly/win.xml</descriptor>
+             <descriptor>assembly/mac.xml</descriptor>
+             <descriptor>assembly/war-geoserver.xml</descriptor>
+             <descriptor>assembly/war-geoserver-jboss.xml</descriptor>
+             <descriptor>assembly/war.xml</descriptor>
+             <descriptor>assembly/importer.xml</descriptor>
+           </descriptors>
+           <outputDirectory>${project.build.directory}/cloud</outputDirectory>
+         </configuration>
+       </plugin>
+     </plugins>
+     </build>
+   </profile>
  </profiles>
 
  <properties>

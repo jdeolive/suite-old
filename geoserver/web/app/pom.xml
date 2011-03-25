@@ -215,6 +215,16 @@
         </dependencies> 
      </profile>
      <profile>
+       <id>cloud</id>
+       <dependencies> 
+         <dependency>
+           <groupId>org.opengeo.geoserver</groupId>
+           <artifactId>importer</artifactId>
+           <version>${project.version}</version>
+         </dependency>
+       </dependencies> 
+     </profile>
+     <profile>
        <id>dbconfig</id>
        <dependencies> 
          <dependency>

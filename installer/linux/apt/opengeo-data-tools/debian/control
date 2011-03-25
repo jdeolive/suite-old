@@ -1,0 +1,14 @@
+Source: opengeo-data-tools
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-data-tools
+Architecture: any
+Depends: opengeo-geoserver (>= 2.4.1), ${misc:Depends}
+Description: OpenGeo Suite Data Tools
+ Tools to make remote data management of GeoServer easier. This includes an 
+ interface for uploading data and a batch configuration tool.

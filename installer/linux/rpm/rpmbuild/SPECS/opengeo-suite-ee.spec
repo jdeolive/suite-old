@@ -6,7 +6,7 @@ Group: Applications/Engineering
 License: see http://geoserver.org
 Requires(post): bash
 Requires(preun): bash
-Requires: opengeo-suite >= 2.4.0
+Requires: opengeo-suite >= 2.4.0, opengeo-data-tools >= 2.4.1
 
 %define _rpmdir ../
 %define _rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
@@ -38,7 +38,6 @@ The OpenGeo Suite Enterprise Edition provides additional modules and extensions
 %files
 %defattr(-,root,root,-)
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/analytics-*.jar
-/var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/importer-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/control-flow-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/monitoring-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/antlr-*.jar

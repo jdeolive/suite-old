@@ -6,48 +6,52 @@ Installing the OpenGeo Suite for Amazon EC2
 The OpenGeo Suite is available as a AMI for use with Amazon's EC2 service.  The OpenGeo Suite is available in five tiers:
 
 .. list-table::
-   :widths: 40 20 20 20
+   :widths: 20 20 20 20 20
    :header-rows: 1
 
    * - Name
+     - Instance Size
      - Setup Fee
      - Cost per hour
      - Cost per month
    * - Dev Small
+     - Standard Small
      - N/A
      - $0.13
      - N/A
    * - Dev Large
+     - Standard Medium
      - N/A
      - $0.45
      - N/A
    * - Production 1 Small
+     - Standard Medium
      - $500
      - N/A
      - $600
    * - Production 2 Medium
+     - High Memory Extra Large
      - $750
      - N/A
      - $800
    * - Production 3 Large
+     - Standard Extra Large
      - $1000
      - N/A
      - $1,150
+
+.. note:: Details about the Instance Size (number of CPUs, etc.) can be found on Amazon's `Amazon EC2 Instance Types <http://aws.amazon.com/ec2/instance-types/>`_ page.
 
 The process for signing up for any of these tiers is exactly the same.  Only the features and pricing differ.
 
 Signing up
 ----------
 
-In order to use the OpenGeo Suite Cloud Edition for Amazon Web Services (AWS), you need to have an Amazon Web Services (AWS) account which has EC2 access enabled.
-
-.. note:: Amazon has detailed instructions on how to sign up for AWS/EC2 at http://aws.amazon.com/documentation/ec2/.
+.. warning:: In order to use the OpenGeo Suite Cloud Edition for Amazon Web Services (AWS), you need to have an Amazon Web Services (AWS) account which has EC2 access enabled.  Amazon has detailed instructions on how to sign up for AWS/EC2 at http://aws.amazon.com/documentation/ec2/.
 
 #. Navigate to the OpenGeo Suite Cloud page at http://opengeo.org/products/suite/cloud/. On the Amazon Web Services column, select the tier you wish to purchase by clicking the appropriate link.
 
 #. You will be redirected to Amazon's site, and asked to log in to AWS.  Enter your AWS account name and password and click :guilabel:`Sign in using our secure server`.
-
-   .. note:: Amazon has detailed instructions on how to sign up for EC2 at http://aws.amazon.com/documentation/ec2/.
 
    .. figure:: img/signin.png
       :align: center
@@ -63,9 +67,7 @@ In order to use the OpenGeo Suite Cloud Edition for Amazon Web Services (AWS), y
 
       *Reviewing order*
 
-#. Once the sale is completed you will be redirected to an OpenGeo registration page.  Fill out the form to sign up for the OpenGeo support and to receive your instance ID.  When done, click :guilabel:`Submit`.
-
-   .. note:: This step is necessary in order to continue.
+#. Once the sale is completed you will be redirected to an OpenGeo registration page.  Fill out the form to sign up for the OpenGeo support and to receive your instance ID.  This step is necessary in order to continue.  When done, click :guilabel:`Submit`.
 
    .. figure:: img/thankyouamazon.png
       :align: center
@@ -104,7 +106,9 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
       *Viewing your list of AMIs*
 
-#. You will need the AMI ID given to you when you registered.  Enter the AMI ID in the box, and then select Public Images in the select box.  You should see an OpenGeo AMI show up in the list.
+#. You will need the AMI ID given to you when you registered.  Enter the AMI ID in the box, and then select :guilabel:`Public Images` in the select box.  You should see an OpenGeo AMI show up in the list.
+
+   .. note:: If you did not register, or never received an email with your AMI ID, please email inquiry@opengeo.org.
 
    .. figure:: img/foundami.png
       :align: center
@@ -199,7 +203,7 @@ You are now set up and ready to go!
 For More Information
 --------------------
 
-Full documentation is available at the following URL::
+Full documentation is available at the following URL from your instance::
 
   http://<Public DNS ENTRY>:8080/docs/
 

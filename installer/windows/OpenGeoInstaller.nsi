@@ -764,28 +764,28 @@ Section "Documentation" SectionDocs
   SetOutPath "$INSTDIR\webapps"
 
   ; Copy all doc projects
-  File /r "${SOURCEPATHROOT}\webapps\docs"
+  File /r "${SOURCEPATHROOT}\webapps\opengeo-docs"
 
   ; Shortcuts
   SetOutPath "$INSTDIR"
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\PostGIS Documentation.lnk" \
-		         "$INSTDIR\webapps\docs\postgis\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\postgis\index.html" \
                  "" "$INSTDIR\icons\postgis.ico" 0
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\GeoExplorer Documentation.lnk" \
-		         "$INSTDIR\webapps\docs\geoexplorer\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\geoexplorer\index.html" \
                  "" "$INSTDIR\icons\geoexplorer.ico" 0
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\GeoEditor Documentation.lnk" \
-		         "$INSTDIR\webapps\docs\geoeditor\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\geoeditor\index.html" \
                  "" "$INSTDIR\icons\geoeditor.ico" 0
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\Styler Documentation.lnk" \
-		         "$INSTDIR\webapps\docs\styler\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\styler\index.html" \
                  "" "$INSTDIR\icons\styler.ico" 0
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\GeoWebCache Documentation.lnk" \
-		         "$INSTDIR\webapps\docs\geoserver\geowebcache\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\geoserver\geowebcache\index.html" \
                  "" "$INSTDIR\icons\geowebcache.ico" 0
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Documentation\Getting Started.lnk" \
-		         "$INSTDIR\webapps\docs\gettingstarted\index.html" \
+		         "$INSTDIR\webapps\opengeo-docs\gettingstarted\index.html" \
                  "" "$INSTDIR\icons\opengeo.ico" 0
 
 SectionEnd

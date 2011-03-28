@@ -127,6 +127,20 @@
 
   </target>
 
+  <target name="opengeo-docs-war">
+    <mkdir dir="target/opengeo-docs"/>
+    <copy todir="target/opengeo-docs">
+      <fileset dir="../docs">
+        <include name="**/target/html/**"/>
+      </fileset>
+      <mapper type="regexp" from="^(.*)/target/html/(.*)$$" to="\1/\2"/>
+    </copy>
+    <copy todir="target/opengeo-docs" file="../docs/index.html"/>
+    <jar destfile="target/opengeo-docs.war">
+       <fileset dir="target/opengeo-docs"/>
+    </jar>
+  </target>
+
   <target name="geoserver-war-jboss">
     <mkdir dir="target"/>
     <jar destfile="target/geoserver-jboss.war">

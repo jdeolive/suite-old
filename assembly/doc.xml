@@ -4,7 +4,7 @@
     <format>zip</format>
     <format>tar.gz</format>
   </formats>
-  <baseDirectory>docs</baseDirectory>
+  <baseDirectory>opengeo-docs</baseDirectory>
   <fileSets>
     <fileSet>
       <directory>docs/styler/target/html</directory>

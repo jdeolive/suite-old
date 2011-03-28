@@ -61,31 +61,31 @@
     </fileSet>
     <fileSet>
       <directory>docs/usermanual/target/html</directory>
-      <outputDirectory>webapps/docs/usermanual</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/usermanual</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/styler/target/html</directory>
-      <outputDirectory>webapps/docs/styler</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/styler</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/geoexplorer/target/html</directory>
-      <outputDirectory>webapps/docs/geoexplorer</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/geoexplorer</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/geoserver/target/html</directory>
-      <outputDirectory>webapps/docs/geoserver</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/geoserver</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/postgis/target/html</directory>
-      <outputDirectory>webapps/docs/postgis</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/postgis</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/geowebcache/target/html</directory>
-      <outputDirectory>webapps/docs/geowebcache</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/geowebcache</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>docs/geoeditor/target/html</directory>
-      <outputDirectory>webapps/docs/geoeditor</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs/geoeditor</outputDirectory>
     </fileSet>
     <fileSet>
       <directory>recipes</directory>
@@ -153,7 +153,7 @@
     </file>
     <file>
       <source>docs/index.html</source>
-      <outputDirectory>webapps/docs</outputDirectory>
+      <outputDirectory>webapps/opengeo-docs</outputDirectory>
       <fileMode>644</fileMode>
     </file>
     <file>

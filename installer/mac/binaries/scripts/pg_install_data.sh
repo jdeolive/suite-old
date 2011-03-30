@@ -26,9 +26,16 @@ if [ $rv -gt 0 ]; then
   exit 1
 fi
 
-# Load the SQL files
-for sql in $pg_data_load_dir/*; do
-  "$pg_bin_dir/psql" -f "$sql" -d medford -U $USER >> "$pg_log"
+function exec_sql() {
+  "$pg_bin_dir/psql" -f "$1" -d medford -U $USER >> "$pg_log"
+}
+
+# Load the SQL files, preferring the _schema.sql files first
+for sql in $pg_data_load_dir/*_schema.sql; do
+  exec_sql "$sql"
+done
+for sql in `ls $pg_data_load_dir/* | grep -v "_schema.sql"`; do
+  exec_sql "$sql"
 done
 
 exit 0

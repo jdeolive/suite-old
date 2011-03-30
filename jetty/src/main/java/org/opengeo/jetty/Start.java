@@ -61,14 +61,9 @@ public class Start {
             }
         }
         if (gsDataDirectory != null) {
-            System.setProperty("GEOSERVER_DATA_DIR", gsDataDirectory);    
+            System.setProperty("GEOSERVER_DATA_DIR", gsDataDirectory);
         }
-        
-        //
-        // Set this parameter to tell geoserver not to set up a log4j configuration
-        // since we do custom logging as part of the suite
-        System.setProperty("RELINQUISH_LOG4J_CONTROL", "true");
-        
+
         // initialize the location where gxp writes it data
         String gxpDataDirectory = ini.get("?", "geoexplorer_data_dir");
         if (gxpDataDirectory == null) {

@@ -25,12 +25,22 @@ case "$1" in
     # copy over the jars into geoserver webapp
     DIR=/usr/share/opengeo-suite-ee/geoserver
     LIB=/var/lib/tomcat6/webapps/geoserver/WEB-INF/lib
-    for jar in `ls $DIR`; do
-      cp $DIR/$jar $LIB
+    for jar in `ls $DIR/*.jar`; do
+      cp $jar $LIB
     done
 
+    # copy the analytics configuration files into place
+    MON_DIR=/usr/share/opengeo-suite-data/geoserver_data/monitoring
+    if [ ! -d $MON_DIR ]; then
+      mkdir $MON_DIR
+    fi
+
+    if [ ! -f $MON_DIR/db.properties ]; then
+      cp $DIR/db.properties $DIR/hibernate.properties $MON_DIR 
+    fi
+
     # restart tomcat
-	invoke-rc.d tomcat6 restart
+    invoke-rc.d tomcat6 restart
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

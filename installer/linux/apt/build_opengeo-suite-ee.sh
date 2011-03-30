@@ -18,13 +18,18 @@ CFLOW=opengeosuite-$BRANCH-$REV-control-flow.zip
 
 get_file $BUILDS/$REPO_PATH/$ANALYTICS yes
 get_file $BUILDS/$REPO_PATH/$CFLOW yes
+get_svn $REPO_PATH data_dir data_dir
 
 # clean out old files
 rm -rf opengeo-suite-ee/*.jar
+rm -rf opengeo-suite-ee/*.properties
 
-# unpack
+# unpack jars
 unpack_jars $ANALYTICS
 unpack_jars $CFLOW
+
+# copy over analytics files
+cp svn/$REPO_PATH/data_dir/monitoring/* opengeo-suite-ee
 
 # build
 build_deb opengeo-suite-ee

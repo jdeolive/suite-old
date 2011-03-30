@@ -1734,7 +1734,7 @@
 						<key>SpecType</key>
 						<string>sysctl</string>
 						<key>Status</key>
-						<true/>
+						<false/>
 						<key>TestObject</key>
 						<string>i386</string>
 						<key>TestOperator</key>

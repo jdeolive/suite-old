@@ -18,13 +18,20 @@ fi
 export PGUSER=postgres
 export PGPORT=$pg_port
 
+function create_db() {
+  "$pg_bin_dir/createdb" --owner=$USER --template=template_postgis $1 >> "$pg_log"
+  rv=$?
+  if [ $rv -gt 0 ]; then
+    echo "Create database failed with return value $rv"
+    exit 1
+  fi
+}
+
 # Create the Medford Database
-"$pg_bin_dir/createdb" --owner=$USER --template=template_postgis medford >> "$pg_log"
-rv=$?
-if [ $rv -gt 0 ]; then
-  echo "Create database failed with return value $rv"
-  exit 1
-fi
+create_db medford
+
+# Create the GeoServer/Analytics database
+create_db geoserver
 
 function exec_sql() {
   "$pg_bin_dir/psql" -f "$1" -d medford -U $USER >> "$pg_log"

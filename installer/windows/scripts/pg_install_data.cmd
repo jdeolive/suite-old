@@ -19,6 +19,13 @@ if not errorlevel 0 (
   goto Fail
 )
 
+REM Create the GeoServer/Analytics Database
+call "%pg_bin_dir%\createdb" --owner=%USERNAME% --template=template_postgis geoserver 
+if not errorlevel 0 (
+  echo There was an error while creating the GeoServer database.
+  goto Fail
+)
+
 REM Load the SQL files
 for /f "tokens=* delims= " %%a in ('dir "%pg_data_load_dir%" /b') do (
   echo Loading file: %%a

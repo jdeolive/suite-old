@@ -37,8 +37,8 @@ fi
 
 if [ -f $OG_POSTGIS/template_postgis ]; then
   echo "Dropping template_postgis database"
-  pg_run"psql -w -d template_postgis -c \"update pg_database set datistemplate = false where datname = 'template_postgis'\""
-  pg_run"dropdb -w template_postgis"
+  pg_run "psql -w -d template_postgis -c \"update pg_database set datistemplate = false where datname = 'template_postgis'\""
+  pg_run "dropdb -w template_postgis"
   [ "$?" == "0" ] && rm $OG_POSTGIS/template_postgis
 fi
 

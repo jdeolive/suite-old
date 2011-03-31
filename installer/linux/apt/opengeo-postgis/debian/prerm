@@ -1,9 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 # prerm script for geonode
 #
 # see: dh_installdeb(1)
 
 set -e
+
+. /usr/share/debconf/confmodule
 
 # summary of how this script can be called:
 #        * <prerm> `remove'
@@ -16,24 +18,48 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+#pg_run <cmd> [password]
+function pg_run() {
+  su - postgres -c "PGPASSWORD=$2 $1" > /dev/null
+}
 
 case "$1" in
-    remove|upgrade|deconfigure)
+    remove|deconfigure)
+    
+    # if last configured version does not exist or the last configured version
+    # is less than 2.4.0 then configure
+    if [ -z "$2" ] || dpkg --compare-versions "$2" lt 2.4.0; then
+       db_get opengeo_postgis/configure_postgis
+       if [ "$RET" == "true" ]; then
 
-        # turn off error trapping, one of these may fail
-        set +e
-	su - postgres -c "psql -d template_postgis -c \"update pg_database set datistemplate = false where datname = 'template_postgis'\""
-        su - postgres -c "dropdb medford"
-        su - postgres -c "dropdb template_postgis"
-        su - postgres -c "dropuser opengeo"
-        su - postgres -c "psql -f /usr/share/postgresql/8.4/contrib/uninstall_adminpack.sql -d postgres"
+         db_get opengeo_postgis/postgres_password
+         PGPASSWORD=$RET
 
-        set -e
-        # turn it back on
+         # turn off error trapping, one of these may fail
+         set +e
+ 
+         db_get opengeo_postgis/install_template_postgis
+         if [ "$RET" == "true" ]; then
+           pg_run "psql -w -d template_postgis -c \"update pg_database set datistemplate = false where datname = 'template_postgis'\"" $PGPASSWORD
+           pg_run "dropdb -w template_postgis" $PGPASSWORD
+         fi
 
+         db_get opengeo_postgis/install_demo_db
+         if [ "$RET" == "true" ]; then
+           pg_run "dropdb -w medford" $PGPASSWORD
+         fi
+
+         pg_run "dropuser -w opengeo" $PGPASSWORD
+
+         pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/uninstall_adminpack.sql -d postgres" $PGPASSWORD
+
+         # turn it back on
+         set -e
+      fi
+    fi
     ;;
 
-    failed-upgrade)
+    upgrade|failed-upgrade)
     ;;
 
     *)

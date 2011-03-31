@@ -20,40 +20,123 @@ set -e
 # the debian-policy package
 
 
-function configurepostgres() {
+#pg_run <cmd> [password]
+function pg_run() {
+  su - postgres -c "PGPASSWORD=$2 $1" > /dev/null
+}
+
+#pg_check_access [password]
+function pg_check_access() {
+  pg_run "psql -w -l" $1 
+}
+
+#pg_check_db <database> [password]
+function pg_check_db() {
+  pg_run "psql -w -d $1 -c \"select version()\"" $2  
+}
+
+#pg_configure [password]
+function configure_postgres() {
+
+  set +e 
+
+  # Adds PgAdmin utilities to the 'postgres' database
+  pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" $1
+
+  # create template_postgis database
+  pg_run "psql -w -d template_postgis -c \"select postgis_version()\"" $1  
+  if [ "$?" != "0" ]; then  
+     pg_run "createdb -w template_postgis" $1
+     pg_run "createlang -w plpgsql template_postgis" $1
+     pg_run "psql -w -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql" $1
+     pg_run "psql -w -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql" $1
+     pg_run "psql -w -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\"" $1
+
+     db_set opengeo_postgis/install_template_postgis true
+  else
+     db_set opengeo_postgis/install_template_postgis false
+  fi
+
+  db_get opengeo_postgis/install_demo_db
+  INSTALL_DEMO_DB=$RET
+
+  db_get opengeo_postgis/install_geoserver_db
+  INSTALL_GEOSERVER_DB=$RET
+
+  if [ "$INSTALL_DEMO_DB" == "true" ] || [ "$INSTALL_GEOSERVER_DB" == "true" ] 
+  then
+    # Create an 'opengeo' user
+    pg_run "createuser -w --createdb --superuser opengeo" $1
+
+    # Set the user password?
+    pg_run "psql -w -d postgres -c \"alter user opengeo password 'opengeo'\"" $1
+
+    if [ "$INSTALL_DEMO_DB" == "true" ]; then
+      # create demo database
+      pg_check_db medford $1
+      if [ "$?" != "0" ]; then
+        pg_run "createdb -w --owner=opengeo --template=template_postgis medford" $1
+	# Add the data
+	pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford" $1
+	pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford" $1
+      else
+        db_set opengeo_postgis/install_demo_db false
+      fi
+    fi
+
+  fi 
+
+  if [ "1" == "0" ]; then
         # configure postgres user and database
         #
-        su - postgres -c "createdb template_postgis"
-        su - postgres -c "createlang plpgsql template_postgis"
-        su - postgres -c "psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql" > /dev/null
-        su - postgres -c "psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql" > /dev/null
-	su - postgres -c "psql -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\""
-
-	# Adds PgAdmin utilities to the 'postgres' database
-        su - postgres -c "psql -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" > /dev/null
-
-	# Create an 'opengeo' user
-	su - postgres -c "createuser --createdb --superuser opengeo"
-
-	# Set the user password?
-	su - postgres -c "psql -d postgres -c \"alter user opengeo password 'opengeo'\""
-
-	# create demo database
-	su - postgres -c "createdb --owner=opengeo --template=template_postgis medford" 
-
-	# Add the data
-	su - postgres -c "psql -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford" > /dev/null
-	su - postgres -c "psql -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford" > /dev/null
 	cp /etc/postgresql/8.4/main/pg_hba.conf /etc/postgresql/8.4/main/pg_hba.conf.orig
 	if [ ! `cat /etc/postgresql/8.4/main/pg_hba.conf | grep opengeo | wc -l` ]; then 
 		echo "local     all    opengeo               md5" >> /etc/postgresql/8.4/main/pg_hba.conf
 	fi
+    fi
 }
 
 
 case "$1" in
     configure)
-	configurepostgres
+      db_get opengeo_postgis/configure_postgis      
+      if [ "$RET" == "true" ]; then
+
+        # while checking password statements will fail so set +e
+        set +e
+        pg_check_access
+        if [ "$?" != "0" ]; then
+          db_input high opengeo_postgis/postgres_password || true
+          db_go
+          db_get opengeo_postgis/postgres_password
+          PGPASSWORD=$RET
+      
+          while [ 1 ]; do
+            pg_check_access $PGPASSWORD 
+            if [ "$?" == "0" ]; then
+              db_set opengeo_postgis/postgres_password $PGPASSWORD
+              break
+            fi
+      
+            db_input high opengeo_postgis/postgres_password_bad || true
+            db_go
+            db_get opengeo_postgis/postgres_password_bad
+            PGPASSWORD=$RET
+      
+            if [ -z "$PGPASSWORD" ]; then
+              ABORT=yes
+              break
+            fi
+          done
+        fi
+        set -e
+       
+        if [ "$ABORT" == "yes" ]; then
+          db_set opengeo_postgis/configure_postgis false
+        else
+          configure_postgres $PGPASSWORD
+        fi
+      fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

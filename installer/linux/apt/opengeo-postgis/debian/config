@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. /usr/share/debconf/confmodule
+
+set -e
+
+db_input high opengeo_postgis/configure_postgis || true
+db_go
+db_get opengeo_postgis/configure_postgis
+
+if [ "$RET" == "true" ]; then
+    db_set opengeo_postgis/install_demo_db true
+    db_set opengeo_postgis/install_geoserver_db true
+fi
+

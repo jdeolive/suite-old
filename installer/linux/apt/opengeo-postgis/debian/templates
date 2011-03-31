@@ -1,0 +1,43 @@
+Template: opengeo_postgis/configure_postgis
+Type: boolean
+Default: true
+Description: Would you like to configure PostGIS for the OpenGeo Suite?
+ This package comes with PostGIS extensions specific to the OpenGeo Suite. This
+ includes a template postgis database and a demo database containing some sample
+ tables.
+ Choosing 'Yes' will cause the pgAdmin extension to be installed as well. You 
+ may choose 'No' here but should note that this may cause some of the components
+ of the OpenGeo Suite to be disabled or function sub-optimally.
+
+Template: opengeo_postgis/install_template_postgis
+Type: boolean
+Default: true
+Description: Would you like to install the template PostGIS database?
+ The template PostGIS database makes the creation of new PostGIS database 
+ instances easier. 
+
+Template: opengeo_postgis/install_demo_db
+Type: boolean
+Default: true
+Description: Would you like to install the Medford demo database?
+ The Medford database contains demo data used by GeoServer. If you choose not to
+ install the database some layers in GeoServer may be disabled.
+
+Template: opengeo_postgis/install_geoserver_db
+Type: boolean
+Default: true
+Description: Would you like to create the GeoServer database?
+ The GeoServer database is used by various GeoServer extensions to store data. 
+ If you choose not to install the database some GeoServer extensions may not 
+ function optimally. 
+
+Template: opengeo_postgis/postgres_password
+Type: password
+Description: The password for the postgres account is required to continue:
+
+Template: opengeo_postgis/postgres_password_bad
+Type: password
+Description: Enter the password for the postgres account:
+ The password you entered for the postgres account was invalid. Enter the 
+ correct password or leave the field empty to abort. 
+

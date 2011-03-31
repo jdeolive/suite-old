@@ -1,0 +1,68 @@
+PG_DATA=/var/lib/pgsql/data
+PG_CONTRIB=/usr/share/pgsql/contrib
+OG_POSTGIS=/usr/share/opengeo-postgis
+
+check_root () {
+  if [ ! $( id -u ) -eq 0 ]; then
+    echo "This script must be run as root. Exiting."
+    exit 1
+  fi
+}
+
+function check_pg() {
+  local status=$( echo "`service postgresql status`" | awk '{print $NF}' )
+  if [ $status != "running..." ]; then
+     #attempt to start postgresql, first check if we need to init db
+     if [ -e $PG_DATA ] && [ $( ls $PG_DATA | wc -l ) == 0 ]; then
+        #init db
+        service postgresql initdb
+     fi
+
+     service postgresql start
+  fi
+
+  status=$( echo "`service postgresql status`" | awk '{print $NF}' )
+  if [ $status != "running..." ]; then
+     echo "Could not start postgresql. Check above for the error and run /usr/share/opengeo-postgis/setup-postgis.sh once postgresql has been started."
+     exit 1
+  fi
+}
+
+#pg_run <cmd> [suppressStdOut]
+function pg_run() {
+  if [ "$2" == "no" ]; then
+    su - postgres -c "PGPASSWORD=$PGPASSWORD $1"
+  else
+    su - postgres -c "PGPASSWORD=$PGPASSWORD $1" > /dev/null
+  fi
+}
+
+#pg_check_access
+function pg_check_access() {
+  pg_run "psql -w -l"
+}
+
+#pg_check_db <database>
+function pg_check_db() {
+  pg_run "psql -w -d $1 -c \"select version()\""
+}
+
+#pg_setup_access
+function pg_setup_access() {
+  pg_check_access
+  if [ "$?" != "0" ]; then
+    echo -n "The password for the postgres account is required to continue: "
+    stty -echo
+    read PGPASSWORD
+    stty echo
+  
+    while [ 1 ]; do
+      pg_check_access
+      [ "$?" == "0" ] && break
+  
+      echo -n "That password is incorrect. Please try again: "
+      stty -echo
+      read PGPASSWORD
+    done
+  fi
+}

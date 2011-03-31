@@ -25,8 +25,7 @@ Suite.
   rm -rf $RPM_BUILD_ROOT
   mkdir -p $RPM_BUILD_ROOT/usr/share/opengeo-postgis
   cp -rp  $RPM_SOURCE_DIR/opengeo-postgis/*.sql $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
-  cp -rp $RPM_SOURCE_DIR/scripts/postgis-setup.sh $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
-  cp -rp $RPM_SOURCE_DIR/scripts/postgis-uninstall.sh $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
+  cp -rp $RPM_SOURCE_DIR/scripts/opengeo-postgis/* $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
 
 %post
   sh /usr/share/opengeo-postgis/postgis-setup.sh

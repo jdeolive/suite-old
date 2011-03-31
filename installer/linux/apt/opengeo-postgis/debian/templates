@@ -5,7 +5,7 @@ Description: Would you like to configure PostGIS for the OpenGeo Suite?
  This package comes with PostGIS extensions specific to the OpenGeo Suite. This
  includes a template postgis database and a demo database containing some sample
  tables.
- Choosing 'Yes' will cause the pgAdmin extension to be installed as well. You 
+ Choosing 'Yes' will cause the adminpack extension to be installed as well. You 
  may choose 'No' here but should note that this may cause some of the components
  of the OpenGeo Suite to be disabled or function sub-optimally.
 

@@ -11,9 +11,9 @@ if [ "$HEADLESS" != "true" ]; then
 includes a template postgis database and a demo database containing some sample
 tables.
 
-Choosing 'Yes' will cause the pgAdmin extension to be installed as well. You may
-choose 'No' here but should note that this may cause some of the components of 
-the OpenGeo Suite to be disabled or function sub-optimally.
+Choosing 'Yes' will cause the adminpack extension to be installed as well. You 
+may choose 'No' here but should note that this may cause some of the components
+of the OpenGeo Suite to be disabled or function sub-optimally.
 
 Would you like to configure PostGIS for the OpenGeo Suite? [Y|n]: " 
 

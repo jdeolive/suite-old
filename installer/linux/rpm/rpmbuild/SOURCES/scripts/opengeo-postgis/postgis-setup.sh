@@ -8,7 +8,11 @@ check_pg
 HEADLESS=`check_headless $1`
 pg_setup_access $HEADLESS
 if [ $? == 1 ]; then
-    echo "NOTICE: Unable to configure PostGIS for the OpenGeo Suite. Please run this script ($0) post install".
+    printf "\nNOTICE: Unable to configure PostGIS for the OpenGeo Suite. Please run the following script post install:
+
+      sh $0
+
+"
     exit 0
 fi
 

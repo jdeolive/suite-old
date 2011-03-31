@@ -3,13 +3,32 @@
 . /usr/share/opengeo-postgis/functions
 
 check_root
+
+# first check if anything was actually configured on installed
+MARKERS="template_postgis opengeo_user medford_db geoserver_db adminpack" 
+for m in $MARKERS; do
+  if [ -e $OG_POSTGIS/$m ]; then
+    CONTINUE="true"
+    break
+  fi
+done
+
+if [ -z "$CONTINUE" ]; then
+  # no work to do
+  exit 0
+fi
+
 old_status=$( echo "`service postgresql status`" | awk '{print $NF}' )
 check_pg
 
 HEADLESS=`check_headless $1`
 pg_setup_access $HEADLESS
 if [ $? == 1 ]; then
-    echo "NOTICE: Unable to remove OpenGeo Suite configuration for PostGIS. Please run this script ($0) manually and then uninstall again."
+    printf "\nERROR: Unable to remove OpenGeo Suite configuration for PostGIS. Please run the following script manually, and then uninstall again:
+
+      sh $0
+
+"
     exit 1
 fi
 

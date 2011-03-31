@@ -2,6 +2,14 @@ PG_DATA=/var/lib/pgsql/data
 PG_CONTRIB=/usr/share/pgsql/contrib
 OG_POSTGIS=/usr/share/opengeo-postgis
 
+check_headless() {
+  if [ "$1" == "--headless" ]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
 check_root () {
   if [ ! $( id -u ) -eq 0 ]; then
     echo "This script must be run as root. Exiting."
@@ -47,10 +55,14 @@ function pg_check_db() {
   pg_run "psql -w -d $1 -c \"select version()\""
 }
 
-#pg_setup_access
+#pg_setup_access <headless=true|false>
 function pg_setup_access() {
   pg_check_access
   if [ "$?" != "0" ]; then
+    if [ "$1" == "true" ]; then
+      return 1
+    fi
+
     echo -n "The password for the postgres account is required to continue: "
     stty -echo
     read PGPASSWORD
@@ -65,4 +77,5 @@ function pg_setup_access() {
       read PGPASSWORD
     done
   fi
+  return 0
 }

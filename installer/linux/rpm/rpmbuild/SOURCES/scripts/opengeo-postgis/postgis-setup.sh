@@ -5,7 +5,12 @@
 check_root
 check_pg
 
-pg_setup_access
+HEADLESS=`check_headless $1`
+pg_setup_access $HEADLESS
+if [ $? == 1 ]; then
+    echo "NOTICE: Unable to configure PostGIS for the OpenGeo Suite. Please run this script ($0) post install".
+    exit 0
+fi
 
 # install postgresql admin pack
 if [ $( pg_run "psql -w -c \"select count(*) from pg_proc where proname = 'pg_logdir_ls'\"" "no" | head -n 3 | tail -n 1 | sed 's/ *//g' ) == "0" ]; then

@@ -28,10 +28,10 @@ Suite.
   cp -rp $RPM_SOURCE_DIR/scripts/opengeo-postgis/* $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
 
 %post
-  sh /usr/share/opengeo-postgis/postgis-setup.sh
+  sh /usr/share/opengeo-postgis/postgis-setup.sh --headless
   
 %preun
-  sh /usr/share/opengeo-postgis/postgis-uninstall.sh
+  sh /usr/share/opengeo-postgis/postgis-uninstall.sh --headless
 
 %postun
 

@@ -6,7 +6,12 @@ check_root
 old_status=$( echo "`service postgresql status`" | awk '{print $NF}' )
 check_pg
 
-pg_setup_access
+HEADLESS=`check_headless $1`
+pg_setup_access $HEADLESS
+if [ $? == 1 ]; then
+    echo "NOTICE: Unable to remove OpenGeo Suite configuration for PostGIS. Please run this script ($0) manually and then uninstall again."
+    exit 1
+fi
 
 # turn off error trapping, one of these may fail
 set +e

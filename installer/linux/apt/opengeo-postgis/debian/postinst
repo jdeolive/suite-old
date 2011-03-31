@@ -41,7 +41,12 @@ function configure_postgres() {
   set +e 
 
   # Adds PgAdmin utilities to the 'postgres' database
-  pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" $1
+  if [ $( pg_run "psql -w -c \"select count(*) from pg_proc where proname = 'pg_logdir_ls'\"" $1 | head -n 3 | tail -n 1 | sed 's/ *//g' ) == "0" ]; then
+    pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" $1
+    db_set opengeo_postgis/install_adminpack true
+  else
+    db_set opengeo_postgis/install_adminpack false
+  fi
 
   # create template_postgis database
   pg_run "psql -w -d template_postgis -c \"select postgis_version()\"" $1  
@@ -57,42 +62,47 @@ function configure_postgres() {
      db_set opengeo_postgis/install_template_postgis false
   fi
 
+  # Create an 'opengeo' user
+  pg_run "createuser -w --createdb --superuser opengeo" $1
+  if [ "$?" == "0" ]; then
+    # Set the user password
+    pg_run "psql -w -d postgres -c \"alter user opengeo password 'opengeo'\"" $1
+
+    # update pg_hba.conf
+    PG_HBA=/etc/postgresql/8.4/main/pg_hba.conf
+    if [ -e $PG_HBA ]; then
+	  if [ ! `cat /etc/postgresql/8.4/main/pg_hba.conf|grep opengeo|wc -l` ]
+      then 
+        cp $PG_HBA $PG_HBA.orig
+        sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
+      fi
+	fi
+     
+    db_set opengeo_postgis/create_opengeo_user true
+  else
+    db_set opengeo_postgis/create_opengeo_user false
+  fi
+
   db_get opengeo_postgis/install_demo_db
   INSTALL_DEMO_DB=$RET
 
   db_get opengeo_postgis/install_geoserver_db
   INSTALL_GEOSERVER_DB=$RET
 
-  if [ "$INSTALL_DEMO_DB" == "true" ] || [ "$INSTALL_GEOSERVER_DB" == "true" ] 
-  then
-    # Create an 'opengeo' user
-    pg_run "createuser -w --createdb --superuser opengeo" $1
-
-    # Set the user password?
-    pg_run "psql -w -d postgres -c \"alter user opengeo password 'opengeo'\"" $1
-
-    if [ "$INSTALL_DEMO_DB" == "true" ]; then
-      # create demo database
-      pg_check_db medford $1
-      if [ "$?" != "0" ]; then
-        pg_run "createdb -w --owner=opengeo --template=template_postgis medford" $1
-	# Add the data
-	pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford" $1
-	pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford" $1
-      else
-        db_set opengeo_postgis/install_demo_db false
-      fi
+  if [ "$INSTALL_DEMO_DB" == "true" ]; then
+    # create demo database
+    pg_check_db medford $1
+    if [ "$?" != "0" ]; then
+      pg_run "createdb -w --owner=opengeo --template=template_postgis medford" $1
+      # Add the data
+      pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford" $1
+      pg_run "psql -w -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford" $1
+    else
+      db_set opengeo_postgis/install_demo_db false
     fi
-
-  fi 
+  fi
 
   if [ "1" == "0" ]; then
-        # configure postgres user and database
-        #
-	cp /etc/postgresql/8.4/main/pg_hba.conf /etc/postgresql/8.4/main/pg_hba.conf.orig
-	if [ ! `cat /etc/postgresql/8.4/main/pg_hba.conf | grep opengeo | wc -l` ]; then 
-		echo "local     all    opengeo               md5" >> /etc/postgresql/8.4/main/pg_hba.conf
-	fi
     fi
 }
 

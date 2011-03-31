@@ -49,9 +49,15 @@ case "$1" in
            pg_run "dropdb -w medford" $PGPASSWORD
          fi
 
-         pg_run "dropuser -w opengeo" $PGPASSWORD
+         db_get opengeo_postgis/create_opengeo_user
+         if [ "$RET" == "true" ]; then
+           pg_run "dropuser -w opengeo" $PGPASSWORD
+         fi
 
-         pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/uninstall_adminpack.sql -d postgres" $PGPASSWORD
+         db_get opengeo_postgis/install_adminpack
+         if [ "$RET" == "true" ]; then
+           pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/uninstall_adminpack.sql -d postgres" $PGPASSWORD
+         fi
 
          # turn it back on
          set -e

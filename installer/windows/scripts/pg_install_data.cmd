@@ -39,7 +39,7 @@ if not errorlevel 0 (
   echo There was an error while loading Medford data tables.
   goto Fail
 )
-::Non-schema files next
+:: Non-schema files next
 for /f "tokens=* delims= " %%a in ('findstr /vi _schema "%pgdatalist%"') do (
   echo Loading file: %%a
   "%pg_bin_dir%\psql" -f "%pg_data_load_dir%\%%a" -d medford -U %USERNAME% >> "%pg_log%" >nul

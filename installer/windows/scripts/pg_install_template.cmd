@@ -2,10 +2,10 @@
 
 echo Creating PgSQL template...
 
-REM Get global vars and config
+:: Get global vars and config
 call pg_config.cmd
 
-REM pushd to current working directory
+:: pushd to current working directory
 pushd %~dp0%
 
 "%pg_bin_dir%\pg_config" --sharedir > "%TEMP%\sharedir.txt"
@@ -26,7 +26,7 @@ if not exist "%pg_share%\contrib\postgis-%postgis_version%\spatial_ref_sys.sql" 
   set srs=%pg_share%\contrib\postgis-%postgis_version%\spatial_ref_sys.sql
 )
 
-REM We want to run all these as postgres superuser
+:: We want to run all these as postgres superuser
 set PGUSER=postgres
 set PGPORT=%pg_port%
 

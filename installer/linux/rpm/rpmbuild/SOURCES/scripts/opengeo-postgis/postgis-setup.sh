@@ -14,7 +14,6 @@ if [ $( pg_run "psql -w -c \"select count(*) from pg_proc where proname = 'pg_lo
   touch $OG_POSTGIS/adminpack
 fi
 
-
 pg_check_db template_postgis
 if [ "$?" != "0" ]; then
   echo "Creating template_postgis database"
@@ -69,7 +68,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # create geoserver database
-pg_check_db "medford"
+pg_check_db "geoserver"
 if [ "$?" != "0" ]; then
   echo "Creating geoserver database"
   pg_run "createdb -w --owner=opengeo --template=template_postgis geoserver"

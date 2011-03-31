@@ -6,6 +6,37 @@ check_root
 check_pg
 
 HEADLESS=`check_headless $1`
+if [ "$HEADLESS" != "true" ]; then
+  printf "\nThis script installs PostGIS extensions specific to the OpenGeo Suite. This 
+includes a template postgis database and a demo database containing some sample
+tables.
+
+Choosing 'Yes' will cause the pgAdmin extension to be installed as well. You may
+choose 'No' here but should note that this may cause some of the components of 
+the OpenGeo Suite to be disabled or function sub-optimally.
+
+Would you like to configure PostGIS for the OpenGeo Suite? [Y|n]: " 
+
+  read GO
+  
+  while [ 1 ]; do
+    if [ -z "$GO" ]; then
+      GO="y"
+    fi
+    GO=`echo $GO | tr '[A-Z]' '[a-z]'`
+    if [ "$GO" == "y" ] || [ "$GO" == "yes" ] || [ "$GO" == "n" ] || [ "$GO" == "no" ] ; then
+      break
+    fi
+  
+    printf "\nSorry, did not understand '$GO'. Would you like to configure PostGIS for the OpenGeo Suite? [Y|n]: " 
+    read GO
+  done
+
+  if [ "$GO" == "n" ] || [ "$GO" == "no" ]; then
+    exit 0
+  fi
+fi
+
 pg_setup_access $HEADLESS
 if [ $? == 1 ]; then
     printf "\nNOTICE: Unable to configure PostGIS for the OpenGeo Suite. Please run the following script post install:

@@ -106,6 +106,16 @@ function configure_postgres() {
       db_set opengeo_postgis/install_demo_db false
     fi
   fi
+
+  if [ "$INSTALL_GEOSERVER_DB" == "true" ]; then
+    # create geoserver database
+    pg_check_db geoserver $1
+    if [ "$?" != "0" ]; then
+      pg_run "createdb -w --owner=opengeo --template=template_postgis geoserver" $1
+    else
+      db_set opengeo_postgis/install_geoserver_db false
+    fi
+  fi
 }
 
 

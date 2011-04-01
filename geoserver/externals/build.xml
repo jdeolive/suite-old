@@ -5,6 +5,11 @@
    <property name="gs.rev" value="${gs.branch}"/>
    <property name="gs.dir" value="geoserver"/>
 
+   <property name="gt.repo" value="git://github.com/opengeo/geotools-2.7.x.git"/>
+   <property name="gt.branch" value="master"/>
+   <property name="gt.rev" value="${gt.branch}"/>
+   <property name="gt.dir" value="geotools"/>
+
    <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
    <property name="gwc.branch" value="master"/>
    <property name="gwc.rev" value="0f615de2e1156655d3b8c7538a91b0d2cfb3ddde"/>
@@ -46,13 +51,21 @@
      </antcall>
    </target>
 
-   <target name="checkout-all" depends="checkout-gs,checkout-gwc"/>
+   <target name="checkout-all" depends="checkout-gs,checkout-gt,checkout-gwc"/>
    <target name="checkout-gs">
      <antcall target="checkout">
        <param name="git.url" value="${gs.repo}"/>
        <param name="git.branch" value="${gs.branch}"/>
        <param name="git.rev" value="${gs.rev}"/>
        <param name="dir" value="${gs.dir}"/>
+     </antcall>
+   </target>
+   <target name="checkout-gt">
+     <antcall target="checkout">
+       <param name="git.url" value="${gt.repo}"/>
+       <param name="git.branch" value="${gt.branch}"/>
+       <param name="git.rev" value="${gt.rev}"/>
+       <param name="dir" value="${gt.dir}"/>
      </antcall>
    </target>
    <target name="checkout-gwc">

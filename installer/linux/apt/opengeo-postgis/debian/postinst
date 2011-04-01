@@ -76,8 +76,7 @@ function configure_postgres() {
     # update pg_hba.conf
     PG_HBA=/etc/postgresql/8.4/main/pg_hba.conf
     if [ -e $PG_HBA ]; then
-	  if [ ! `cat /etc/postgresql/8.4/main/pg_hba.conf|grep opengeo|wc -l` ]
-      then 
+	  if [ `cat $PG_HBA | grep opengeo | wc -l` ]; then 
         cp $PG_HBA $PG_HBA.orig
         sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
       fi

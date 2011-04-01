@@ -1,0 +1,101 @@
+diff --git a/installer/linux/apt/opengeo-suite-ee/debian/patches/00list b/installer/linux/apt/opengeo-suite-ee/debian/patches/00list
+deleted file mode 100644
+index 1d8971b..0000000
+--- a/installer/linux/apt/opengeo-suite-ee/debian/patches/00list
++++ /dev/null
+@@ -1 +0,0 @@
+-db_properties
+diff --git a/installer/linux/apt/opengeo-suite-ee/debian/patches/db_properties.dpatch b/installer/linux/apt/opengeo-suite-ee/debian/patches/db_properties.dpatch
+deleted file mode 100755
+index c8a780a..0000000
+--- a/installer/linux/apt/opengeo-suite-ee/debian/patches/db_properties.dpatch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-#! /bin/sh /usr/share/dpatch/dpatch-run
+-## db_properties.dpatch.dpatch by  <jdeolive@packaging-u1040-32.dev.opengeo.org>
+-##
+-## All lines beginning with `## DP:' are a description of the patch.
+-## DP: Update to analytics database config
+-
+-@DPATCH@
+-
+-diff -rc orig/db.properties patched/db.properties
+-*** orig/db.properties	2011-03-30 22:34:20.000000000 +0000
+---- patched/db.properties	2011-03-30 22:35:56.000000000 +0000
+-***************
+-*** 8,15 ****
+-  # sample configuration for postgres
+-  #
+-  driver=org.postgresql.Driver
+-! url=jdbc:postgresql://localhost:54321/geoserver
+-! username=postgres
+-  password=
+-  defaultAutoCommit=false
+-  
+---- 8,15 ----
+-  # sample configuration for postgres
+-  #
+-  driver=org.postgresql.Driver
+-! url=jdbc:postgresql://localhost:5432/geoserver
+-! username=opengeo
+-  password=
+-  defaultAutoCommit=false
+-  
+diff --git a/installer/linux/apt/opengeo-suite-ee/debian/postinst b/installer/linux/apt/opengeo-suite-ee/debian/postinst
+index 42d3870..7159142 100644
+--- a/installer/linux/apt/opengeo-suite-ee/debian/postinst
++++ b/installer/linux/apt/opengeo-suite-ee/debian/postinst
+@@ -25,22 +25,12 @@ case "$1" in
+     # copy over the jars into geoserver webapp
+     DIR=/usr/share/opengeo-suite-ee/geoserver
+     LIB=/var/lib/tomcat6/webapps/geoserver/WEB-INF/lib
+-    for jar in `ls $DIR/*.jar`; do
+-      cp $jar $LIB
++    for jar in `ls $DIR`; do
++      cp $DIR/$jar $LIB
+     done
+ 
+-    # copy the analytics configuration files into place
+-    MON_DIR=/usr/share/opengeo-suite-data/geoserver_data/monitoring
+-    if [ ! -d $MON_DIR ]; then
+-      mkdir $MON_DIR
+-    fi
+-
+-    if [ ! -f $MON_DIR/db.properties ]; then
+-      cp $DIR/db.properties $DIR/hibernate.properties $MON_DIR 
+-    fi
+-
+     # restart tomcat
+-    invoke-rc.d tomcat6 restart
++	invoke-rc.d tomcat6 restart
+     ;;
+ 
+     abort-upgrade|abort-remove|abort-deconfigure)
+diff --git a/installer/linux/apt/opengeo-suite-ee/debian/rules b/installer/linux/apt/opengeo-suite-ee/debian/rules
+index 8c5b2fd..d0ba637 100755
+--- a/installer/linux/apt/opengeo-suite-ee/debian/rules
++++ b/installer/linux/apt/opengeo-suite-ee/debian/rules
+@@ -9,8 +9,6 @@
+ # Uncomment this to turn on verbose mode.
+ #export DH_VERBOSE=1
+ 
+-include /usr/share/dpatch/dpatch.make
+-
+ %:
+ 	dh $@ 
+ install:
+@@ -20,9 +18,6 @@ install:
+ 	dh_installdirs
+ 	mkdir -p $(CURDIR)/debian/opengeo-suite-ee/usr/share/opengeo-suite-ee/geoserver
+ 	cp -rp $(CURDIR)/*.jar $(CURDIR)/debian/opengeo-suite-ee/usr/share/opengeo-suite-ee/geoserver
+-	cp -rp $(CURDIR)/*.properties $(CURDIR)/debian/opengeo-suite-ee/usr/share/opengeo-suite-ee/geoserver
+-
+-build: patch-stamp
+ 
+ binary-indep: build install
+ 
+@@ -45,4 +40,3 @@ binary-arch: build install
+ binary: binary-indep binary-arch
+ #       .PHONY: build clean binary-indep binary-arch binary install
+ 
+-clean: unpatch

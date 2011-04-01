@@ -12,7 +12,7 @@
 
    <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
    <property name="gwc.branch" value="master"/>
-   <property name="gwc.rev" value="0f615de2e1156655d3b8c7538a91b0d2cfb3ddde"/>
+   <property name="gwc.rev" value="a82a393c1f7bc6edb4dadbaa34566a5cbf0b8b79"/>
    <property name="gwc.dir" value="geowebcache"/>
    <property name="gwc.version" value="1.2.5-SNAPSHOT"/>
 

@@ -73,7 +73,7 @@
  </build>
 
  <properties>
-   <gwc.rev>0f615de2e1156655d3b8c7538a91b0d2cfb3ddde</gwc.rev>
+   <gwc.rev>a82a393c1f7bc6edb4dadbaa34566a5cbf0b8b79</gwc.rev>
  </properties>
 
 </project>

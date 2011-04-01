@@ -41,3 +41,7 @@ Description: Enter the password for the postgres account:
  The password you entered for the postgres account was invalid. Enter the 
  correct password or leave the field empty to abort. 
 
+Template: opengeo_postgis/create_opengeo_user
+Type: boolean
+Description: Would you like to create an opengeo user?
+

@@ -1,3 +1,8 @@
+opengeo-postgis (2.4.1) unstable; urgency=low
+
+  *  Dealing with install/uninstall that require password for postgres account
+  *  Added config to allow user to choose to install database extensions
+  
 opengeo-postgis (2.3.3) unstable; urgency=low
 
   *  New upstream release

@@ -1,3 +1,9 @@
+opengeo-geoserver (2.4.1) unstable; urgency=low
+
+  *  New upstream release based on GeoServer 2.1-RC4
+
+ -- OpenGeo <inquiry@opengeo.org>  Mon, 4 Apr 2011 16:00:00 -0700
+
 opengeo-geoserver (2.4.0) unstable; urgency=low
 
   *  New upstream release, mostly bug fixes

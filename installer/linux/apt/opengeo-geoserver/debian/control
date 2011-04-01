@@ -8,7 +8,7 @@ Homepage: http://opengeo.org
 
 Package: opengeo-geoserver
 Architecture: any
-Depends: debconf,  sun-java6-jre | openjdk-6-jre, tomcat6, opengeo-jai, opengeo-suite-data, unzip, ${misc:Depends}
+Depends: debconf,  sun-java6-jre | openjdk-6-jre, tomcat6, opengeo-jai, opengeo-suite-data (>= 2.4.1), unzip, ${misc:Depends}
 #,${shlibs:Depends}
 Description:  High performance, standards-compliant map and geospatial data server.
  GeoServer is an open source software server written in Java that allows users to share 

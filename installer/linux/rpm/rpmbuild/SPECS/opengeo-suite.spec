@@ -1,12 +1,12 @@
 Name: opengeo-suite
-Version: 2.4.0
+Version: 2.4.1
 Release: 1
 Summary: A full geospatial software stack that allows you to allows you to easily compose, style, and publish data and maps.
 Group: Applications/Engineering
 License: see http://opengeo.org
 Requires(post): bash
 Requires(preun): bash
-Requires: opengeo-postgis opengeo-geoserver >= 2.4.0, opengeo-docs >= 2.4.0
+Require1: opengeo-postgis >= 2.4.1, opengeo-geoserver >= 2.4.1, opengeo-docs >= 2.4.1
 Patch: geoexplorer_webxml.patch
 
 %define _rpmdir ../

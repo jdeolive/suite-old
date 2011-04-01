@@ -35,8 +35,8 @@ check_rc $? "apt-get -y install sun-java6-jdk"
 update-java-alternatives -s java-6-sun
 
 # install the suite
-sudo apt-get -y install opengeo-suite opengeo-data-tools
-check_rc $? "apt-get -y install opengeo-suite opengeo-data-tools" 
+sudo apt-get -y install opengeo-suite
+check_rc $? "apt-get -y install opengeo-suite" 
 
 # tweak memory settings based on instance size
 if [ $IMAGE_SIZE == "m1.large" ]; then

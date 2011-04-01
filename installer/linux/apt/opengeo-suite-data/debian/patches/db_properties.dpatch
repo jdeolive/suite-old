@@ -1,0 +1,32 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## db_properties.patch.dpatch by  <jdeolive@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: changing monitoring config to point at local postgis
+
+@DPATCH@
+
+diff -rc opengeo-suite-data-orig/data_dir/monitoring/db.properties opengeo-suite-data/data_dir/monitoring/db.properties
+*** opengeo-suite-data-orig/data_dir/monitoring/db.properties	2011-04-01 23:21:17.000000000 +0000
+--- opengeo-suite-data/data_dir/monitoring/db.properties	2011-04-01 23:22:08.000000000 +0000
+***************
+*** 8,16 ****
+  # sample configuration for postgres
+  #
+  driver=org.postgresql.Driver
+! url=jdbc:postgresql://localhost:54321/geoserver
+! username=postgres
+! password=
+  defaultAutoCommit=false
+  
+  #
+--- 8,16 ----
+  # sample configuration for postgres
+  #
+  driver=org.postgresql.Driver
+! url=jdbc:postgresql://localhost:5432/geoserver
+! username=opengeo
+! password=opengeo
+  defaultAutoCommit=false
+  
+  #

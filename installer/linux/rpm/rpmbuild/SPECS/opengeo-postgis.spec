@@ -30,9 +30,18 @@ Suite.
 %post
   OG_POSTGIS=/usr/share/opengeo-postgis
 
+  # if a tmp marker exists from previous install, move it back before the 
+  # next install
+  if [ -e $OG_POSTGIS/geoserver_db.tmp ]; then
+    mv $OG_POSTGIS/geoserver_db.tmp $OG_POSTGIS/geoserver_db
+  fi
+
+  # run the install
   sh $OG_POSTGIS/postgis-setup.sh --headless
+
   if [ "$1" == "2" ]; then
-    # special case for upgrading from 2.3.3
+    # special case for upgrading from 2.3.3, move the geoserver_db marker 
+    # so that the old packages uninstall does not see it and remove it
     OLD_VER=`rpm -q --queryformat="%{VERSION}\n" opengeo-postgis | sort | head -n 1` 
     if [ "$OLD_VER" == "2.3.3" ] &&  [ -e $OG_POSTGIS/geoserver_db ]; then
        mv $OG_POSTGIS/geoserver_db $OG_POSTGIS/geoserver_db.tmp
@@ -42,6 +51,7 @@ Suite.
 %preun
   OG_POSTGIS=/usr/share/opengeo-postgis
 
+  # move back any temp markers
   if [ -e $OG_POSTGIS/geoserver_db.tmp ]; then
     mv $OG_POSTGIS/geoserver_db.tmp $OG_POSTGIS/geoserver_db
   fi

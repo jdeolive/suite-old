@@ -28,10 +28,28 @@ Suite.
   cp -rp $RPM_SOURCE_DIR/scripts/opengeo-postgis/* $RPM_BUILD_ROOT/usr/share/opengeo-postgis/.
 
 %post
-  sh /usr/share/opengeo-postgis/postgis-setup.sh --headless
+  OG_POSTGIS=/usr/share/opengeo-postgis
+
+  sh $OG_POSTGIS/postgis-setup.sh --headless
+  if [ "$1" == "2" ]; then
+    # special case for upgrading from 2.3.3
+    OLD_VER=`rpm -q --queryformat="%{VERSION}\n" opengeo-postgis | sort | head -n 1` 
+    if [ "$OLD_VER" == "2.3.3" ] &&  [ -e $OG_POSTGIS/geoserver_db ]; then
+       mv $OG_POSTGIS/geoserver_db $OG_POSTGIS/geoserver_db.tmp
+    fi
+  fi
   
 %preun
-  sh /usr/share/opengeo-postgis/postgis-uninstall.sh --headless
+  OG_POSTGIS=/usr/share/opengeo-postgis
+
+  if [ -e $OG_POSTGIS/geoserver_db.tmp ]; then
+    mv $OG_POSTGIS/geoserver_db.tmp $OG_POSTGIS/geoserver_db
+  fi
+
+  # only uninstall on erase, not upgrade
+  if [ "$1" == "0" ]; then
+    sh $OG_POSTGIS/postgis-uninstall.sh --headless
+  fi
 
 %postun
 

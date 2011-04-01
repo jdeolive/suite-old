@@ -101,9 +101,6 @@ function configure_postgres() {
       db_set opengeo_postgis/install_demo_db false
     fi
   fi
-
-  if [ "1" == "0" ]; then
-    fi
 }
 
 

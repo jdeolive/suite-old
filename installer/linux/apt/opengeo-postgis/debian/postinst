@@ -25,6 +25,11 @@ function pg_run() {
   su - postgres -c "PGPASSWORD=$2 $1" > /dev/null
 }
 
+#pg_run_wout <cmd> [password]
+function pg_run_wout() {
+  su - postgres -c "PGPASSWORD=$2 $1" 
+}
+
 #pg_check_access [password]
 function pg_check_access() {
   pg_run "psql -w -l" $1 
@@ -41,7 +46,7 @@ function configure_postgres() {
   set +e 
 
   # Adds PgAdmin utilities to the 'postgres' database
-  if [ $( pg_run "psql -w -c \"select count(*) from pg_proc where proname = 'pg_logdir_ls'\"" $1 | head -n 3 | tail -n 1 | sed 's/ *//g' ) == "0" ]; then
+  if [ $( pg_run_wout "psql -w -c \"select count(*) from pg_proc where proname = 'pg_logdir_ls'\"" $1 | head -n 3 | tail -n 1 | sed 's/ *//g' ) == "0" ]; then
     pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" $1
     db_set opengeo_postgis/install_adminpack true
   else

@@ -23,11 +23,6 @@
      <version>${project.version}</version>
    </dependency>
    <dependency>
-     <groupId>org.opengeo.geoserver</groupId>
-     <artifactId>importer</artifactId>
-     <version>${project.version}</version>
-   </dependency>
-   <dependency>
      <groupId>org.geoserver.extension</groupId>
      <artifactId>control-flow</artifactId>
      <version>${gs.version}</version>

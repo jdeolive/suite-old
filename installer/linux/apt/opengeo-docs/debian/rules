@@ -17,7 +17,7 @@ install:
 	dh_prep
 	dh_installdirs
 	mkdir -p $(CURDIR)/debian/opengeo-docs/usr/share/opengeo-docs
-	cp -rpv $(CURDIR)/docs/* $(CURDIR)/debian/opengeo-docs/usr/share/opengeo-docs/.
+	cp -rpv $(CURDIR)/opengeo-docs/* $(CURDIR)/debian/opengeo-docs/usr/share/opengeo-docs/.
 binary-indep: build install
 
 binary-arch: build install

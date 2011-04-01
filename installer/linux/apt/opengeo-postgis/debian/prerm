@@ -49,6 +49,11 @@ case "$1" in
            pg_run "dropdb -w medford" $PGPASSWORD
          fi
 
+         db_get opengeo_postgis/install_geoserver_db
+         if [ "$RET" == "true" ]; then
+           pg_run "dropdb -w geoserver" $PGPASSWORD
+         fi
+
          db_get opengeo_postgis/create_opengeo_user
          if [ "$RET" == "true" ]; then
            pg_run "dropuser -w opengeo" $PGPASSWORD

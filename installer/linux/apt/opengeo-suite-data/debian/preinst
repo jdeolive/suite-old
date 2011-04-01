@@ -15,7 +15,7 @@ GS_DATA_SAV=$GS_DATA.sav
 
 #backup_dir <dir>
 function backup_dir() {
-  if [ ${GS_DATA}/$1 ]; then
+  if [ -e ${GS_DATA}/$1 ]; then
     cp -r ${GS_DATA}/$1 ${GS_DATA_SAV}
   fi
 }

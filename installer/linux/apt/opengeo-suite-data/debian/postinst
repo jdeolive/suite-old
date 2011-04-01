@@ -19,11 +19,33 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+GS_DATA=/usr/share/opengeo-suite-data/geoserver_data
+GS_DATA_SAV=${GS_DATA}.sav
 
 case "$1" in
     configure)
 
 	chown tomcat6. /usr/share/opengeo-suite-data -R
+
+    # check for upgrade, if upgrading we want to perserve the configuration
+    if [ ! -z "$2" ]; then
+      OLD_VER=$2
+      if [ -e $GS_DATA_SAV ]; then   
+        # first do the version checks for things we actually want to upgrade
+        if [ $OLD_VER == "2.3.3" ]; then
+          # we want to change the monitoring config
+          if [ -e ${GS_DATA_SAV}/monitoring ]; then
+            mv ${GS_DATA_SAV}/monitoring ${GS_DATA_SAV}/monitoring.bak
+          fi
+        fi
+
+        # copy the saved configuration over
+        cp -rfp $GS_DATA_SAV/* $GS_DATA
+
+        # remove the saved copy
+        rm -rf $GS_DATA_SAV
+      fi
+    fi
 
     ;;
 

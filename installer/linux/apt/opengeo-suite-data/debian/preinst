@@ -2,13 +2,58 @@
 
 set -e
 
+# summary of how this script can be called:
+#        * <new-preinst> `install'
+#        * <new-preinst> `install' <old-version>
+#        * <new-preinst> `upgrade' <old-version>
+#        * <old-preinst> `abort-upgrade' <new-version>
+
 . /usr/share/debconf/confmodule
+
+GS_DATA=/usr/share/opengeo-suite-data/geoserver_data
+GS_DATA_SAV=$GS_DATA.sav
+
+#backup_dir <dir>
+function backup_dir() {
+  if [ ${GS_DATA}/$1 ]; then
+    cp -r ${GS_DATA}/$1 ${GS_DATA_SAV}
+  fi
+}
 
 case "$1" in
   install)
     ;;
 
   upgrade)
+    # on upgrade we want to save the users existing geoserver config
+    if [ -e ${GS_DATA_SAV} ]; then
+      # should not be here
+      mv ${GS_DATA_SAV} ${GS_DATA}.old
+    fi
+
+    # create a temp directory to store those files the user may have changed
+    mkdir ${GS_DATA_SAV}
+
+    # xml configuration files
+    cp ${GS_DATA}/*.xml ${GS_DATA_SAV}
+   
+    # logs
+    backup_dir logs
+
+    # security config
+    backup_dir security
+     
+    # user_projections
+    backup_dir user_projections
+
+    # monitoring
+    backup_dir monitoring
+
+    # proxy
+    backup_dir proxy
+
+    # uploader
+    backup_dir uploader
     ;;
 
   abort-upgrade)

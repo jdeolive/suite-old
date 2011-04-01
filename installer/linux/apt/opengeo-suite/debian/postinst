@@ -49,6 +49,12 @@ case "$1" in
       cp $TMP/web.xml $GXP/WEB-INF
     fi
 
+    # create a link to opengeo-docs so we can serve them up from tomcat
+    DOCS=/usr/share/opengeo-docs
+    if [ -e $DOCS ] && [ ! -e $WEBAPPS/opengeo-docs ]; then
+      ln -sf $DOCS $WEBAPPS/opengeo-docs
+    fi
+
     invoke-rc.d tomcat6 restart
 
     ;;

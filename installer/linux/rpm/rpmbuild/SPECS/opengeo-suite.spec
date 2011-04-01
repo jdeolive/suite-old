@@ -73,6 +73,12 @@ components.  It is comprised of the following core components:
      rm -rf $TMP
    fi
 
+   # create link to documentation
+   DOCS=/usr/share/opengeo-docs
+   if [ -e $DOCS ] && [ ! -e $WEBAPPS/opengeo-docs ]; then
+     ln -sf $DOCS $WEBAPPS/opengeo-docs
+   fi
+
    chown tomcat. /var/lib/tomcat5/webapps/*.war
    chkconfig tomcat5 on
    service tomcat5 restart
@@ -90,6 +96,10 @@ components.  It is comprised of the following core components:
          rm -rf $WEBAPPS/$APP $WEBAPPS/$APP.war
       fi
     done
+
+    if [ -L $WEBAPPS/opengeo-docs ]; then
+      unlink $WEBAPPS/opengeo-docs
+    fi
 
     service tomcat5 restart
   fi

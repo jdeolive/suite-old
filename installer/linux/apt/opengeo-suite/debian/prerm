@@ -34,6 +34,10 @@ case "$1" in
     remove|deconfigure)
 
     remove_apps dashboard geoeditor geoexplorer geowebcache recipes 
+
+    if [ -L $WEBAPPS/opengeo-docs ]; then
+      unlink $WEBAPPS/opengeo-docs
+    fi
     ;;
 
     upgrade|failed-upgrade)

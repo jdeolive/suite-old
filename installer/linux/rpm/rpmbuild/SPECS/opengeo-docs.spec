@@ -18,8 +18,7 @@ includes a Getting Started Guide for an introduction to the OpenGeo Suite.
 
 %install
   rm -rf $RPM_BUILD_ROOT
-  mkdir -p $RPM_BUILD_ROOT/usr/share/opengeo-docs/
-  cp -rp  $RPM_SOURCE_DIR/opengeo-docs/docs/* $RPM_BUILD_ROOT/usr/share/opengeo-docs/.
+  cp -rp  $RPM_SOURCE_DIR/opengeo-docs/opengeo-docs $RPM_BUILD_ROOT/usr/share/.
 %post
 
 %preun

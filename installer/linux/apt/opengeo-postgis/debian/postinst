@@ -45,9 +45,11 @@ function configure_postgres() {
 
   set +e 
 
+  PG_CONTRIB=/usr/share/postgresql/8.4/contrib
+
   # Adds PgAdmin utilities to the 'postgres' database
   if [ $( pg_run_wout "psql -w -c \"select count(*) from pg_proc where proname = 'pg_logdir_ls'\"" $1 | head -n 3 | tail -n 1 | sed 's/ *//g' ) == "0" ]; then
-    pg_run "psql -w -f /usr/share/postgresql/8.4/contrib/adminpack.sql -d postgres" $1
+    pg_run "psql -w -f $PG_CONTRIB/adminpack.sql -d postgres" $1
     db_set opengeo_postgis/install_adminpack true
   else
     db_set opengeo_postgis/install_adminpack false
@@ -58,8 +60,22 @@ function configure_postgres() {
   if [ "$?" != "0" ]; then  
      pg_run "createdb -w template_postgis" $1
      pg_run "createlang -w plpgsql template_postgis" $1
-     pg_run "psql -w -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql" $1
-     pg_run "psql -w -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql" $1
+
+     POSTGIS_SQL=""
+     SPATIAL_REF_SYS_SQL=""
+     if [ -d $PG_CONTRIB/postgis-1.5 ]; then
+       POSTGIS_SQL=$PG_CONTRIB/postgis-1.5/postgis.sql
+       SPATIAL_REF_SYS_SQL=$PG_CONTRIB/postgis-1.5/spatial_ref_sys.sql
+     else 
+       # look for file as installed by postgis 1.4 on ubuntu
+       if [ -e $PG_CONTRIB/postgis.sql ]; then
+         POSTGIS_SQL=$PG_CONTRIB/postgis.sql
+         SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
+       fi
+     fi
+
+     pg_run "psql -w -d template_postgis -f $POSTGIS_SQL" $1
+     pg_run "psql -w -d template_postgis -f $SPATIAL_REF_SYS_SQL" $1
      pg_run "psql -w -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\"" $1
 
      db_set opengeo_postgis/install_template_postgis true

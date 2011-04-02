@@ -59,8 +59,23 @@ if [ "$?" != "0" ]; then
   echo "Creating template_postgis database"
   pg_run "createdb -w template_postgis"
   pg_run "createlang -w plpgsql template_postgis"
-  pg_run "psql -w -d template_postgis -f $PG_CONTRIB/postgis-1.5/postgis.sql"
-  pg_run "psql -w -d template_postgis -f $PG_CONTRIB/postgis-1.5/spatial_ref_sys.sql"
+  
+  POSTGIS_SQL=""
+  SPATIAL_REF_SYS_SQL=""
+  if [ -d $PG_CONTRIB/postgis-1.5 ]; then
+     POSTGIS_SQL=$PG_CONTRIB/postgis-1.5/postgis.sql
+     SPATIAL_REF_SYS_SQL=$PG_CONTRIB/postgis-1.5/spatial_ref_sys.sql
+  else 
+     # look for file as installed by postgis 1.4 on ubuntu
+     if [ -e $PG_CONTRIB/postgis.sql ]; then
+        POSTGIS_SQL=$PG_CONTRIB/postgis.sql
+        SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
+     fi
+  fi
+
+  pg_run "psql -w -d template_postgis -f $POSTGIS_SQL"
+  pg_run "psql -w -d template_postgis -f $SPATIAL_REF_SYS_SQL"
+
   pg_run "psql -w -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\""
   touch $OG_POSTGIS/template_postgis
 fi

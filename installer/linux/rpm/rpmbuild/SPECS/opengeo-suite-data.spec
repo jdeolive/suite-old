@@ -7,7 +7,8 @@ License: see http://opengeo.org
 Requires(post): bash
 Requires(preun): bash
 Requires: tomcat5
-Patch: medford_taxlots_datastore.patch
+Patch0: medford_taxlots_datastore.patch
+Patch1: db_properties.patch
 
 %define _rpmdir ../ 
 %define _rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm 
@@ -20,7 +21,8 @@ the OpenGeo Suite.
 
 %prep
   cd $RPM_SOURCE_DIR/opengeo-suite-data/data_dir
-%patch -p1
+%patch0 -p1
+%patch1 -p1
   cd ../../../
 
 %install

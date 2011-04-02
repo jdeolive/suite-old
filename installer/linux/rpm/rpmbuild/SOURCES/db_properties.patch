@@ -1,0 +1,16 @@
+diff -ru data_dir_orig/monitoring/db.properties data_dir/monitoring/db.properties
+--- data_dir_orig/monitoring/db.properties	2011-04-01 19:09:03.000000000 -0600
++++ data_dir/monitoring/db.properties	2011-04-01 19:09:17.000000000 -0600
+@@ -8,9 +8,9 @@
+ # sample configuration for postgres
+ #
+ driver=org.postgresql.Driver
+-url=jdbc:postgresql://localhost:54321/geoserver
+-username=postgres
+-password=
++url=jdbc:postgresql://localhost:5432/geoserver
++username=opengeo
++password=opengeo
+ defaultAutoCommit=false
+ 
+ #

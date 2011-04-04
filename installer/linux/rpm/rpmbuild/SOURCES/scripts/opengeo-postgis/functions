@@ -75,6 +75,7 @@ function pg_setup_access() {
       echo -n "That password is incorrect. Please try again: "
       stty -echo
       read PGPASSWORD
+      stty echo
     done
   fi
   return 0

@@ -73,8 +73,9 @@ if [ "$?" != "0" ]; then
      else
        # lookf or default on centos 5, which is postgis 1.3 style
        if [ -e $PG_CONTRIB/lwpostgis.sql ]; then
-        POSTGIS_SQL=$PG_CONTRIB/lwpostgis.sql
-        SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
+         POSTGIS_SQL=$PG_CONTRIB/lwpostgis.sql
+         SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
+       fi
      fi
   fi
 

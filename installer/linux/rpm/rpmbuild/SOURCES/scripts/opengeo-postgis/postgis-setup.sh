@@ -66,9 +66,14 @@ if [ "$?" != "0" ]; then
      POSTGIS_SQL=$PG_CONTRIB/postgis-1.5/postgis.sql
      SPATIAL_REF_SYS_SQL=$PG_CONTRIB/postgis-1.5/spatial_ref_sys.sql
   else 
-     # look for file as installed by postgis 1.4 on ubuntu
+     # look for file as installed by postgis 1.4
      if [ -e $PG_CONTRIB/postgis.sql ]; then
         POSTGIS_SQL=$PG_CONTRIB/postgis.sql
+        SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
+     else
+       # lookf or default on centos 5, which is postgis 1.3 style
+       if [ -e $PG_CONTRIB/lwpostgis.sql ]; then
+        POSTGIS_SQL=$PG_CONTRIB/lwpostgis.sql
         SPATIAL_REF_SYS_SQL=$PG_CONTRIB/spatial_ref_sys.sql
      fi
   fi

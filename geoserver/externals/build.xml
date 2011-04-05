@@ -12,9 +12,9 @@
 
    <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
    <property name="gwc.branch" value="master"/>
-   <property name="gwc.rev" value="a82a393c1f7bc6edb4dadbaa34566a5cbf0b8b79"/>
+   <property name="gwc.rev" value="1.2.5"/>
    <property name="gwc.dir" value="geowebcache"/>
-   <property name="gwc.version" value="1.2.5-SNAPSHOT"/>
+   <property name="gwc.version" value="1.2.5"/>
 
    <property name="mvn.exec" value="mvn"/>
    <property name="mvn.settings" value="settings.xml"/>
@@ -81,6 +81,9 @@
      <echo message="Pulling ${git.branch} from ${git.url} (ignore fatal warning)"/>
      <exec executable="git" failonerror="false">
         <arg line="clone -b ${git.branch} ${git.url} ${dir}"/>
+     </exec>
+     <exec executable="git" dir="${dir}" failonerror="true">
+        <arg line="checkout ${git.branch}"/>
      </exec>
      <exec executable="git" dir="${dir}" failonerror="true">
         <arg line="pull origin ${git.branch}"/>

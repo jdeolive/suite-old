@@ -31,7 +31,10 @@
                   <arg line="clone git://github.com/GeoWebCache/geowebcache.git ."/>
                 </exec>
                 <exec executable="git" dir="externals/gwc" failonerror="true">
-                  <arg line="pull origin master"/>
+                   <arg line="checkout ${gwc.branch}"/>
+                </exec>
+                <exec executable="git" dir="externals/gwc" failonerror="true">
+                  <arg line="pull origin ${gwc.branch}"/>
                 </exec>
                 <exec executable="git" dir="externals/gwc" failonerror="true">
                    <arg line="checkout ${gwc.rev}"/>
@@ -73,7 +76,8 @@
  </build>
 
  <properties>
-   <gwc.rev>a82a393c1f7bc6edb4dadbaa34566a5cbf0b8b79</gwc.rev>
+   <gwc.branch>master</gwc.branch>
+   <gwc.rev>1.2.5</gwc.rev>
  </properties>
 
 </project>

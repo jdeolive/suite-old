@@ -78,19 +78,21 @@ set /p revtemp=<"%TEMP%\revtemp.txt"
 del "%TEMP%\revtemp.txt"
 for /f "tokens=1,2 delims=/=" %%a in ("%revtemp%") do set trash=%%a&set rev=%%b
 
-:: Figure out if the version is a snapshot (such as "2.3-SNAPSHOT")
+:: Figure out if the version is a release version or a SNAPSHOT/RC
 :: Used to pass the correct longversion parameter to NSIS
 :: since NSIS longversion must be of the form #.#.#.#
-for /f "tokens=1,2,3 delims=." %%a in ("%version%") do set vermajor=%%a&set verminor=%%b&set verpatch=%%c
 
-:: First check for empty substrings (2.3-SNAPSHOT would fail)
-if "x%vermajor%"=="x" goto Snapshot
-if "x%verminor%"=="x" goto Snapshot
+:: First, split the version string on a dash (to check for -SNAPSHOT or -RC)
+for /f "tokens=1,2 delims=-" %%a in ("%version%") do set verpredash=%%a&set verpostdash=%%b
+:: If a second chunk exists, then it's a -SNAPSHOT or -RC
+if not "x%verpostdash%"=="x" goto Snapshot
+:: Now check for empty substrings (to check for bad versions)
+for /f "tokens=1,2,3,4 delims=." %%a in ("%version%") do set vermajor=%%a&set verminor=%%b&set verpatch=%%c&set vertrash=%%d
+:: There must be three substrings here, so check for the third
 if "x%verpatch%"=="x" goto Snapshot
-:: Now check for more than two chars per substring (2.4.1-RC1 would fail, 2.10.0 wouldn't)
-if not "%vermajor:~0,-2%"=="" goto Snapshot
-if not "%verminor:~0,-2%"=="" goto Snapshot
-if not "%verpatch:~0,-2%"=="" goto Snapshot
+:: There can't be a fourth substring, though
+if not "x%vertrash%"=="x" goto Snapshot
+
 :: If we made it this far, it's probably in the proper form
 set longversion=%version%.%rev%
 goto Build

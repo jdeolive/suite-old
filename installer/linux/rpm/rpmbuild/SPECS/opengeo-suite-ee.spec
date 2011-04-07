@@ -45,7 +45,6 @@ The OpenGeo Suite Enterprise Edition provides additional modules and extensions
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/asm-attrs-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/cglib-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/cglib-nodep-*.jar
-/var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/commons-vfs-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/dom4j-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/ehcache-*.jar
 /var/lib/tomcat5/webapps/geoserver/WEB-INF/lib/ejb3-persistence-*.jar

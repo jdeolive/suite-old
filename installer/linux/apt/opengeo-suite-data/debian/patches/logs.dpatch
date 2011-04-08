@@ -1,0 +1,108 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## logs.dpatch.dpatch by  <jdeolive@packaging-u1040-32.dev.opengeo.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: removing opengeologfile appender
+
+@DPATCH@
+
+diff -rc data_dir_orig/logs/DEFAULT_LOGGING.properties data_dir/logs/DEFAULT_LOGGING.properties
+*** data_dir_orig/logs/DEFAULT_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
+--- data_dir/logs/DEFAULT_LOGGING.properties	2011-04-02 01:18:27.000000000 +0000
+***************
+*** 1,7 ****
+  ## This log4j configuration file needs to stay here, and is used as the default logging setup
+  ## during data_dir upgrades and in case the chosen logging config isn't available.
+  
+! log4j.rootLogger=WARN, geoserverlogfile, opengeologfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+--- 1,7 ----
+  ## This log4j configuration file needs to stay here, and is used as the default logging setup
+  ## during data_dir upgrades and in case the chosen logging config isn't available.
+  
+! log4j.rootLogger=WARN, geoserverlogfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+diff -rc data_dir_orig/logs/GEOSERVER_DEVELOPER_LOGGING.properties data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties
+*** data_dir_orig/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
+--- data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-02 01:18:17.000000000 +0000
+***************
+*** 15,21 ****
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, opengeologfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+--- 15,21 ----
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+diff -rc data_dir_orig/logs/GEOTOOLS_DEVELOPER_LOGGING.properties data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties
+*** data_dir_orig/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
+--- data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-02 01:18:22.000000000 +0000
+***************
+*** 15,21 ****
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, opengeologfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+--- 15,21 ----
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+diff -rc data_dir_orig/logs/PRODUCTION_LOGGING.properties data_dir/logs/PRODUCTION_LOGGING.properties
+*** data_dir_orig/logs/PRODUCTION_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
+--- data_dir/logs/PRODUCTION_LOGGING.properties	2011-04-02 01:18:20.000000000 +0000
+***************
+*** 15,21 ****
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, opengeologfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+--- 15,21 ----
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+diff -rc data_dir_orig/logs/VERBOSE_LOGGING.properties data_dir/logs/VERBOSE_LOGGING.properties
+*** data_dir_orig/logs/VERBOSE_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
+--- data_dir/logs/VERBOSE_LOGGING.properties	2011-04-02 01:18:24.000000000 +0000
+***************
+*** 15,21 ****
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, opengeologfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+--- 15,21 ----
+  ## FATAL                 SEVERE
+  ## OFF                   OFF
+  
+! log4j.rootLogger=WARN, geoserverlogfile, stdout
+  
+  log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout=org.apache.log4j.PatternLayout

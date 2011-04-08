@@ -1,14 +1,14 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## logs.dpatch.dpatch by  <jdeolive@packaging-u1040-32.dev.opengeo.org>
+## logs.dpatch.dpatch by  <jetty@packaging-u1040-32.dev.opengeo.org>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: removing opengeologfile appender
 
 @DPATCH@
 
-diff -rc data_dir_orig/logs/DEFAULT_LOGGING.properties data_dir/logs/DEFAULT_LOGGING.properties
-*** data_dir_orig/logs/DEFAULT_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
---- data_dir/logs/DEFAULT_LOGGING.properties	2011-04-02 01:18:27.000000000 +0000
+diff -rc opengeo-suite-data-orig/data_dir/logs/DEFAULT_LOGGING.properties opengeo-suite-data/data_dir/logs/DEFAULT_LOGGING.properties
+*** opengeo-suite-data-orig/data_dir/logs/DEFAULT_LOGGING.properties	2011-04-08 21:06:32.000000000 +0000
+--- opengeo-suite-data/data_dir/logs/DEFAULT_LOGGING.properties	2011-04-08 21:07:11.000000000 +0000
 ***************
 *** 1,7 ****
   ## This log4j configuration file needs to stay here, and is used as the default logging setup
@@ -26,9 +26,9 @@ diff -rc data_dir_orig/logs/DEFAULT_LOGGING.properties data_dir/logs/DEFAULT_LOG
   
   log4j.appender.stdout=org.apache.log4j.ConsoleAppender
   log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-diff -rc data_dir_orig/logs/GEOSERVER_DEVELOPER_LOGGING.properties data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties
-*** data_dir_orig/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
---- data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-02 01:18:17.000000000 +0000
+diff -rc opengeo-suite-data-orig/data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties opengeo-suite-data/data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties
+*** opengeo-suite-data-orig/data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-08 21:06:32.000000000 +0000
+--- opengeo-suite-data/data_dir/logs/GEOSERVER_DEVELOPER_LOGGING.properties	2011-04-08 21:06:52.000000000 +0000
 ***************
 *** 15,21 ****
   ## FATAL                 SEVERE
@@ -46,9 +46,9 @@ diff -rc data_dir_orig/logs/GEOSERVER_DEVELOPER_LOGGING.properties data_dir/logs
   
   log4j.appender.stdout=org.apache.log4j.ConsoleAppender
   log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-diff -rc data_dir_orig/logs/GEOTOOLS_DEVELOPER_LOGGING.properties data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties
-*** data_dir_orig/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
---- data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-02 01:18:22.000000000 +0000
+diff -rc opengeo-suite-data-orig/data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties opengeo-suite-data/data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties
+*** opengeo-suite-data-orig/data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-08 21:06:32.000000000 +0000
+--- opengeo-suite-data/data_dir/logs/GEOTOOLS_DEVELOPER_LOGGING.properties	2011-04-08 21:07:03.000000000 +0000
 ***************
 *** 15,21 ****
   ## FATAL                 SEVERE
@@ -66,9 +66,9 @@ diff -rc data_dir_orig/logs/GEOTOOLS_DEVELOPER_LOGGING.properties data_dir/logs/
   
   log4j.appender.stdout=org.apache.log4j.ConsoleAppender
   log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-diff -rc data_dir_orig/logs/PRODUCTION_LOGGING.properties data_dir/logs/PRODUCTION_LOGGING.properties
-*** data_dir_orig/logs/PRODUCTION_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
---- data_dir/logs/PRODUCTION_LOGGING.properties	2011-04-02 01:18:20.000000000 +0000
+diff -rc opengeo-suite-data-orig/data_dir/logs/PRODUCTION_LOGGING.properties opengeo-suite-data/data_dir/logs/PRODUCTION_LOGGING.properties
+*** opengeo-suite-data-orig/data_dir/logs/PRODUCTION_LOGGING.properties	2011-04-08 21:06:32.000000000 +0000
+--- opengeo-suite-data/data_dir/logs/PRODUCTION_LOGGING.properties	2011-04-08 21:06:58.000000000 +0000
 ***************
 *** 15,21 ****
   ## FATAL                 SEVERE
@@ -86,9 +86,9 @@ diff -rc data_dir_orig/logs/PRODUCTION_LOGGING.properties data_dir/logs/PRODUCTI
   
   log4j.appender.stdout=org.apache.log4j.ConsoleAppender
   log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-diff -rc data_dir_orig/logs/VERBOSE_LOGGING.properties data_dir/logs/VERBOSE_LOGGING.properties
-*** data_dir_orig/logs/VERBOSE_LOGGING.properties	2011-04-02 01:17:55.000000000 +0000
---- data_dir/logs/VERBOSE_LOGGING.properties	2011-04-02 01:18:24.000000000 +0000
+diff -rc opengeo-suite-data-orig/data_dir/logs/VERBOSE_LOGGING.properties opengeo-suite-data/data_dir/logs/VERBOSE_LOGGING.properties
+*** opengeo-suite-data-orig/data_dir/logs/VERBOSE_LOGGING.properties	2011-04-08 21:06:32.000000000 +0000
+--- opengeo-suite-data/data_dir/logs/VERBOSE_LOGGING.properties	2011-04-08 21:07:07.000000000 +0000
 ***************
 *** 15,21 ****
   ## FATAL                 SEVERE

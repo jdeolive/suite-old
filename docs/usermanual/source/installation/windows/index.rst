@@ -84,6 +84,8 @@ For more information, please see the document titled **Getting Started**, which 
 Upgrade
 -------
 
+.. warning:: Due to data directory upgrades, we recommend against an in-place upgrade when upgrading from versions **prior to 2.4.2**. To get the latest version, please back up your data, uninstall, manually remove your data directory, then reinstall the new version. Your data directory is located here:  ``%USERPROFILE%\.opengeo\``  Please delete this directory before upgrading. 
+
 You can upgrade from a previous version of the OpenGeo Suite, and your settings and data will be preserved.  To do this, follow the regular installation procedure, and if a previous version is detected, a notice will display saying so.
 
    .. figure:: img/upgrade.png

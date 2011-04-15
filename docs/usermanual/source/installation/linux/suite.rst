@@ -3,10 +3,7 @@
 Installing the OpenGeo Suite for Linux
 ======================================
 
-This document describes how to install the OpenGeo Suite for Linux.
-
-Prerequisites
--------------
+This document describes how to install the OpenGeo Suite for Linux.  There are two editions of the OpenGeo Suite for Linux: Community Edition and Enterprise Edition.  The instructions differ depending on which version you have.  Each Edition is available for RPM-based systems and Debain (APT)-based systems.  Please see the section appropriate for your software.
 
 The OpenGeo Suite has the following system requirements:
 
@@ -16,20 +13,32 @@ The OpenGeo Suite has the following system requirements:
 * Browser: Any modern web browser is supported (Internet Explorer 6+, Firefox 3+, Chrome 2+, Safari 3+)
 * Permissions: Super user privileges are required for installation
 
-Installation
-------------
 
-Packages for the OpenGeo Suite are currently available in both :ref:`RPM <rpm>` (CentOS/Red Hat/Fedora) and :ref:`APT <apt>` (Ubuntu/Debian) format. 
+
+
+
+
+
+
+
+
+
+
+.. _installation.linux.suite.community:
+
+OpenGeo Suite Community Edition
+-------------------------------
+
+Packages for the OpenGeo Suite Community Edition are currently available in both :ref:`RPM <installation.linux.suite.community.rpm>` (CentOS/Red Hat/Fedora) and :ref:`APT <installation.linux.suite.community.apt>` (Ubuntu/Debian) formats. 
 
 .. note:: The commands contained in the following installation instructions must be run as a user with root privileges, or prefixed with ``sudo``. 
 
-
-.. _RPM:
+.. _installation.linux.suite.community.rpm:
 
 RPM Installation
 ~~~~~~~~~~~~~~~~
 
-.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`RPM_upgrade`.
+.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`installation.linux.suite.community.rpm_upgrade`.
 
 .. warning:: The RPM packages are only compatible with CentOS 5 and above.
 
@@ -49,13 +58,11 @@ RPM Installation
       cd /etc/yum.repos.d
       wget http://yum.opengeo.org/centos/5/x86_64/OpenGeo.repo
 
-#. Search for packages:
+#. Update YUM:
 
    .. code-block:: bash
 
-      yum search opengeo
-
-   .. note:: If the search command does not return any results, the repository was not added properly. Examine the output of the ``yum`` command for any errors or warnings.
+      yum update
 
 #. Install the OpenGeo Suite package (``opengeo-suite``):
 
@@ -63,18 +70,20 @@ RPM Installation
 
       yum install opengeo-suite
 
+#. If the previous command returns an error, the OpenGeo repository may not have been added properly. Examine the output of the ``yum`` command for any errors or warnings.
+
 #. You can launch the OpenGeo Suite Dashboard (and verify the installation was successful) by navigating to the following URL::
 
       http://localhost:8080/dashboard/
 
 Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
  
-.. _RPM_upgrade:
+.. _installation.linux.suite.community.rpm_upgrade:
 
 RPM Upgrade
 ~~~~~~~~~~~
 
-.. warning:: If upgrading from 2.3.3 you must first uninstall the ``opengeo-suite`` and ``opengeo-geoserver`` packages before the upgrade. See the section entitled :ref:`RPM_upgrade_from_233`.
+.. warning:: If upgrading from before 2.4.2, the "medford" PostGIS database will be deleted and recreated on upgrade. So if you have any data in that database that you would like to keep, please back it up prior to upgrading (using pg_dump is recommended).
 
 #. Begin by updating YUM:
 
@@ -88,37 +97,13 @@ RPM Upgrade
 
       yum install opengeo-suite
 
-.. _RPM_upgrade_from_233:
 
-RPM Upgrade from 2.3.3
-^^^^^^^^^^^^^^^^^^^^^^
-
-The process for upgrading from version 2.3.3 is slightly different from other upgrades.
-
-#. Begin by removing both the ``opengeo-suite`` and ``opengeo-geoserver`` packages:
-
-   .. code-block:: bash
-
-      yum remove opengeo-geoserver opengeo-suite
-
-#. Update YUM:
-
-   .. code-block:: bash
-
-      yum update
-
-#. Reinstall the OpenGeo Suite package (``opengeo-suite``):
-
-   .. code-block:: bash
-
-      yum install opengeo-suite
-
-.. _APT:
+.. _installation.linux.suite.community.apt:
 
 APT Installation
 ~~~~~~~~~~~~~~~~
 
-.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`APT_upgrade`.
+.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`installation.linux.suite.community.apt_upgrade`.
 
 .. warning:: The APT packages are only available for Ubuntu 10.04 and above.
 
@@ -140,19 +125,13 @@ APT Installation
 
       apt-get update
 
-#. Search for packages:
-
-   .. code-block:: bash
-
-      apt-cache search opengeo
-
-   .. note:: If the search command does not return any results, the repository was not added properly. Examine the output of the ``apt`` commands for any errors or warnings.
-
 #. Install the OpenGeo Suite package (``opengeo-suite``):
 
    .. code-block:: bash
 
       apt-get install opengeo-suite
+
+#. If the previous command returns an error, the OpenGeo repository may not have been added properly. Examine the output of the ``yum`` command for any errors or warnings.
 
 #. You can launch the OpenGeo Suite Dashboard (and verify the installation was successful) by navigating to the following URL::
 
@@ -160,7 +139,7 @@ APT Installation
 
 Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
 
-.. _APT_upgrade:
+.. _installation.linux.suite.community.apt_upgrade:
 
 APT Upgrade
 ~~~~~~~~~~~
@@ -176,6 +155,202 @@ APT Upgrade
    .. code-block:: bash
 
       apt-get install opengeo-suite
+
+Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. _installation.linux.suite.enterprise:
+
+OpenGeo Sutie Enterprise Edition
+-------------------------------- 
+
+Packages for the OpenGeo Suite Enterprise Edition are currently available in both :ref:`RPM <installation.linux.suite.enterprise.rpm>` (CentOS/Red Hat/Fedora) and :ref:`APT <installation.linux.suite.enterprise.apt>` (Ubuntu/Debian) formats. 
+
+.. note:: The commands contained in the following installation instructions must be run as a user with root privileges, or prefixed with ``sudo``. 
+
+.. _installation.linux.suite.enterprise.rpm:
+
+RPM Installation
+~~~~~~~~~~~~~~~~
+
+.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`installation.linux.suite.enterprise.rpm_upgrade`.
+
+.. warning:: The RPM packages are only compatible with CentOS 5 and above.
+
+#. Begin by adding the OpenGeo YUM repository:
+
+   For 32 bit systems:
+
+   .. code-block:: bash
+
+      cd /etc/yum.repos.d
+      wget http://yum.opengeo.org/centos/5/i386/OpenGeo.repo
+
+   For 64 bit systems:
+
+   .. code-block:: bash
+
+      cd /etc/yum.repos.d
+      wget http://yum.opengeo.org/centos/5/x86_64/OpenGeo.repo
+
+#. Now add the OpenGeo Enterprise YUM repository.  This repository is password protected.  You will have received a username and password when you registered for the Enterprise Edition.  Add the following YUM repository using the commands below, making sure to substitute in your username for ``<username>`` and password for ``<password>``.
+
+   For 32 bit systems:
+
+   .. code-block:: bash
+
+      cd /etc/yum.repos.d
+      wget --user='<username>' --password='<password>' http://yum-ee.opengeo.org/centos/5/i386/OpenGeoEE.repo
+
+   For 64 bit systems:
+
+   .. code-block:: bash
+
+      cd /etc/yum.repos.d
+      wget --user='<username>' --password='<password>' http://yum-ee.opengeo.org/centos/5/x86_64/OpenGeoEE.repo
+
+#. Edit the OpenGeoEE.repo file filling in your username and password.
+
+#. Update YUM:
+
+   .. code-block:: bash
+
+      yum update
+
+#. Install the ``opengeo-suite-ee`` package:
+
+   .. code-block:: bash
+
+      yum install opengeo-suite-ee
+
+#. If the previous command returns an error, the OpenGeo repositories may not have been added properly. Examine the output of the ``yum`` command for any errors or warnings.
+
+#. You can launch the OpenGeo Suite Dashboard (and verify the installation was successful) by navigating to the following URL::
+
+      http://localhost:8080/dashboard/
+
+Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
+ 
+.. _installation.linux.suite.enterprise.rpm_upgrade:
+
+RPM Upgrade
+~~~~~~~~~~~
+
+.. warning:: If upgrading from before 2.4.2, the "medford" PostGIS database will be deleted and recreated on upgrade. So if you have any data in that database that you would like to keep, please back it up prior to upgrading (using pg_dump is recommended).
+
+#. Begin by updating YUM:
+
+   .. code-block:: bash
+
+      yum update
+
+#. The relevant OpenGeo packages should be included in the upgrade list. If you do not wish to do a full update, cancel the upgrade and install the ``opengeo-suite`` package manually:
+
+   .. code-block:: bash
+
+      yum install opengeo-suite-ee
+
+
+.. _installation.linux.suite.enterprise.apt:
+
+APT Installation
+~~~~~~~~~~~~~~~~
+
+.. note:: If you are upgrading from a previous version, jump to the section entitled :ref:`installation.linux.suite.enterprise.apt_upgrade`.
+
+.. warning:: The APT packages are only available for Ubuntu 10.04 and above.
+
+#. Begin by importing the OpenGeo GPG key:
+
+   .. code-block:: bash
+
+      wget -qO- http://apt.opengeo.org/gpg.key | apt-key add -
+
+#. Add the OpenGeo APT repository:
+
+   .. code-block:: bash
+
+      echo "deb http://apt.opengeo.org/ubuntu lucid main" >> /etc/apt/sources.list
+
+#. Now add the OpenGeo Enterprise APT repository.  This repository is password protected.  You will have received a username and password when you registered for the Enterprise Edition.  Add the following APT repository using the command below, making sure to substitute in your username for ``<username>`` and password for ``<password>``.
+
+   .. code-block:: bash
+
+      echo "deb http://<username>:<password>@apt-ee.opengeo.org/ubuntu lucid main" >> /etc/apt/sources.list
+
+#. Update APT:
+
+   .. code-block:: bash
+
+      apt-get update
+
+#. Install the OpenGeo Suite package (``opengeo-suite-ee``):
+
+   .. code-block:: bash
+
+      apt-get install opengeo-suite-ee
+
+#. If the previous command returns an error, the OpenGeo repository may not have been added properly. Examine the output of the ``yum`` command for any errors or warnings.
+
+#. You can launch the OpenGeo Suite Dashboard (and verify the installation was successful) by navigating to the following URL::
+
+      http://localhost:8080/dashboard/
+
+Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
+
+.. _installation.linux.suite.enterprise.apt_upgrade:
+
+APT Upgrade
+~~~~~~~~~~~
+
+#. Begin by updating APT:
+
+   .. code-block:: bash
+
+      apt-get update
+
+#. Update the ``opengeo-suite-ee`` package:
+
+   .. code-block:: bash
+
+      apt-get install opengeo-suite-ee
+
+Continue reading at the :ref:`installation.linux.suite.afterinstall` section.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .. _installation.linux.suite.afterinstall:
@@ -216,6 +391,10 @@ Once installed, you will have the following packages installed on your system:
    * - pgadmin3
      - pgAdmin III
      - Graphical client for interacting with PostgreSQL/PostGIS.
+   * - opengeo-suite-ee (Enterprise Edition only)
+     - OpenGeo Suite Enterprise Edition package
+     - Enterprise Edition functions and libraries.  
+
 
 Starting/Stopping the OpenGeo Suite
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,78 +454,6 @@ You can access PostGIS in one of two ways:  via the command line will the :comma
 This version of PostGIS is running on port 5432, with administrator username and password **opengeo** / **opengeo**.
 
 
-Installing the OpenGeo Suite Enterprise Edition
------------------------------------------------
-
-If you have installed the OpenGeo Suite Community Edition, you're done!
-
-If you have registered for the OpenGeo Suite Enterprise Edition, the next step is to install the package with the extra features contained only in the OpenGeo Suite Enterprise Edition.
-
-RPM Installation
-~~~~~~~~~~~~~~~~
-
-#. If you haven't already done so, begin by following the instructions above in the :ref:`base installation <RPM>`.
-
-#. You will have received a username and password when you registered for the Enterprise Edition.  Add the following YUM repository using the commands below, making sure to substitute in your username for ``<username>`` and password for ``<password>``.
-
-   For 32 bit systems:
-
-   .. code-block:: bash
-
-      cd /etc/yum.repos.d
-      wget --user='<username>' --password='<password>' http://yum-ee.opengeo.org/centos/5/i386/OpenGeoEE.repo
-
-   For 64 bit systems:
-
-   .. code-block:: bash
-
-      cd /etc/yum.repos.d
-      wget --user='<username>' --password='<password>' http://yum-ee.opengeo.org/centos/5/x86_64/OpenGeoEE.repo
-
-#. Edit the OpenGeoEE.repo file filling in your username and password.
-
-#. Update YUM:
-
-   .. code-block:: bash
-
-      yum update
-
-#. Install the ``opengeo-suite-ee`` package:
-
-   .. code-block:: bash
-
-      yum install opengeo-suite-ee
-
-The ``opengeo-suite-ee`` package contains all of the additional features contained in the OpenGeo Suite Enterprise Edition.
 
 
-APT Installation
-~~~~~~~~~~~~~~~~
 
-#. If you haven't already done so, begin by following the instructions above in the :ref:`base installation <APT>`.
-
-#. You will have received a username and password when you registered for the Enterprise Edition.  Add the following APT repository using the commands below, making sure to substitute in your username for ``<username>`` and password for ``<password>``.
-
-   .. code-block:: bash
-
-      echo "deb http://<username>:<password>@apt-ee.opengeo.org/ubuntu lucid main" >> /etc/apt/sources.list
-
-#. Update APT:
-
-   .. code-block:: bash
-
-      apt-get update
-
-#. Install the ``opengeo-suite-ee`` package:
-
-   .. code-block:: bash
-
-      apt-get install opengeo-suite-ee
-
-The ``opengeo-suite-ee`` package contains all of the additional features contained in the OpenGeo Suite Enterprise Edition.
-
-
-For More Information
---------------------
-
-Please visit http://opengeo.org/ or see the documentation included with this software.

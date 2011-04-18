@@ -38,7 +38,7 @@ check_rc $? "apt-get install ec2 api/ami + s3cmd tools"
 
 if [ -z $SKIP_BUNDLE ]; then
   # bundle the image
-  sudo ec2-bundle-vol -c $EC2_CERT -k $EC2_PRIVATE_KEY -u $S3_USER -r $IMAGE_ARCH
+  sudo ec2-bundle-vol -c $EC2_CERT -k $EC2_PRIVATE_KEY -u $S3_USER -r $IMAGE_ARCH -e /home/ubuntu
   check_rc $? "ec2-bundle-vol"
 fi
 

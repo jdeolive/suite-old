@@ -44,10 +44,14 @@ if [ ! -z $PRODUCT_ID ]; then
   prod="-pi $PRODUCT_ID -pn $PRODUCT_NAME"
 fi
 
+if [ "$ACCOUNT" == "dev" ]; then
+  SKIP_PRODUCT_CODE="--skip-product-code"
+fi
+
 IMAGE_NAME=suite-$ver-$IMAGE_ARCH-`date +"%Y%m%d"`
 if [ ! -z $PRODUCT_NAME ]; then
   IMAGE_NAME=suite-$PRODUCT_NAME-$ver-$IMAGE_ARCH-`date +"%Y%m%d"`
 fi
 
 # build it
-./build_ubuntu_ami.sh $AMI_ID $IMAGE_NAME $ACCOUNT -t $IMAGE_TYPE -s $IMAGE_SIZE -a $IMAGE_ARCH -bp $BUILD_PROFILE $prod
+./build_ubuntu_ami.sh $AMI_ID $IMAGE_NAME $ACCOUNT -t $IMAGE_TYPE -s $IMAGE_SIZE -a $IMAGE_ARCH -bp $BUILD_PROFILE $prod $SKIP_PRODUCT_CODE

@@ -73,7 +73,7 @@ function poll_image() {
 
 set -x
 if [ -z $3 ]; then
-  echo "Usage: $0 AMI_ID IMAGE_NAME <dev|prod> [-t 'ebs'|'s3'] [ -a 'i386'|'x86_64'] [ -s 'm1.small'|'m1.large'] [ -bp <base|ee> ] [ -p <product_id> ] [--skip-create-image]"
+  echo "Usage: $0 AMI_ID IMAGE_NAME <dev|prod> [-t 'ebs'|'s3'] [ -a 'i386'|'x86_64'] [ -s 'm1.small'|'m1.large'] [ -bp <base|ee> ] [ -p <product_id> ] [--skip-create-image] [--skip-product-code]"
   exit 1
 fi
 
@@ -102,6 +102,9 @@ for (( i = 2; i < ${#args[*]}; i++ )); do
   fi
   if [ $arg == "--skip-create-image" ]; then
     SKIP_CREATE_IMAGE="yes"
+  fi
+  if [ $arg == "--skip-product-code" ]; then
+    SKIP_PRODUCT_CODE=$arg
   fi
 done
 
@@ -174,7 +177,8 @@ if [ -z $SKIP_CREATE_IMAGE ]; then
     scp $SSH_OPTS s3cfg-$ACCOUNT ubuntu@$HOST:/home/ubuntu/s3cfg
     check_rc $? "upload s3cfg-$ACCOUNT"
   
-    ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./bundle_s3_image.sh $IMAGE_NAME $IMAGE_ARCH -p $PRODUCT_ID"
+    
+    ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./bundle_s3_image.sh $IMAGE_NAME $IMAGE_ARCH -p $PRODUCT_ID $SKIP_PRODUCT_CODE"
     check_rc $? "remote bundle image"
   fi
 fi

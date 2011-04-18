@@ -73,7 +73,7 @@ function poll_image() {
 
 set -x
 if [ -z $3 ]; then
-  echo "Usage: $0 AMI_ID IMAGE_NAME <dev|prod> [-t 'ebs'|'s3'] [ -a 'i386'|'x86_64'] [ -s 'm1.small'|'m1.large'] [ -p <product_id> ] [--skip-create-image]"
+  echo "Usage: $0 AMI_ID IMAGE_NAME <dev|prod> [-t 'ebs'|'s3'] [ -a 'i386'|'x86_64'] [ -s 'm1.small'|'m1.large'] [ -bp <base|ee> ] [ -p <product_id> ] [--skip-create-image]"
   exit 1
 fi
 
@@ -93,6 +93,9 @@ for (( i = 2; i < ${#args[*]}; i++ )); do
   fi
   if [ $arg == "-s" ]; then
     IMAGE_SIZE=$val
+  fi
+  if [ $arg == "-bp" ]; then
+    BUILD_PROFILE=$val
   fi
   if [ $arg == "-p" ]; then
     PRODUCT_ID=$val
@@ -144,7 +147,7 @@ SSH_OPTS=`ssh_opts`
 scp $SSH_OPTS setup_ubuntu_image.sh functions ubuntu@$HOST:/home/ubuntu
 check_rc $? "updload setup script"
 
-ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./setup_ubuntu_image.sh $IMAGE_SIZE"
+ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./setup_ubuntu_image.sh $IMAGE_SIZE $BUILD_PROFILE"
 check_rc $? "remote setup"
 
 if [ -z $SKIP_CREATE_IMAGE ]; then

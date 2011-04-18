@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -z $5 ]; then
-  echo "Usage: $0 AMI_ID <i386|x86_64> <IMAGE_SIZE> <ebs|s3> <dev|prod> [-pi <product_id> -pn <product_name>]"
+if [ -z $6 ]; then
+  echo "Usage: $0 AMI_ID <i386|x86_64> <IMAGE_SIZE> <ebs|s3> <dev|prod> <base|ee> [-pi <product_id> -pn <product_name>]"
   exit 1
 fi
 
@@ -10,9 +10,10 @@ IMAGE_ARCH=$2
 IMAGE_SIZE=$3
 IMAGE_TYPE=$4
 ACCOUNT=$5
+BUILD_PROFILE=$6
 
 args=( $* )
-for (( i=5; i < ${#args[*]}; i++ )); do
+for (( i=6; i < ${#args[*]}; i++ )); do
   if [ ${args[$i]} == "-pi" ]; then
     PRODUCT_ID=${args[(( i+1 ))]}
   fi
@@ -49,4 +50,4 @@ if [ ! -z $PRODUCT_NAME ]; then
 fi
 
 # build it
-./build_ubuntu_ami.sh $AMI_ID $IMAGE_NAME $ACCOUNT -t $IMAGE_TYPE -s $IMAGE_SIZE -a $IMAGE_ARCH $prod
+./build_ubuntu_ami.sh $AMI_ID $IMAGE_NAME $ACCOUNT -t $IMAGE_TYPE -s $IMAGE_SIZE -a $IMAGE_ARCH -bp $BUILD_PROFILE $prod

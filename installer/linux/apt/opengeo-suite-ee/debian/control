@@ -8,6 +8,6 @@ Homepage: http://opengeo.org
 
 Package: opengeo-suite-ee
 Architecture: any
-Depends: opengeo-suite (>= 2.4.1), ${misc:Depends}
+Depends: opengeo-suite (>= 2.4.2), ${misc:Depends}
 Description: OpenGeo Suite Enterprise Edition.
  The OpenGeo Suite Enterprise Edition provides additional modules and extensions geared toward enterprise and production systems.

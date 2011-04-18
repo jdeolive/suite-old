@@ -8,7 +8,7 @@ Homepage: http://opengeo.org
 
 Package: opengeo-suite
 Architecture: any
-Depends: debconf, opengeo-postgis (>= 2.4.1), opengeo-geoserver (>= 2.4.1), opengeo-docs (>= 2.4.1), ${misc:Depends} 
+Depends: debconf, opengeo-postgis (>= 2.4.1), opengeo-geoserver (>= 2.4.2), opengeo-docs (>= 2.4.2), ${misc:Depends} 
 Suggests: opengeo-docs
 Description: A full geospatial software stack that allows you to allows you to easily compose, style, and publish data and maps.
  The OpenGeo Suite is the complete, OGC standards-compliant web mapping platform built on powerful, cutting-edge, open source geospatial components.  It is comprised of the following components:

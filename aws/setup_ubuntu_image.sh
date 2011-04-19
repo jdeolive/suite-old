@@ -62,19 +62,28 @@ if [ $IMAGE_SIZE == "m1.large" ] || [ $IMAGE_SIZE == "m1.xlarge" ] || [ $IMAGE_S
 fi
 
 # configure postgis
-su - postgres -c 'createdb template_postgis'
-su - postgres -c 'createlang plpgsql template_postgis'
-su - postgres -c 'psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql'
-su - postgres -c 'psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql'
-su - postgres -c "psql -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\""
-su - postgres -c "createuser --createdb --superuser opengeo"
 
+# first need to enable trust for postgres user
 PG_HBA=/etc/postgresql/8.4/main/pg_hba.conf
+cp $PG_HBA $PG_HBA.bak 
+sed -i 's/ident/trust/g' $PG_HBA
+/etc/init.d/postgresql-8.4 restart
+
+createdb -U postgres template_postgis
+createlang -U postgres plpgsql template_postgis
+psql -U postgres -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql
+psql -U postgres -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
+psql -U postgres -d template_postgis -c "update pg_database set datistemplate = true where datname = 'template_postgis'"
+createuser -U postgres --createdb --superuser opengeo
+
+createdb -U postgres --owner=opengeo --template=template_postgis medford
+createdb -U postgres --owner=opengeo --template=template_postgis medford
+psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford
+psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford
+createdb -U postgres --owner=opengeo --template=template_postgis geoserver
+
+mv $PG_HBA.bak $PG_HBA
 cp $PG_HBA $PG_HBA.orig
 sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
 
-su - postgres -c 'createdb --owner=opengeo --template=template_postgis medford'
-su - postgres -c 'createdb --owner=opengeo --template=template_postgis medford'
-su - postgres -c 'psql -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford'
-su - postgres -c 'psql -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford'
-su - postgres -c 'createdb --owner=opengeo --template=template_postgis geoserver'
+/etc/init.d/postgresql-8.4 restart

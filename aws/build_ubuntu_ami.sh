@@ -147,10 +147,10 @@ log "instance id is $INSTANCE_ID"
 
 SSH_OPTS=`ssh_opts`
 
-scp $SSH_OPTS setup_ubuntu_image.sh functions ubuntu@$HOST:/home/ubuntu
+scp $SSH_OPTS setup_ubuntu_image.sh functions ubuntu@$HOST:/tmp
 check_rc $? "updload setup script"
 
-ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./setup_ubuntu_image.sh $IMAGE_SIZE $BUILD_PROFILE"
+ssh $SSH_OPTS ubuntu@$HOST "cd /tmp && ./setup_ubuntu_image.sh $IMAGE_SIZE $BUILD_PROFILE"
 check_rc $? "remote setup"
 
 if [ -z $SKIP_CREATE_IMAGE ]; then
@@ -168,17 +168,17 @@ if [ -z $SKIP_CREATE_IMAGE ]; then
     poll_image $IMAGE_ID
     check_rc $? "ec2-create-image"    
   else
-    scp $SSH_OPTS bundle_s3_image.sh $EC2_PRIVATE_KEY $EC2_CERT ubuntu@$HOST:/home/ubuntu
+    scp $SSH_OPTS bundle_s3_image.sh $EC2_PRIVATE_KEY $EC2_CERT ubuntu@$HOST:/tmp
     check_rc $? "upload bundle script and private key and certificate"
 
-    scp $SSH_OPTS s3-$ACCOUNT.properties ubuntu@$HOST:/home/ubuntu/s3.properties
+    scp $SSH_OPTS s3-$ACCOUNT.properties ubuntu@$HOST:/tmp/s3.properties
     check_rc $? "upload s3 properties"
 
-    scp $SSH_OPTS s3cfg-$ACCOUNT ubuntu@$HOST:/home/ubuntu/s3cfg
+    scp $SSH_OPTS s3cfg-$ACCOUNT ubuntu@$HOST:/tmp/s3cfg
     check_rc $? "upload s3cfg-$ACCOUNT"
   
     
-    ssh $SSH_OPTS ubuntu@$HOST "cd /home/ubuntu && ./bundle_s3_image.sh $IMAGE_NAME $IMAGE_ARCH -p $PRODUCT_ID $SKIP_PRODUCT_CODE"
+    ssh $SSH_OPTS ubuntu@$HOST "cd /tmp && ./bundle_s3_image.sh $IMAGE_NAME $IMAGE_ARCH -p $PRODUCT_ID $SKIP_PRODUCT_CODE"
     check_rc $? "remote bundle image"
   fi
 fi

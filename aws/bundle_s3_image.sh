@@ -30,8 +30,8 @@ done
 
 IMAGE_NAME=$1
 IMAGE_ARCH=$2
-export EC2_PRIVATE_KEY=`ls ~/pk-*`
-export EC2_CERT=`ls ~/cert-*`
+export EC2_PRIVATE_KEY=`ls /tmp/pk-*`
+export EC2_CERT=`ls /tmp/cert-*`
 
 # install the ec2-api/ami-tools and s3cmd
 sudo bash -c "echo 'deb http://us.archive.ubuntu.com/ubuntu/ lucid multiverse' >> /etc/apt/sources.list"
@@ -41,7 +41,7 @@ check_rc $? "apt-get install ec2 api/ami + s3cmd tools"
 
 if [ -z $SKIP_BUNDLE ]; then
   # bundle the image
-  sudo ec2-bundle-vol -c $EC2_CERT -k $EC2_PRIVATE_KEY -u $S3_USER -r $IMAGE_ARCH -e /home/ubuntu
+  sudo ec2-bundle-vol -c $EC2_CERT -k $EC2_PRIVATE_KEY -u $S3_USER -r $IMAGE_ARCH
   check_rc $? "ec2-bundle-vol"
 fi
 

@@ -78,8 +78,8 @@ createuser -U postgres --createdb --superuser opengeo
 
 createdb -U postgres --owner=opengeo --template=template_postgis medford
 createdb -U postgres --owner=opengeo --template=template_postgis medford
-psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford
-psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford
+psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford > /dev/null
+psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford > /dev/null
 createdb -U postgres --owner=opengeo --template=template_postgis geoserver
 
 sudo mv $PG_HBA.bak $PG_HBA

@@ -39,6 +39,12 @@ sudo apt-get update
 sudo apt-get -y install ec2-api-tools ec2-ami-tools s3cmd
 check_rc $? "apt-get install ec2 api/ami + s3cmd tools"
 
+# back for the 64 bit ami we are using for a base, it includes a grub menu.lst
+# file that contains mount entries that use wierd labels, modify it
+# use block-device-mapping to fix
+if [ -e /boot/grub/menu.lst ]; then
+  sudo sed -i 's/root=LABEL=uec-rootfs/root=\/dev\/sda1/g' /boot/grub/menu.lst 
+fi
 if [ -z $SKIP_BUNDLE ]; then
   # bundle the image
   sudo ec2-bundle-vol -c $EC2_CERT -k $EC2_PRIVATE_KEY -u $S3_USER -r $IMAGE_ARCH

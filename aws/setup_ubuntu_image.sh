@@ -75,8 +75,8 @@ psql -U postgres -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgi
 psql -U postgres -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql
 psql -U postgres -d template_postgis -c "update pg_database set datistemplate = true where datname = 'template_postgis'"
 createuser -U postgres --createdb --superuser opengeo
+psql -U postgres -c "alter user opengeo with password 'opengeo'"
 
-createdb -U postgres --owner=opengeo --template=template_postgis medford
 createdb -U postgres --owner=opengeo --template=template_postgis medford
 psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford > /dev/null
 psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford > /dev/null

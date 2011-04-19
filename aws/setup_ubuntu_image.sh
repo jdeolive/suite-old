@@ -65,9 +65,9 @@ fi
 
 # first need to enable trust for postgres user
 PG_HBA=/etc/postgresql/8.4/main/pg_hba.conf
-cp $PG_HBA $PG_HBA.bak 
-sed -i 's/ident/trust/g' $PG_HBA
-/etc/init.d/postgresql-8.4 restart
+sudo cp $PG_HBA $PG_HBA.bak 
+sudo sed -i 's/ident/trust/g' $PG_HBA
+sudo /etc/init.d/postgresql-8.4 restart
 
 createdb -U postgres template_postgis
 createlang -U postgres plpgsql template_postgis
@@ -82,8 +82,9 @@ psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d med
 psql -U postgres -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford
 createdb -U postgres --owner=opengeo --template=template_postgis geoserver
 
-mv $PG_HBA.bak $PG_HBA
-cp $PG_HBA $PG_HBA.orig
-sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
+sudo mv $PG_HBA.bak $PG_HBA
+sudo cp $PG_HBA $PG_HBA.orig
+sudo sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
 
-/etc/init.d/postgresql-8.4 restart
+sudo chown postgres:postgres $PG_HBA
+sudo /etc/init.d/postgresql-8.4 restart

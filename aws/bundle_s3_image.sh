@@ -52,7 +52,7 @@ if [ ! -e  $IMAGE_MANIFEST ]; then
 fi
 
 S3_BUCKET=$S3_BUCKET_ROOT/$IMAGE_NAME
-S3CMD_CONFIG=~/s3cfg
+S3CMD_CONFIG=/tmp/s3cfg
 
 s3cmd -c $S3CMD_CONFIG ls s3://$S3_BUCKET_ROOT 
 check_rc $? "listing contents of $S3_BUCKET_ROOT"

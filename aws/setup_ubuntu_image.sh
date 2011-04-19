@@ -33,7 +33,10 @@ echo "sun-java6-jdk shared/accepted-sun-dlj-v1-1 select true" | sudo debconf-set
 echo "opengeo-geoserver opengeo_geoserver/proxyurl string " | sudo debconf-set-selections 
 echo "opengeo-geoserver opengeo_geoserver/username string " | sudo debconf-set-selections 
 echo "opengeo-geoserver opengeo_geoserver/password string " | sudo debconf-set-selections 
-echo "opengeo-postgis opengeo_postgis/configure_postgis select true " | sudo debconf-set-selections 
+
+# we have to configure postgis manually after install since without a 
+# controlling terminal debconf won't continue
+echo "opengeo-postgis opengeo_postgis/configure_postgis select false " | sudo debconf-set-selections 
 
 check_rc $? "debconf-set-selections"
 
@@ -57,3 +60,21 @@ if [ $IMAGE_SIZE == "m1.large" ] || [ $IMAGE_SIZE == "m1.xlarge" ] || [ $IMAGE_S
   sudo sed -i 's/\(JAVA_OPTS=.*\)Xmx[0-9]\+[[:alpha:]]/\1Xmx2048m/g' /etc/default/tomcat6
   sudo service tomcat6 restart 
 fi
+
+# configure postgis
+su - postgres -c 'createdb template_postgis'
+su - postgres -c 'createlang plpgsql template_postgis'
+su - postgres -c 'psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql'
+su - postgres -c 'psql -d template_postgis -f /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql'
+su - postgres -c "psql -d template_postgis -c \"update pg_database set datistemplate = true where datname = 'template_postgis'\""
+su - postgres -c "createuser --createdb --superuser opengeo"
+
+PG_HBA=/etc/postgresql/8.4/main/pg_hba.conf
+cp $PG_HBA $PG_HBA.orig
+sed -i '/# TYPE/a local   all         opengeo                           md5'  $PG_HBA
+
+su - postgres -c 'createdb --owner=opengeo --template=template_postgis medford'
+su - postgres -c 'createdb --owner=opengeo --template=template_postgis medford'
+su - postgres -c 'psql -f /usr/share/opengeo-postgis/medford_taxlots_schema.sql -d medford'
+su - postgres -c 'psql -f /usr/share/opengeo-postgis/medford_taxlots.sql -d medford'
+su - postgres -c 'createdb --owner=opengeo --template=template_postgis geoserver'

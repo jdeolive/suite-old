@@ -88,5 +88,9 @@ if [ -z $SKIP_REGISTER ]; then
     # make the image public
     ec2-modify-image-attribute $IMAGE_ID -l -a all
     check_rc $? "making image $IMAGE_ID public"
+
+    # tag the image
+    ec2-create-tags $IMAGE_ID --tag geoserver --tag postgis --tag opengeo --tag openlayers --tag gis --tag geospatial --tag "opengeo suite"
+    check_rc $? "create image tags for $IMAGE_ID"
   fi
 fi

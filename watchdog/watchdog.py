@@ -85,7 +85,7 @@ class Watchdog(object):
     time.sleep(10)
 
     # send notification 
-    if eval(self.conf.get('main', 'notify_restart')):
+    if eval(self.conf.get('main', 'email_notify')):
       self.notify_restart()
 
   def notify_restart(self):
@@ -131,7 +131,7 @@ class Watchdog(object):
       server_log = self.conf.get('main', 'server_log')
       if server_log:
         logf = open(server_log)
-        lines = ''.join(self._tail_file(logf, 100))
+        lines = ''.join(self._tail_file(logf, 500))
         logf.close()
       else:
         lines = ''

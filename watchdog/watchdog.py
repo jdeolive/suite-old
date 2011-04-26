@@ -1,4 +1,4 @@
-import os, logging, subprocess, time, urllib2, tempfile
+import os, logging, subprocess, sys, tempfile, time, urllib2
 from datetime import datetime
 from xml import sax
 from ConfigParser import ConfigParser
@@ -262,3 +262,8 @@ class Check(object):
      for t in conf:
        d[t[0]] = t[1]
      return d
+
+if __name__ == '__main__':
+  len(sys.argv) > 1 or exit('Usage: %s <.ini file>' % sys.argv[0])
+  dog = Watchdog(sys.argv[1])
+  dog.ping()

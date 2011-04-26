@@ -99,12 +99,12 @@ class Watchdog(object):
         server = smtplib.SMTP(smtp_host, smtp_port)
 
       server.login(self.conf.get('email', 'username'), 
-        self.conf.get('email', 'username'))
+        self.conf.get('email', 'password'))
       hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE).communicate()
       msg = MIMEText('%s restarted' % hostname[0])
 
       from_addr = self.conf.get('email', 'from_addr')
-      to = self.conf.get('email', 'to_addr')
+      to_addr = self.conf.get('email', 'to_addr')
 
       msg['Subject'] = '%s restarted' % hostname[0] 
       server.sendmail(from_addr, [to_addr], msg.as_string())

@@ -1,6 +1,8 @@
-import os, logging, subprocess, time, urllib2
+import os, logging, subprocess, time, urllib2, tempfile
 from xml import sax
 from ConfigParser import ConfigParser
+
+date_format = '%Y%m%dT%H:%M:%S'
 
 class Watchdog(object):
 
@@ -86,6 +88,27 @@ class Watchdog(object):
       self.notify_restart()
 
   def notify_restart(self):
+    # check first the timestamp of the last email send
+    now = datetime.now()
+    timestamp = os.path.join(tempfile.gettempdir(), '%s.timestamp' % self.name)
+    try: 
+      tsf = open(timestamp) 
+      last_sent = datetime.strptime(tsf.read(), date_format)
+      tsf.close()
+    except:
+      last_sent = None
+
+    spam_int = int(self.conf.get('email', 'spam_interval')) 
+    if (now - last_sent).seconds / 60 > spam_int:
+      logging.info('Sending email notification of restart') 
+      self._send_notify(now)
+
+    # update the timestamp regardless
+    tsf = open(timetamp, 'w') 
+    tsf.write(now.strftime(date_format))
+    tsf.close()
+
+  def _send_notify(self, timestamp):
     import smtplib, socket
     from email.mime.text import MIMEText
 
@@ -100,13 +123,21 @@ class Watchdog(object):
 
       server.login(self.conf.get('email', 'username'), 
         self.conf.get('email', 'password'))
+
+      # grab the last n lines of the server log
+      server_log = self.conf.get('main', 'server_log')
+      if server_log:
+        logf = open(server_log)
+        lines = self._tail_file(logf, 100)
+        logf.close()
+
       hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE).communicate()
-      msg = MIMEText('%s restarted' % hostname[0])
+      msg = MIMEText(lines)
+      msg['Subject'] = '%s restarted at %s' % (hostname[0], str(timestamp))
 
       from_addr = self.conf.get('email', 'from_addr')
       to_addr = self.conf.get('email', 'to_addr')
 
-      msg['Subject'] = '%s restarted' % hostname[0] 
       server.sendmail(from_addr, [to_addr], msg.as_string())
       server.close()
     except Exception:
@@ -178,6 +209,19 @@ class Watchdog(object):
     logging.basicConfig(filename=self.conf.get('logging', 'filename'), 
        level=logging.__dict__[self.conf.get('logging', 'level')],
        format='%(asctime)s %(message)s')
+
+  def _tail_file(self, file, n):
+    file.seek(0, 2)                         #go to end of file
+    bytes_in_file = file.tell()             
+    lines_found, total_bytes_scanned = 0, 0
+    while n+1 > lines_found and bytes_in_file > total_bytes_scanned: 
+        byte_block = min(1024, bytes_in_file-total_bytes_scanned)
+        file.seek(-(byte_block+total_bytes_scanned), 2)
+        total_bytes_scanned += byte_block
+        lines_found += file.read(1024).count('\n')
+    file.seek(-total_bytes_scanned, 2)
+    line_list = list(file.readlines())
+    return line_list[-n:]
 
 class Check(object):
 

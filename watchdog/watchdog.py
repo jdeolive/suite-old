@@ -137,7 +137,7 @@ class Watchdog(object):
         lines = ''
       hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE).communicate()
       msg = MIMEText(lines)
-      msg['Subject'] = '%s restarted at %s' % (hostname[0], str(timestamp))
+      msg['Subject'] = '%s on %s restarted at %s' % (self.name, hostname[0], str(timestamp))
 
       from_addr = self.conf.get('email', 'from_addr')
       to_addr = self.conf.get('email', 'to_addr')

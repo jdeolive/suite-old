@@ -1,4 +1,5 @@
 import os, logging, subprocess, time, urllib2, tempfile
+from datetime import datetime
 from xml import sax
 from ConfigParser import ConfigParser
 
@@ -99,12 +100,14 @@ class Watchdog(object):
       last_sent = None
 
     spam_int = int(self.conf.get('email', 'spam_interval')) 
-    if (now - last_sent).seconds / 60 > spam_int:
+    if not last_sent or (now - last_sent).seconds / 60 > spam_int:
       logging.info('Sending email notification of restart') 
       self._send_notify(now)
+    else:
+      logging.info('Not sending email notification, last sent at %s' % str(last_sent))
 
     # update the timestamp regardless
-    tsf = open(timetamp, 'w') 
+    tsf = open(timestamp, 'w') 
     tsf.write(now.strftime(date_format))
     tsf.close()
 
@@ -128,9 +131,10 @@ class Watchdog(object):
       server_log = self.conf.get('main', 'server_log')
       if server_log:
         logf = open(server_log)
-        lines = self._tail_file(logf, 100)
+        lines = ''.join(self._tail_file(logf, 100))
         logf.close()
-
+      else:
+        lines = ''
       hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE).communicate()
       msg = MIMEText(lines)
       msg['Subject'] = '%s restarted at %s' % (hostname[0], str(timestamp))

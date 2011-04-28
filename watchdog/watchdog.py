@@ -32,11 +32,19 @@ class Watchdog(object):
 
     #  check if the process is running
     try:
-      if not self._run_checks():
-        logging.warning('Process %d NOT ok. Attempting to restart' % (self.pid))
-        self.restart()
-      else:
-        logging.info('Process %d ok' % (self.pid))
+      for check in self.load_checks():
+        try:
+          if not check.ok():
+            # dump out the content
+            check.dump()
+
+            # restart
+            logging.warning('Process %d NOT ok. Attempting to restart' % (self.pid))
+            return self.restart(check)
+        finally:
+           check.close()
+
+      logging.info('Process %d ok' % (self.pid))
     finally:
       # remove the lock file       
       os.remove(lockfile)
@@ -166,39 +174,22 @@ class Watchdog(object):
     except Exception:
       logging.exception('Email notification of restart failed')
 
-  def _run_checks(self):
+  def load_checks(self):
     if subprocess.call(['ps', str(self.pid)], stdout=open('/dev/null', 'w')):
       logging.warning('Process %d is not running' % self.pid)      
       return False
     else:
       logging.info('Process %d is running' % self.pid)    
 
-    # run all the checks
+    # load all the checks
+    checks = []
     base = self.conf.get('net', 'url')
     for check in self.conf.get('main', 'checks').split(','):
       url = base + self.conf.get(check, 'path')
-      logging.warning('Checking url %s' % url)
-
-      try:
-        info = urllib2.urlopen(url, timeout=5)
-        #import pdb; pdb.set_trace()
-        try: 
-          if info.getcode() != 200:
-            logging.warning('%s returned %d' % (url, info.getcode()))
-            return False 
+      checks.append(Check(url, self.conf.items(check)))
         
-          if not Check(info, self.conf.items(check)).ok():
-            logging.warning('%s was NOT ok' % url)
-            return False 
-
-        finally:
-          info.close()
-      except Exception:
-        logging.exception('Failure connecting to %s' % url)
-        return False 
-        
-    # check the java heap
-    return True 
+    # TODO: check the java heap
+    return checks 
 
   def _check_pid(self, n=10, pid=None):
     pid = pid if pid else self.pid
@@ -249,11 +240,26 @@ class Watchdog(object):
 
 class Check(object):
 
-   def __init__(self, response, conf):
-     self.response = response
+   def __init__(self, url, conf):
+     self.url = url
      self.conf = self._dict(conf)
 
    def ok(self):
+     logging.warning('Checking url %s' % self.url)
+     try:
+       self.response = urllib2.urlopen(self.url, timeout=5)
+       return self.do_check()
+     except Exception:
+       logging.exception('Failure connecting to %s' % self.url)
+       return False 
+
+   def do_check(self):
+     # check the http code
+     code = self.response.getcode()
+     if code != 200:
+       logging.warning('%s returned %d' % (self.url, code))
+       return False 
+
      # check the mime type     
      mime = self.response.info().type
      if mime != self.conf['mime']:
@@ -277,6 +283,17 @@ class Check(object):
 
      return True
 
+   def dump(self):
+     if hasattr(self, 'response'):
+       f = tempfile.mkstemp()[1]
+       logging.info('Dumping output to %s' % f)
+
+       f = open(f, 'w')
+       for line in self.response:
+         f.write(line)
+       f.close()
+        
+      
    def _dict(self, conf):
      d = {}
      for t in conf:

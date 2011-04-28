@@ -2,7 +2,7 @@ import time
 from watchdog import Watchdog
 
 while True:
-  dog = Watchdog('watchdog.conf')
+  dog = Watchdog('watchdog.ini')
   dog.ping()
-  time.sleep(5)
+  time.sleep(10)
 

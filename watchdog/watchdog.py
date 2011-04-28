@@ -71,18 +71,37 @@ class Watchdog(object):
     # start again
     logging.info('Restarting process')
     out = open('/dev/null', 'w')
-    pid = subprocess.Popen(startup, stdout=out, stderr=out, 
-      cwd=os.path.dirname(startup[0])).pid
 
-    logging.info('Process restarted with new pid %d' % pid)
+    for x in range(2):
+      subprocess.Popen(startup, stdout=out, stderr=out, 
+        cwd=os.path.dirname(startup[0])).pid
+
+      # give the new process some time to start
+      time.sleep(5)
+
+      # read pid from pidfile
+      try:
+        pid = self._get_pid()
+        logging.info('Checking for new pid %d' % pid)
+        if self._check_pid(3, pid):
+          break 
+        logging.warning('New pid %d not running' % pid)
+      except:
+        pass
+
+      logging.info('Process restart failed, trying again')
+
+    if self._check_pid(1, pid):
+      logging.info('Process restarted with pid %d' % pid)
+    else:
+      logging.warning('Unable to restart process')
+      raise Exception('Unable to restart process')
 
     if eval(self.conf.get('main', 'update_pid')):
       f = open(self.conf.get('main', 'pidfile'), 'w')      
       f.write(str(pid))
       f.close()
 
-    # give the new process some time to start
-    time.sleep(10)
 
     # send notification 
     if eval(self.conf.get('main', 'email_notify')):
@@ -181,9 +200,10 @@ class Watchdog(object):
     # check the java heap
     return True 
 
-  def _check_pid(self):
-    for i in range(10):
-      if not subprocess.call(['ps', str(self.pid)], stdout=open('/dev/null', 'w')):
+  def _check_pid(self, n=10, pid=None):
+    pid = pid if pid else self.pid
+    for i in range(n):
+      if not subprocess.call(['ps', str(pid)], stdout=open('/dev/null', 'w')):
         time.sleep(1)
       else:
         return False

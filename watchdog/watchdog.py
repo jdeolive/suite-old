@@ -40,7 +40,7 @@ class Watchdog(object):
 
             # restart
             logging.warning('Process %d NOT ok. Attempting to restart' % (self.pid))
-            return self.restart(check)
+            return self.restart()
         finally:
            check.close()
 
@@ -82,7 +82,7 @@ class Watchdog(object):
 
     for x in range(2):
       subprocess.Popen(startup, stdout=out, stderr=out, 
-        cwd=os.path.dirname(startup[0])).pid
+        cwd=os.path.dirname(startup[0]))
 
       # give the new process some time to start
       time.sleep(5)
@@ -95,6 +95,7 @@ class Watchdog(object):
           break 
         logging.warning('New pid %d not running' % pid)
       except:
+        logging.exception()
         pass
 
       logging.info('Process restart failed, trying again')
@@ -293,7 +294,10 @@ class Check(object):
          f.write(line)
        f.close()
         
-      
+   def close(self):    
+     if hasattr(self, 'response'):
+       self.response.close()
+
    def _dict(self, conf):
      d = {}
      for t in conf:

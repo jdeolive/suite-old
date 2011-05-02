@@ -106,7 +106,7 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
       *Viewing your list of AMIs*
 
-#. You will need the AMI ID given to you when you registered.  Enter the AMI ID in the box, and then select :guilabel:`Public Images` in the select box.  You should see an OpenGeo AMI show up in the list.
+#. You will need the AMI ID given to you when you registered.  Change the select box titled :guilabel:`Viewing` to read :guilabel:`All Public Images`.  Then enter your AMI ID in the box.  You should see an OpenGeo AMI show up in the list.
 
    .. note:: If you did not register, or never received an email with your AMI ID, please email inquiry@opengeo.org.
 

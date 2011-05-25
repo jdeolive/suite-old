@@ -136,7 +136,9 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
       *Tag creation page*
 
-#. You will be asked to create a key pair.  This is used to be able to securely connect to the instance after it launches.  Enter a name for your key pair, then download it to your local machine, keeping it in a safe place.  When done, click :guilabel:`Continue`.
+#. You will be asked to create a key pair.  This is used to be able to securely connect (via SSH) to the instance after it launches.  Enter a name for your key pair, then download it to your local machine, keeping it in a safe place.  When done, click :guilabel:`Continue`.
+
+   .. warning:: Save this key pair!  Keys cannot be generated or retrieved at a later time.  If you have any plans to connect via SSH or SCP on this instance in the future, you will want to have a key pair already generated.
 
    .. figure:: img/requestinstance-keypair.png
       :align: center
@@ -155,7 +157,26 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
       *New Security Group page*
 
-#. On the New Security Group page, enter a :guilabel:`Group Name` and `Group Description` ("Ports" for both is fine).  Create two new rules, both :guilabel:`Custom TCP rules`.  the first rule should have a :guilabel:`Port range` of "80" and :guilabel:`Source` of "0.0.0.0/0".  The second rule should have a :guilabel:`Port range` of "8080" and :guilabel:`Source` of "0.0.0.0/0".  Add the two rules then click :guilabel:`Continue`.
+#. On the New Security Group page, enter a :guilabel:`Group Name` and `Group Description` ("Ports" for both is fine).  Create the following new rules, both :guilabel:`Custom TCP rules`.
+
+   .. list-table::
+      :widths: 30 30 40
+      :header-rows: 1
+
+      * - Port range
+        - Source
+        - Usage
+      * - **80**
+        - ``0.0.0.0/0``
+        - Default port for web server
+      * - **8080**
+        - ``0.0.0.0/0``
+        - Default port for web applications
+      * - **22**
+        - ``0.0.0.0/0``
+        - Required for SSH access
+
+   You may add other rules as desired.  When finished click :guilabel:`Continue`.
 
    .. figure:: img/requestinstance-newsecgroupfinal.png
       :align: center
@@ -185,7 +206,7 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
 #.  Note the :guilabel:`Public DNS` entry.  Use this to connect to the OpenGeo Suite Dashboard and begin using the OpenGeo Suite.  In a new browser window, type the following URL::
 
-       http://<Public DNS ENTRY>:8080/dashboard/
+       http://<Public DNS>:8080/dashboard/
 
     For example::
 
@@ -200,11 +221,54 @@ The next step is to launch your new OpenGeo Suite Cloud instance.  This is done 
 
 You are now set up and ready to go!
 
+SSH Access
+----------
+
+.. note:: This step requires that port 22 was opened in the Security Group created during the launching of your instance and that a key pair was generated.
+
+Linux / Mac OS X
+~~~~~~~~~~~~~~~~
+
+You may connect to this instance via SSH using the ``ssh`` command::
+
+   ssh -i yourkey.pem ubuntu@<Public DNS>
+
+For example::
+
+   ssh -i yourkey.pem ubuntu@ec2-174-129-64-92.compute-1.amazonaws.com
+
+where :file:`yourkey.pem` is the name of the downloaded key file.
+
+Windows
+~~~~~~~
+
+You may connect to this instance via SSH using `PuTTY <http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>`_, but you will need to convert your key to a format that PuTTY understands.  This is done with `PuTTYgen <http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>`_:
+
+#. Run PuTTYgen.
+
+#. Click :guilabel:`Load` ("Load an existing private key").
+
+#. Select the key file.
+
+#. After loading, click :guilabel:`Save private key`.  This is the key to use when connecting with PuTTY.  it will have a ``.ppk`` file extension.
+
+To connect with PuTTY, make sure to load the ``.ppk`` file under :menuselection:`Connection --> SSH --> Auth` in the box titled :guilabel:`Private key file for authentication`. Once done, enter the host name, and connect as user ``ubuntu``.
+
+To connect with PuTTY using the command line::
+
+  putty -i yourkey.ppk -ssh ubuntu@<Public DNS>
+
+For example::
+
+  putty -i yourkey.ppk -ssh ubuntu@ec2-174-129-64-92.compute-1.amazonaws.com
+
+where :file:`yourkey.ppk` is the name of the key file created by PuTTYgen.
+
 For More Information
 --------------------
 
 Full documentation is available at the following URL from your instance::
 
-  http://<Public DNS ENTRY>:8080/docs/
+  http://<Public DNS>:8080/docs/
 
 Please contact inquiry@opengeo.org for more information.

@@ -142,6 +142,7 @@ class Watchdog(object):
   def _send_notify(self, timestamp):
     import smtplib, socket
     from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
 
     smtp_host = self.conf.get('email', 'smtp_host')
     smtp_port = self.conf.get('email', 'smtp_port')
@@ -155,17 +156,20 @@ class Watchdog(object):
       server.login(self.conf.get('email', 'username'), 
         self.conf.get('email', 'password'))
 
-      # grab the last n lines of the server log
-      server_log = self.conf.get('main', 'server_log')
-      if server_log:
-        logf = open(server_log)
-        lines = ''.join(self._tail_file(logf, 500))
-        logf.close()
-      else:
-        lines = ''
+
+      msg = MIMEMultipart()
       hostname = subprocess.Popen(['hostname'], stdout=subprocess.PIPE).communicate()
-      msg = MIMEText(lines)
       msg['Subject'] = '%s on %s restarted at %s' % (self.name, hostname[0], str(timestamp))
+
+      # attach the server log
+      att = MIMEText(self._read_logfile(self.conf.get('main', 'server_log')))
+      att.add_header('Content-Disposition', 'attachment; filename="server_log.txt"')
+      msg.attach(att)
+
+      # attach the watchdog log
+      att = MIMEText(self._read_logfile(self.conf.get('logging','filename'), 100))
+      att.add_header('Content-Disposition', 'attachment; filename="watchdog_log.txt"')
+      msg.attach(att)
 
       from_addr = self.conf.get('email', 'from_addr')
       to_addr = self.conf.get('email', 'to_addr')
@@ -176,18 +180,13 @@ class Watchdog(object):
       logging.exception('Email notification of restart failed')
 
   def load_checks(self):
-    if subprocess.call(['ps', str(self.pid)], stdout=open('/dev/null', 'w')):
-      logging.warning('Process %d is not running' % self.pid)      
-      return False
-    else:
-      logging.info('Process %d is running' % self.pid)    
-
     # load all the checks
-    checks = []
+    checks = [PidCheck(self.pid)]
     base = self.conf.get('net', 'url')
     for check in self.conf.get('main', 'checks').split(','):
-      url = base + self.conf.get(check, 'path')
-      checks.append(Check(url, self.conf.items(check)))
+      if len(check.strip()) > 0:
+        url = base + self.conf.get(check, 'path')
+        checks.append(RequestCheck(url, self.conf.items(check)))
         
     # TODO: check the java heap
     return checks 
@@ -226,6 +225,15 @@ class Watchdog(object):
        level=logging.__dict__[self.conf.get('logging', 'level')],
        format='%(asctime)s %(message)s')
 
+  def _read_logfile(self, logfile, n=500):
+    if logfile and os.path.exists(logfile):
+      logf = open(logfile)
+      lines = ''.join(self._tail_file(logf, n))
+      logf.close()
+    else:
+      lines = ''
+    return lines
+  
   def _tail_file(self, file, n):
     file.seek(0, 2)                         #go to end of file
     bytes_in_file = file.tell()             
@@ -239,7 +247,25 @@ class Watchdog(object):
     line_list = list(file.readlines())
     return line_list[-n:]
 
-class Check(object):
+class PidCheck(object):
+   def __init__(self, pid):
+     self.pid = pid
+
+   def ok(self):
+     if subprocess.call(['ps', str(self.pid)], stdout=open('/dev/null', 'w')):
+       logging.warning('Process %d is not running' % self.pid)      
+       return False
+     else:
+       logging.info('Process %d is running' % self.pid)    
+       return True 
+
+   def dump(self):
+     pass
+
+   def close(self):
+     pass
+
+class RequestCheck(object):
 
    def __init__(self, url, conf):
      self.url = url

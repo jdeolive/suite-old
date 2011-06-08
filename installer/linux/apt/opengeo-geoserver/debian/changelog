@@ -1,3 +1,10 @@
+opengeo-geoserver (2.4.3) unstable; urgency=low
+
+  * New upstream release based on GeoServer 2.1.0+
+  * Too many open file issue fix
+
+ -- OpenGeo <inquiry@opengeo.org>  Wed, 8 Jun 2011 16:00:00 -0700
+
 opengeo-geoserver (2.4.2) unstable; urgency=low
 
   *  Fix for tomcat 7 deployment issue

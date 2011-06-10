@@ -78,7 +78,7 @@ public class Dashboard {
             //geoexplorer context
             cxt = new WebAppContext();
             cxt.setContextPath("/geoexplorer");
-            cxt.setWar("../geoexplorer/build/geoexplorer");
+            cxt.setWar("../geoexplorer/target/geoexplorer");
             contexts.add(cxt);
             
             //recipes context

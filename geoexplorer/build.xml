@@ -17,7 +17,7 @@
             <arg line="pull origin master"/>
         </exec>
         <exec executable="git" dir="repo" failonerror="true">
-            <arg line="checkout 99ded8268686b8be31f15ec6714fcbe4fcacd63a"/>
+            <arg line="checkout a0a136aa2ac5feb06e5a3a10371039a8cb68f08e"/>
         </exec>
 
         <ant dir="repo" target="init"/>

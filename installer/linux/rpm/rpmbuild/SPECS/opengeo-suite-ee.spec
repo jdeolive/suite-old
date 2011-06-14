@@ -1,12 +1,12 @@
 Name: opengeo-suite-ee
-Version: 2.4.2
+Version: 2.4.3
 Release: 1
 Summary: OpenGeo Suite Enterprise Edition.
 Group: Applications/Engineering
 License: see http://geoserver.org
 Requires(post): bash
 Requires(preun): bash
-Requires: opengeo-suite >= 2.4.2
+Requires: opengeo-suite >= 2.4.3
 
 %define _rpmdir ../
 %define _rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm

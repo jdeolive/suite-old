@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Build all packages, including 3rd party externals</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>REPO_PATH</name>
+          <description></description>
+          <defaultValue>trunk</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>REV</name>
+          <description></description>
+          <defaultValue>latest</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>REPO</name>
+          <description></description>
+          <defaultValue>testing</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders/>
+  <publishers>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger>
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
+          </configs>
+          <projects>opengeo-jai, opengeo-suite-data, opengeo-postgis, opengeo-geoserver, opengeo-suite, opengeo-docs, opengeo-suite-ee, geos, pgadmin3, postgis, proj</projects>
+          <condition>SUCCESS</condition>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
+  <buildWrappers/>
+</project>

@@ -161,7 +161,7 @@ publish_deb() {
   pushd build/$name
   checkrc $? "push build/$name"
 
-  rsync -avz -e "ssh -i $HOME/.ssh/id_rsa_apt" * apt@apt.opengeo.org:/home/apt/apt/$profile/incoming/$repo/$dist
+  rsync -avz -e "ssh -p 7777 -i $HOME/.ssh/id_rsa_apt" * apt@apt.opengeo.org:/home/apt/apt/$profile/incoming/$repo/$dist
   #scp -i ~/.ssh/id_rsa_apt * apt@apt.opengeo.org:/home/apt/apt/incoming/$repo/$dist
   checkrc $? "secure copy .deb files"
 

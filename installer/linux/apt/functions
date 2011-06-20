@@ -165,7 +165,7 @@ publish_deb() {
   #scp -i ~/.ssh/id_rsa_apt * apt@apt.opengeo.org:/home/apt/apt/incoming/$repo/$dist
   checkrc $? "secure copy .deb files"
 
-  ssh -i ~/.ssh/id_rsa_apt apt@apt.opengeo.org "./apt/publish_debs.sh $repo $dist $profile" 
+  ssh -i ~/.ssh/id_rsa_apt -p 7777 apt@apt.opengeo.org "./apt/publish_debs.sh $repo $dist $profile" 
   checkrc $? "remote publish"
 
   popd

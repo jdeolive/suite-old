@@ -12,16 +12,6 @@
     <property name="order" value="6"/>
     <property name="icon" value="../map_add.png"/>
   </bean>
-  
-  <bean id="uploadMenuPage" class="org.geoserver.web.MenuPageInfo">
-    <property name="id" value="uploads" />
-    <property name="category" ref="dataCategory"/>
-    <property name="titleKey" value="UploadMenuPage.menu" />
-    <property name="descriptionKey" value="UploadMenuPage.description" />
-    <property name="componentClass" value="org.geoserver.web.uploader.UploadMenuPage" />
-    <property name="order" value="6"/>
-    <property name="icon" value="../map_add.png"/>
-  </bean>
 
   <!-- the import thread pool manager -->
   <bean id="importerPool" class="org.geoserver.importer.ImporterThreadManager" />

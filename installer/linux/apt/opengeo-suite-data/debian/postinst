@@ -24,7 +24,9 @@ GS_DATA_SAV=${GS_DATA}.sav
 
 case "$1" in
     configure)
-
+ 
+    mkdir -p /var/log/geoserver
+    chown tomcat6. /var/log/geoserver
 	chown tomcat6. /usr/share/opengeo-suite-data -R
 
     # check for upgrade, if upgrading we want to perserve the configuration

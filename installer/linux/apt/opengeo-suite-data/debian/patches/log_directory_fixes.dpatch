@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## log-directory-fixes.dpatch by  <en@superbear>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: fix log directory location
+
+@DPATCH@
+
+--- opengeo-suite-data/data_dir/logging.xml	2009-10-12 09:15:02.000000000 -0600
++++ /usr/share/opengeo-suite-data/geoserver_data/logging.xml	2011-06-20 15:56:33.746797001 -0600
+@@ -1,5 +1,5 @@
+ <logging>
+   <level>DEFAULT_LOGGING.properties</level>
+-  <location>logs/geoserver.log</location>
++  <location>/var/log/geoserver/geoserver.log</location>
+   <stdOutLogging>true</stdOutLogging>
+-</logging>
+\ No newline at end of file
++</logging>

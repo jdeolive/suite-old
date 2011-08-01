@@ -20,6 +20,8 @@ set -e
 # the debian-policy package
 
 WEBAPPS=/var/lib/tomcat6/webapps
+JVM_OPTS='JAVA_OPTS="-Djava.awt.headless=true -Xms256m -Xmx768m -Xrs -XX:PerfDataSamplingInterval=500 -XX:MaxPermSize=128m"'
+GEOEXPLORER_DATA='GEOEXPLORER_DATA="/usr/share/opengeo-suite-data/geoexplorer_data"'
 
 function randpass() {
   [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
@@ -30,12 +32,12 @@ function randpass() {
 function configure_tomcat() {
 
 	# configure tomcat
-	#
-	cp /etc/default/tomcat6 /etc/default/tomcat6.orig
-	cat <<- EOF >> /etc/default/tomcat6
-	JAVA_OPTS="-Djava.awt.headless=true -Xms256m -Xmx768m -Xrs -XX:PerfDataSamplingInterval=500 -XX:MaxPermSize=128m"
-	GEOEXPLORER_DATA="/usr/share/opengeo-suite-data/geoexplorer_data"
-	EOF
+    # check for presence of GEOEXPLORER_DATA as a test if we've done this yet
+    if [ "$(grep GEOEXPLORER_DATA /etc/default/tomcat6)" == "" ]; then 
+        cp /etc/default/tomcat6 /etc/default/tomcat6.orig
+        echo $JVM_OPTS >> /etc/default/tomcat6
+        echo $GEOEXPLORER_DATA >> /etc/default/tomcat6
+    fi 
 
 	# Ubuntu versions earlier than 9.10 have this setting turned on, it breaks geoserver.
 	sed -i -e 's/TOMCAT6_SECURITY=yes/TOMCAT6_SECURITY=no/g' /etc/default/tomcat6
@@ -128,7 +130,14 @@ case "$1" in
     fi
 
     # TODO: check if tomcat was actually running before we installed
+    # service tomcat6 status (will return 0 if running, 1 if not)
     invoke-rc.d tomcat6 start
+    ;;
+
+    triggered)
+
+    (echo $2 | grep /etc/default/tomcat6) && configure_tomcat
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

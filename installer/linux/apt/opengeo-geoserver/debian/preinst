@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+WEBAPPS=/var/lib/tomcat6/webapps
+
+function wipe_old_jars() {
+    JARS=$(unzip -l /usr/share/opengeo-geoserver/geoserver.war | grep -o WEB-INF/lib/.\*)
+    pushd $WEBAPPS/geoserver
+    set +e
+    echo $JARS | xargs rm &> /dev/null
+    set -e
+    popd
+}
+
+case "$1" in
+  upgrade)
+    wipe_old_jars
+  ;;
+esac

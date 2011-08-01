@@ -1,5 +1,5 @@
 #!/bin/bash
-# postinst script for geonode
+# postinst script for geoserver
 #
 # see: dh_installdeb(1)
 
@@ -122,8 +122,8 @@ case "$1" in
     # don't totally blow away the old exploded war, save the web.xml since it
     # has configuration in it
     if [ -e $WEBAPPS/geoserver ]; then
-      # clear out the old lib dir
-      rm -f $WEBAPPS/geoserver/WEB-INF/lib/*
+
+      # old lib jars are deleted by preinst
 
       # back up the old web.xml
       TMP=/tmp/opengeo-geoserver

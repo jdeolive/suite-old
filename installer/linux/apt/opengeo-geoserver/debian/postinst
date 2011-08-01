@@ -22,6 +22,7 @@ set -e
 WEBAPPS=/var/lib/tomcat6/webapps
 JVM_OPTS='JAVA_OPTS="-Djava.awt.headless=true -Xms256m -Xmx768m -Xrs -XX:PerfDataSamplingInterval=500 -XX:MaxPermSize=128m"'
 GEOEXPLORER_DATA='GEOEXPLORER_DATA="/usr/share/opengeo-suite-data/geoexplorer_data"'
+GEOWEBCACHE_CACHE_DIR='JAVA_OPTS="${JVM_OPTS} -DGEOWEBCACHE_CACHE_DIR=/var/cache/gwc"'
 
 function randpass() {
   [ "$2" == "0" ] && CHAR="[:alnum:]" || CHAR="[:graph:]"
@@ -36,7 +37,12 @@ function configure_tomcat() {
     if [ "$(grep GEOEXPLORER_DATA /etc/default/tomcat6)" == "" ]; then 
         cp /etc/default/tomcat6 /etc/default/tomcat6.orig
         echo $JVM_OPTS >> /etc/default/tomcat6
+        echo $GEOWEBCACHE_CACHE_DIR >> /etc/default/tomcat6
         echo $GEOEXPLORER_DATA >> /etc/default/tomcat6
+        
+        # setup GWC default location
+        mkdir -p /var/cache/gwc
+        chown tomcat6. /var/cache/gwc
     fi 
 
 	# Ubuntu versions earlier than 9.10 have this setting turned on, it breaks geoserver.
@@ -102,10 +108,12 @@ case "$1" in
         password="geoserver"
       fi
 
-      configure_tomcat
       update_proxyurl $proxy_url
       update_userpass $username $password
     fi
+    
+    # run configure tomcat no matter what to deal with changes
+    configure_tomcat
 
     # don't totally blow away the old exploded war, save the web.xml since it
     # has configuration in it

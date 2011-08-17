@@ -5,17 +5,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.CollectionModel;
-import freemarker.ext.beans.MapModel;
 import freemarker.template.SimpleHash;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
+import java.util.Iterator;
 
 public class PieChart extends Chart {
 
@@ -49,10 +44,12 @@ public class PieChart extends Chart {
             }
         });
         
-        List<SimpleHash> hashes = new ArrayList();
-        for(ServiceOpSummary sum : keys) {
-            SimpleHash hash = new SimpleHash();
-            hash.put("value", sum.getCount());
+        StringBuilder dataObject = new StringBuilder("[");
+        Iterator<ServiceOpSummary> sums = keys.iterator();
+        while (sums.hasNext()) {
+            ServiceOpSummary sum = sums.next();
+            dataObject.append('{');
+            dataObject.append("value:").append(sum.getCount()).append(',');
             
             Service s;
             try {
@@ -62,23 +59,34 @@ public class PieChart extends Chart {
                 s = Service.OTHER;
             }
             
-            hash.put("label", s.displayName());
-            hash.put("color", s.color());
-            
+            dataObject.append("label:").append('"').append(s.displayName()).append('"').append(',');
+            dataObject.append("color:").append('"').append(s.color()).append('"').append(',');
+
+            dataObject.append("ops:").append('[');
             if (s != Service.OTHER) {
-                hash.put("ops", sum.getOperations());
+                Iterator<String> ops = sum.getOperations().keySet().iterator();
+                while (ops.hasNext()) {
+                    dataObject.append('{');
+                    String op = ops.next();
+                    dataObject.append("name:").append('"').append(op).append('"').append(',');
+                    dataObject.append("value:").append(sum.getOperations().get(op));
+                    dataObject.append('}');
+                    if (ops.hasNext()) {
+                        dataObject.append(',');
+                    }
+                }
             }
-            else {
-                hash.put("ops", new HashMap()); 
-            }
+            dataObject.append(']'); // end operations object
             
-            hashes.add(hash);
+            dataObject.append('}');
+            if (sums.hasNext()) {
+                dataObject.append(',');
+            }
         }
-        
-       
+        dataObject.append(']');
         
         SimpleHash model = createTemplate();
-        model.put("data", hashes);
+        model.put("data", dataObject);
         
         render(model, "pie.ftl", writer);
     }

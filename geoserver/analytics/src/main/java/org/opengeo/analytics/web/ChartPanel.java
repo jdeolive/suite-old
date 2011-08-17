@@ -29,6 +29,7 @@ public class ChartPanel extends Panel implements IHeaderContributor {
         response.renderJavascriptReference(new ResourceReference(ChartPanel.class, "g.pie.js"));
         response.renderJavascriptReference(new ResourceReference(ChartPanel.class, "g.dot.js"));
         response.renderJavascriptReference(new ResourceReference(ChartPanel.class, "g.line.js"));
+        response.renderJavascriptReference(new ResourceReference(ChartPanel.class, "charts.js"));
 
         if (chart != null) {
             try {

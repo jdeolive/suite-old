@@ -124,8 +124,8 @@ public class LineChart extends Chart {
                 up = null;
         }
         
-        List<Object[]> breaks = new ArrayList();
-        
+        StringBuilder breaks = new StringBuilder("[");
+        first = true;
         if (up != null) {
             int dx = (int) zoom.period().diff(dates.get(0), dates.get(1));
             for (int i = 0; i < dates.size()-1; i++) {
@@ -135,10 +135,20 @@ public class LineChart extends Chart {
                 //figure out if a boundary is crossed at the higher zoom
                 if (up.diff(d1, d2) > 0) {
                     int diff = (int) zoom.period().diff(d1, up.floor(d2));
-                    breaks.add(new Object[]{i, diff, dx, View.MONTHLY.label(up.floor(d2))});
+                    if (!first) {
+                        breaks.append(',');
+                    }
+                    first = false;
+                    breaks.append('[');
+                    breaks.append(i).append(',');
+                    breaks.append(diff).append(',');
+                    breaks.append(dx).append(',');
+                    breaks.append("'").append(View.MONTHLY.label(up.floor(d2))).append("'");
+                    breaks.append(']');
                 }
             }
         }
+        breaks.append("]");
         
         SimpleHash model = createTemplate();
         model.put("xdata", x.toString());

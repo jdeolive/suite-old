@@ -14,7 +14,6 @@ var fout = function () {
 }
 
 labelBreaks = function(r,opts) {
-    console.log(opts);
     var w = opts.width - 2 * opts.gut,
         dx = w / opts.xsteps,
         i,x,y = 270;
@@ -27,7 +26,6 @@ labelBreaks = function(r,opts) {
 
 maxYLabelLength = function(ydata) {
     var maxy = 0, i;
-    ydata[0][0] = 100000;
     for (i = 0; i < ydata.length; i++) {
         maxy = Math.max(Math.max.apply(Math, ydata[i]),maxy);
     }
@@ -41,7 +39,6 @@ analyticsCharts = {
         xo = maxYLabelLength(opts.ydata) * 8,
         gut = 'gut' in opts ? opts.gut : 20;
         opts.gut = gut;
-        console.log(xo);
         r.g.text(xo + opts.width/9, gut, "# of Requests").attr({"text-anchor":"start"});
 
         if (opts.xlen > 0) {
@@ -73,7 +70,6 @@ analyticsCharts = {
         xo = maxYLabelLength([opts.timeData,opts.thruData]) * 8,
         gut = 'gut' in opts ? opts.gut : 20;
         opts.gut = gut;
-        console.log(xo);
         if (opts.xlen > 0) {
             line = r.g.linechart(xo, 0, opts.width, opts.height, opts.xdata, opts.timeData, { 
               axis: "0 0 0 1", axisystep: 5, gutter: gut, smooth: true,  symbol: "o"

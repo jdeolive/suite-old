@@ -89,13 +89,13 @@ public class LineChart extends Chart {
             first = false;
         }
         
-        x.setLength(x.length()-1);
+        if (x.length() > 1) {
+            x.setLength(x.length()-1);
+            y.setLength(y.length()-1);
+            c.setLength(c.length()-1);
+        }
         x.append("]");
-        
-        y.setLength(y.length()-1);
         y.append("]");
-        
-        c.setLength(c.length()-1);
         c.append("]");
 
         //build the labels

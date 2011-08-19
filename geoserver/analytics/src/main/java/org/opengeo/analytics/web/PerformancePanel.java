@@ -6,6 +6,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.geoserver.monitor.Query;
@@ -56,11 +57,25 @@ public class PerformancePanel extends Panel {
         form.add(slowestRequestTable = new RequestDataTablePanel("slowestRequests", slowestProvider)); 
         slowestRequestTable.setOutputMarkupId(true);
         slowestRequestTable.setPageable(false);
+                
+        form.add(new Link("slowestViewMore") {
+            @Override
+            public void onClick() {
+                setResponsePage(new RequestsPage(new SlowestRequestProvider(query, -1), "Slowest Requests"));
+            }
+        });
         
         LargestResponseProvider largestProvider = new LargestResponseProvider(query);
         form.add(largestRequestTable = new RequestDataTablePanel("largestResponses", largestProvider)); 
         largestRequestTable.setOutputMarkupId(true);
         largestRequestTable.setPageable(false);
+        
+        form.add(new Link("largestViewMore") {
+            @Override
+            public void onClick() {
+                setResponsePage(new RequestsPage(new LargestResponseProvider(query, -1), "Largest Responses"));
+            }
+        });
     }
     
     void handleZoomChange(View zoom, AjaxRequestTarget target) {

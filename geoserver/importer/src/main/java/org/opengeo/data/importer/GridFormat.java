@@ -91,7 +91,7 @@ public class GridFormat extends RasterFormat {
                 LayerInfo layer = cb.buildLayer((ResourceInfo)coverage);
                 resources.add(new ImportItem(layer));
             } catch (Exception e) {
-                throw new IOException(e);
+                throw (IOException) new IOException(). initCause(e);
             }
         }
         return resources;

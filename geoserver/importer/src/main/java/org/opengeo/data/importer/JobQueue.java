@@ -38,7 +38,7 @@ public class JobQueue {
                     jobs.remove(l);
                 }
             }
-        }, 1, 1, TimeUnit.MINUTES);
+        }, 60, 60, TimeUnit.SECONDS);
     }
 
     public Long submit(Callable<?> task) {

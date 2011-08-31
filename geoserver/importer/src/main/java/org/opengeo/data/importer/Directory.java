@@ -125,9 +125,9 @@ public class Directory extends FileData {
         List<Directory> flat = new ArrayList<Directory>();
 
         LinkedList<Directory> q = new LinkedList<Directory>();
-        q.push(this);
+        q.addLast(this);
         while(!q.isEmpty()) {
-            Directory dir = q.pop();
+            Directory dir = q.removeFirst();
             flat.add(dir);
 
             for (Iterator<FileData> it = dir.getFiles().iterator(); it.hasNext(); ) {
@@ -135,7 +135,7 @@ public class Directory extends FileData {
                 if (f instanceof Directory) {
                     Directory d = (Directory) f;
                     it.remove();
-                    q.push(d);
+                    q.addLast(d);
                 }
             }
         }

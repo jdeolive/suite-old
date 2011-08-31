@@ -9,6 +9,7 @@
    <property name="gt.branch" value="master"/>
    <property name="gt.rev" value="${gt.branch}"/>
    <property name="gt.dir" value="geotools"/>
+   <property name="gt.version" value="2.7-SNAPSHOT"/>
 
    <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
    <property name="gwc.branch" value="master"/>
@@ -41,7 +42,7 @@
    <target name="build-gwc"> 
      <antcall target="mvn">
         <param name="dir" value="${gwc.dir}/geowebcache"/>
-        <param name="flags" value="-DskipTests"/>
+        <param name="flags" value="-DskipTests -Dgt.version=${gt.version}"/>
         <param name="targets" value="clean install"/>
      </antcall>
      <antcall target="mvn">

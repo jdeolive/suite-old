@@ -23,11 +23,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.opengeo.geoserver</groupId>
-      <artifactId>ftpclient</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.geoserver</groupId>
       <artifactId>main</artifactId>
     </dependency>
@@ -43,6 +38,11 @@
     <dependency>
      <groupId>org.geoserver</groupId>
      <artifactId>restconfig</artifactId>
+    </dependency>
+    <dependency>
+     <groupId>org.geoserver.community</groupId>
+     <artifactId>ftp</artifactId>
+     <version>${gs.version}</version>
     </dependency>
     <dependency>
      <groupId>org.restlet</groupId>
@@ -64,11 +64,20 @@
       <groupId>commons-vfs</groupId>
       <artifactId>commons-vfs</artifactId>
     </dependency>
-    <!-- /org.geoserver.rest.uploader dependencies -->
+    <dependency>
+      <groupId>com.sleepycat</groupId>
+      <artifactId>je</artifactId>
+      <version>4.1.7</version>
+    </dependency>
     
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-shapefile</artifactId>
+      <version>${gt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotools.jdbc</groupId>
+      <artifactId>gt-jdbc-h2</artifactId>
       <version>${gt.version}</version>
     </dependency>
     <dependency>
@@ -117,6 +126,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>2.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>

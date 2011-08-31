@@ -1,0 +1,42 @@
+<html xmlns:wicket="http://wicket.apache.org/">
+<head>
+<wicket:head>
+  <wicket:link>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+  </wicket:link>
+ </wicket:head>
+</head>
+<body>
+<wicket:extend>
+   <h1><wicket:message key="import"></wicket:message> <span wicket:id="id"></span></h1>
+
+   <div wicket:id="header">
+   </div>
+
+   <ul class="plain" wicket:id="tasks" style="padding-top: 3em;">
+     <li>
+     <fieldset>
+       <span style="float: right; margin-top:-1.5em;">
+         <ul class="plain horizontal">
+           <li>Select:</li>
+           <li style="border-left: none;"><a href="" wicket:id="select-all">All</a></li>
+           <li><a href="" wicket:id="select-none">None</a></li>
+           <li><a href="" wicket:id="select-ready">Ready</a></li>
+         </ul>
+       </span>
+       <legend>
+         <span wicket:id="icon"></span><span wicket:id="title" style="margin-left: 20px;"></span>
+       </legend>
+       
+       <div wicket:id="items"></div>
+       <div class="button-group selfclear" style="float:right; margin-top: -1.5em;">
+         <a href="" wicket:id="import">
+           <span><wicket:message key="import"></wicket:message></span>
+         </a>
+       </div>
+     </fieldset>
+     </li>
+   </ul>
+</wicket:extend>
+</body>
+</html>

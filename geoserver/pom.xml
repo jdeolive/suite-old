@@ -119,8 +119,11 @@
     <artifactId>commons-vfs</artifactId>
     <version>1.0</version>
   </dependency>
-  
-
+  <dependency>
+    <groupId>xerces</groupId>
+    <artifactId>xercesImpl</artifactId>
+    <version>2.7.1</version>
+  </dependency>
 
    <dependency>
     <groupId>com.mockrunner</groupId>

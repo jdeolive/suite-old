@@ -255,6 +255,9 @@
      <includes>
       <include>**/*Test.java</include>
      </includes>
+     <excludes>
+      <exclude>${test.exclude.pattern}</exclude>
+     </excludes>
      <forkMode>once</forkMode>
      <argLine>-Xmx${test.maxHeapSize} -enableassertions -Djava.awt.headless=${java.awt.headless}</argLine>
      <printSummary>true</printSummary>
@@ -411,6 +414,7 @@
   <test.maxHeapSize>512M</test.maxHeapSize>
   <sde.version>9.2</sde.version>
   <spring.version>2.5.5</spring.version>
+  <test.exclude.pattern>none</test.exclude.pattern>
  </properties>
 
 </project>

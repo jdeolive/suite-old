@@ -12,9 +12,9 @@
 
    <property name="gwc.repo" value="git://github.com/GeoWebCache/geowebcache.git"/>
    <property name="gwc.branch" value="master"/>
-   <property name="gwc.rev" value="1.2.6"/>
+   <property name="gwc.rev" value="${gwc.branch}"/>
    <property name="gwc.dir" value="geowebcache"/>
-   <property name="gwc.version" value="1.2.6"/>
+   <property name="gwc.version" value="1.3-SNAPSHOT"/>
 
    <property name="mvn.exec" value="mvn"/>
    <property name="mvn.settings" value="settings.xml"/>

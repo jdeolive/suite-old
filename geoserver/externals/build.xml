@@ -34,7 +34,7 @@
    <target name="build-gs"> 
      <antcall target="mvn">
         <param name="dir" value="${gs.dir}"/>
-        <param name="flags" value="-DskipTests -P proxy,printing,monitoring,dbconfig,allExtensions"/>
+        <param name="flags" value="-DskipTests -P proxy,printing,monitoring,dbconfig,ftp,allExtensions"/>
         <param name="targets" value="clean install"/>
      </antcall>
    </target>

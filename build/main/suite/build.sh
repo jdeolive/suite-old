@@ -123,8 +123,12 @@ checkrv $? "gwc/geotools/geoserver build"
 cd $CWD
 $MVN -s $MAVEN_SETTINGS -o clean install -Dfull -Dsvn.revision=$revision -Dbuild.date=$BUILD_ID
 checkrv $? "maven clean install"
+
 $MVN -s $MAVEN_SETTINGS -o assembly:attached &&
 checkrv $? "maven assembly"
+
+#$MVN -s $MAVEN_SETTINGS deploy -DskipTests &&
+#checkrv $? "maven deploy"
 
 # build with the enterprise profile
 profile_rebuild ee

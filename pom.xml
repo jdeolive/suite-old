@@ -288,6 +288,15 @@
    </profile-->
  </profiles>
 
+ <distributionManagement>
+   <!-- use the following if you're not using a snapshot version. -->
+   <repository>
+     <id>opengeo</id>
+     <name>opengeo</name>
+     <url>dav:http://repo.opengeo.org</url>
+   </repository>
+ </distributionManagement>
+
  <properties>
    <gs.version>2.1-SNAPSHOT</gs.version>
    <gt.version>2.7-SNAPSHOT</gt.version>

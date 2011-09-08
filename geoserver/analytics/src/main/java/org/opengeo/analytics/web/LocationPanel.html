@@ -5,7 +5,11 @@
 </head>
 <body>
 <wicket:panel>
-  <form>
+    <form wicket:id="form">
+       <div class="chartHeader">
+        <a href="#" wicket:id="refresh" class="refresh-link rightwise">Refresh</a>
+        <div wicket:id="timeSpan" class=""></div>
+       </div>
     <div id="chartBody" class="selfclear clearBoth">
       <div wicket:id="map" style="width: 99%;"></div>
     </div>

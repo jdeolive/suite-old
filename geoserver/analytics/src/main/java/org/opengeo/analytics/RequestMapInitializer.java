@@ -30,11 +30,14 @@ import org.geotools.util.logging.Logging;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import com.vividsolutions.jts.geom.Point;
+import org.geotools.jdbc.RegexpValidator;
+import org.geotools.jdbc.VirtualTableParameter;
 
 public class RequestMapInitializer implements GeoServerInitializer {
 
     static Logger LOGGER = Logging.getLogger("org.opengeo.analytics");
     
+    static String START_END_REGEXP = "start_time > '[^();]'+ and end_time < '[^();]'+";
     MonitoringDataSource dataSource;
     
     public RequestMapInitializer(MonitoringDataSource dataSource) {
@@ -122,10 +125,11 @@ public class RequestMapInitializer implements GeoServerInitializer {
                         "remote_city as \"REMOTE_CITY\", " +
                         "remote_country as \"REMOTE_COUNTRY\", " +
                         "count(*) as \"REQUESTS\"" + 
-                 " FROM request " + 
+                 " FROM request WHERE remote_lon <> 0 and remote_lat <> 0 and %query%" + 
               "GROUP BY \"POINT\", \"REMOTE_CITY\", \"REMOTE_COUNTRY\"");
             vt.addGeometryMetadatata("POINT", Point.class, 4326);
-            
+            RegexpValidator validator = new RegexpValidator(START_END_REGEXP);
+            vt.addParameter(new VirtualTableParameter("query","1=1",validator));
             ft.getMetadata().put("JDBC_VIRTUAL_TABLE", vt);
             cat.add(ft);
         }

@@ -37,7 +37,7 @@ public class RequestMapInitializer implements GeoServerInitializer {
 
     static Logger LOGGER = Logging.getLogger("org.opengeo.analytics");
     
-    static String START_END_REGEXP = "start_time > '[^();]'+ and end_time < '[^();]'+";
+    static String START_END_REGEXP = "start_time > '[^();]+' and end_time < '[^();]+'";
     MonitoringDataSource dataSource;
     
     public RequestMapInitializer(MonitoringDataSource dataSource) {

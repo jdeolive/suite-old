@@ -1,12 +1,11 @@
 package org.opengeo.analytics.web;
 
+import org.apache.wicket.PageMap;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,9 +15,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
-import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -31,26 +27,19 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
-import org.geoserver.monitor.Monitor;
 import org.geoserver.monitor.RequestData;
-import org.geoserver.monitor.RequestData.Category;
 import org.geoserver.monitor.web.MonitorBasePage;
-import org.geoserver.web.GeoServerApplication;
-import org.geoserver.web.GeoServerSecuredPage;
 import org.geoserver.web.wicket.GeoServerDataProvider;
-import org.geoserver.web.wicket.GeoServerTablePanel;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.opengis.referencing.operation.MathTransform;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
-import freemarker.template.Template;
 
+import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.PopupSettings;
 import static org.opengeo.analytics.web.RequestDataProvider.*;
 
 public class RequestPage extends MonitorBasePage {
@@ -88,6 +77,7 @@ public class RequestPage extends MonitorBasePage {
         add(headerTable);
         
         List<Class<? extends RequestPanel>> panels = new ArrayList();
+        
         if (request.getQueryString() != null) {
             panels.add(QueryStringPanel.class);
         }
@@ -135,7 +125,7 @@ public class RequestPage extends MonitorBasePage {
         
         public abstract String getLabelKey();
     }
-    
+
     static class OriginPanel extends RequestPanel {
 
         public OriginPanel(String id, RequestData data) {
@@ -275,11 +265,26 @@ public class RequestPage extends MonitorBasePage {
     }
     
     static class ResponsePanel extends RequestPanel {
+        private final RequestData data;
         public ResponsePanel(String id, RequestData data) {
             super(id);
-            
+            this.data = data;
             add(new Label("content", new PropertyModel<RequestData>(data, "responseContentType")));
             add(new Label("length", new PropertyModel<RequestData>(data, "responseLength")));
+            
+        }
+
+        @Override
+        protected void onInitialize() {
+            super.onInitialize();
+            if ("get".equalsIgnoreCase(data.getHttpMethod())) {
+                String url = "/geoserver" + // @todo proxy path?
+                        data.getPath() + 
+                        (data.getQueryString() == null ? "" : "?" + data.getQueryString());
+                String linkText = getLocalizer().getString("requestLink", getPage());
+                ExternalLink link = new ExternalLink("requestLink",url,linkText);
+                add(link);
+            }
         }
         
         @Override

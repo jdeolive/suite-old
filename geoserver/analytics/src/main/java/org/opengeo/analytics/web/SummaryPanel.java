@@ -18,6 +18,7 @@ import org.apache.wicket.model.IModel;
 import org.geoserver.monitor.Query;
 import org.geoserver.monitor.Query.Comparison;
 import org.geoserver.monitor.RequestData;
+import org.geoserver.monitor.RequestDataVisitor;
 import org.geoserver.web.wicket.GeoServerDataProvider;
 import org.geoserver.web.wicket.GeoServerDataProvider.Property;
 import org.geoserver.web.wicket.GeoServerTablePanel;
@@ -54,7 +55,12 @@ public class SummaryPanel extends Panel {
         };
         form.add(activityPanel);
         
-        RecentRequestProvider recentProvider = new RecentRequestProvider(query);
+        // @todo until 'recent' queries track time, clone request and reset
+        Query recentQuery = query.clone();
+        recentQuery.setFromDate(null);
+        recentQuery.setToDate(null);
+        
+        RecentRequestProvider recentProvider = new RecentRequestProvider(recentQuery);
         form.add(recentRequestTable = new RequestDataTablePanel("recentRequests", recentProvider)); 
         recentRequestTable.setOutputMarkupId(true);
         recentRequestTable.setPageable(false);
@@ -67,7 +73,7 @@ public class SummaryPanel extends Panel {
         });
         
         
-        RecentFailedRequestProvider recentFailedProvider = new RecentFailedRequestProvider(query);
+        RecentFailedRequestProvider recentFailedProvider = new RecentFailedRequestProvider(recentQuery);
         form.add(recentFailedRequestTable = new RequestDataTablePanel("recentFailedRequests", 
             recentFailedProvider));
         recentFailedRequestTable.setOutputMarkupId(true);
@@ -124,7 +130,7 @@ public class SummaryPanel extends Panel {
         @Override
         public int size() {
             return fullSize();
-        }
+            }
         
         public int fullSize() {
             Query q = new CommonResourceCommand(query, Analytics.monitor(), -1, -1).query();

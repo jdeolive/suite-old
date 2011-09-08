@@ -2,13 +2,13 @@ package org.opengeo.analytics;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import freemarker.template.SimpleHash;
 import freemarker.template.TemplateException;
+import java.util.Arrays;
 
 public class LineChart extends Chart {
 
@@ -16,6 +16,9 @@ public class LineChart extends Chart {
     protected View zoom;
     protected Date from, to;
     protected Map<String,long[]> data;
+    private long requestTotal;
+    private long queryTotal;
+    private long[] failed;
     
     public View getZoom() {
         return zoom;
@@ -57,6 +60,37 @@ public class LineChart extends Chart {
         return to;
     }
     
+    public void setRequestTotal(long requestTotal) {
+        this.requestTotal = requestTotal;
+    }
+    
+    public void setQueryTotal(long queryTotal) {
+        this.queryTotal = queryTotal;
+    }
+    
+    public void setFailed(long[] failed) {
+        this.failed = failed;
+    }
+    
+    private boolean buildSeries(long[] xy,StringBuilder x,StringBuilder y,boolean first) {
+        y.append("[");
+        if (first) {
+            for (int i = 0; i < xy.length; i++) {
+                x.append(i).append(",");
+                y.append(xy[i]).append(",");
+            }
+        }
+        else {
+            for (int i = 0; i < xy.length; i++) {
+                y.append(xy[i]).append(",");
+            }
+        }
+
+        y.setLength(y.length()-1);
+        y.append("],");
+        return false;
+    }
+    
     public void render(Writer writer) 
         throws IOException, TemplateException {
         
@@ -69,24 +103,11 @@ public class LineChart extends Chart {
         boolean first = true;
         for (Map.Entry<String, long[]> e : data.entrySet()) {
             c.append("'").append(Service.valueOf(e.getKey()).color()).append("',");
-            long[] xy = e.getValue();
-            
-            y.append("[");
-            if (first) {
-                for (int i = 0; i < xy.length; i++) {
-                    x.append(i).append(",");
-                    y.append(xy[i]).append(",");
-                }
-            }
-            else {
-                for (int i = 0; i < xy.length; i++) {
-                    y.append(xy[i]).append(",");
-                }
-            }
-            
-            y.setLength(y.length()-1);
-            y.append("],");
-            first = false;
+            first = buildSeries(e.getValue(), x, y, first);
+        }
+        if (!data.isEmpty() && failed != null) {
+            c.append("'").append("red").append("',");
+            first = buildSeries(failed, x, y, first);
         }
         
         if (x.length() > 1) {
@@ -158,8 +179,8 @@ public class LineChart extends Chart {
         model.put("colors", c.toString());
         model.put("xsteps", steps);
         model.put("breaks", breaks);
+        model.put("ylabel", (queryTotal == 0 ? "No Data" : "#Requests") + " [ " + queryTotal + " of " + requestTotal + " ]");
         
         render(model, "line.ftl", writer);
-//        System.out.println(writer.toString());
     }
 }

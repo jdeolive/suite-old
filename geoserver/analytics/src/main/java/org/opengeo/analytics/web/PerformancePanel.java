@@ -36,7 +36,6 @@ public class PerformancePanel extends Panel {
         add(form);
         
         Query query = queryViewState.getQuery();
-        View zoom = queryViewState.getView();
         timeSpanPanel = new TimeSpanWithZoomPanel("timeSpan", 
             new PropertyModel<Date>(query, "fromDate"), 
             new PropertyModel<Date>(query, "toDate"), 
@@ -46,7 +45,7 @@ public class PerformancePanel extends Panel {
             };
         };
         form.add(timeSpanPanel);
-        form.add(new AjaxButton("refresh", form) {
+        form.add(new AjaxButton("refresh") {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 handleZoomChange(queryViewState.getView(), target);

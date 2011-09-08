@@ -1,5 +1,6 @@
 package org.opengeo.analytics;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class ServiceTimeAggregator extends RequestDataAggregator {
     View view;
     Set<String> services;
     Map<String,TimeAggregator> data = new HashMap();
+    long[] failed;
     
     public ServiceTimeAggregator(Query query, View view) {
         this(query, view, new HashSet());
@@ -33,7 +35,8 @@ public class ServiceTimeAggregator extends RequestDataAggregator {
         this.query.getProperties().clear();
         this.query.getAggregates().clear();
         this.query.getGroupBy().clear();
-        this.query.properties("service", "startTime");
+        this.query.properties("service", "startTime","status");
+        this.failed = new long[(int) (view.period().diff(query.getFromDate(), query.getToDate()) + 1)];
         
         this.view = view;
         this.services = services;
@@ -51,6 +54,11 @@ public class ServiceTimeAggregator extends RequestDataAggregator {
             return;
         }
         
+        if (req.getStatus() == RequestData.Status.FAILED) {
+            int fidx = (int) view.period().diff(query.getFromDate(), req.getStartTime());
+            failed[fidx]+=1;
+        }
+        
         TimeAggregator del = data.get(service);
         if (del == null) {
             del = new TimeAggregator(from, to, view);
@@ -58,6 +66,10 @@ public class ServiceTimeAggregator extends RequestDataAggregator {
         }
         
         del.visit(req, aggregates);
+    }
+    
+    public long[] getTotalFailed() {
+        return failed;
     }
     
     public Map<String,long[]> getData() {

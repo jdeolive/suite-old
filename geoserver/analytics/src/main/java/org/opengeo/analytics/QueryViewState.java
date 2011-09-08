@@ -11,10 +11,12 @@ public class QueryViewState implements Serializable {
     
     private Query query;
     private View view;
+    private ServiceSelection serviceSelection;
     
     public QueryViewState() {
         query = new Query();
         view = View.DAILY;
+        serviceSelection = new ServiceSelection();
     }
     
     private QueryViewState(Query query,View view) {
@@ -40,6 +42,14 @@ public class QueryViewState implements Serializable {
     
     public QueryViewState clone() {
         return new QueryViewState(query,view);
+    }
+
+    public ServiceSelection getServiceSelection() {
+        return serviceSelection;
+    }
+
+    public void setServiceSelection(ServiceSelection serviceSelection) {
+        this.serviceSelection = serviceSelection;
     }
     
 }

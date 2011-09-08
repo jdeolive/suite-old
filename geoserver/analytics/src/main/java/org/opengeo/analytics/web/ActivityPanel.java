@@ -1,13 +1,11 @@
 package org.opengeo.analytics.web;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -25,13 +23,13 @@ import org.opengeo.analytics.PieChart;
 import org.opengeo.analytics.QueryViewState;
 import org.opengeo.analytics.Service;
 import org.opengeo.analytics.ServiceOpSummary;
+import org.opengeo.analytics.ServiceSelection;
 import org.opengeo.analytics.ServiceTimeAggregator;
 import org.opengeo.analytics.View;
 
 public class ActivityPanel extends Panel {
 
     QueryViewState queryViewState;
-    ServiceSelection services = new ServiceSelection();
     
     TimeSpanWithZoomPanel timeSpanPanel;
     ChartPanel lineChartPanel, pieChartPanel;
@@ -59,24 +57,12 @@ public class ActivityPanel extends Panel {
         }
 
         Form form = new Form("form");
+        form.add(serviceSelector("wms"));
+        form.add(serviceSelector("wfs"));
+        form.add(serviceSelector("wcs"));
+        form.add(serviceSelector("other"));
+        form.add(serviceSelector("showFailed"));
         add(form);
-        
-        form.add(new AjaxCheckBox("wms", new PropertyModel<Boolean>(this, "services.wms")) {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {}
-        });
-        form.add(new AjaxCheckBox("wfs", new PropertyModel<Boolean>(this, "services.wfs")) {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {}
-        });
-        form.add(new AjaxCheckBox("wcs", new PropertyModel<Boolean>(this, "services.wcs")) {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {}
-        });
-        form.add(new AjaxCheckBox("other", new PropertyModel<Boolean>(this, "services.other")) {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {}
-        });
         
         timeSpanPanel = new TimeSpanWithZoomPanel("timeSpan", 
             new PropertyModel<Date>(query, "fromDate"), 
@@ -98,6 +84,13 @@ public class ActivityPanel extends Panel {
         
         form.add(lineChartPanel = new ChartPanel("lineChart"));
         form.add(pieChartPanel = new ChartPanel("pieChart"));
+    }
+    
+    Component serviceSelector(String property) {
+        return new AjaxCheckBox(property, new PropertyModel<Boolean>(queryViewState.getServiceSelection(), property)) {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {}
+        };
     }
     
     protected void onChange(AjaxRequestTarget target) {
@@ -123,10 +116,23 @@ public class ActivityPanel extends Panel {
         View zoom = queryViewState.getView();
         Query query = queryViewState.getQuery();
         
-        ServiceTimeAggregator agg = 
-            new ServiceTimeAggregator(query, zoom, services.getSelectedAsString());
+        Set<String> selected = queryViewState.getServiceSelection().getSelectedAsString();
+        if (selected.isEmpty()) {
+            selected.add("somethingthatwillneverbethere");
+        }
+        final ServiceTimeAggregator agg = 
+            new ServiceTimeAggregator(query, zoom, selected);
         Analytics.monitor().query(agg.getQuery(), agg);
-        
+        long filtered = 0;
+        long[][] typePoints = agg.getRawData();
+        for (int i = 0; i < typePoints.length; i++) {
+            long[] points = typePoints[i];
+            if (points != null) {
+                for (int j = 0; j < points.length; j++) {
+                    filtered += points[j];
+                }
+            }
+        }
         LineChart chart = new LineChart();
         chart.setContainer(lineChartPanel.getMarkupId());
         chart.setFrom(query.getFromDate());
@@ -136,6 +142,11 @@ public class ActivityPanel extends Panel {
         chart.setHeight(300);
         chart.setZoom(zoom);
         chart.setData(agg.getData());
+        chart.setRequestTotal(Analytics.monitor().getDAO().getCount(new Query()));
+        chart.setQueryTotal(filtered);
+        if (queryViewState.getServiceSelection().isShowFailed()) {
+            chart.setFailed(agg.getTotalFailed());
+        }
         
         lineChartPanel.setChart(chart);
         target.addComponent(lineChartPanel);
@@ -148,9 +159,14 @@ public class ActivityPanel extends Panel {
         q.getGroupBy().clear();
         q.properties("service", "operation").aggregate("count()").group("service", "operation");
         
+        ServiceSelection serviceSelection = queryViewState.getServiceSelection();
+        Set<String> selected = serviceSelection.getSelectedAsString();
+        if (selected.isEmpty()) {
+            selected.add("somethingthatwillneverbethere");
+        }
         Filter filter = 
-            new Filter("service", new ArrayList(services.getSelectedAsString()), Comparison.IN);
-        if (services.isSet(Service.OTHER)) {
+            new Filter("service", new ArrayList(selected), Comparison.IN);
+        if (serviceSelection.isSet(Service.OTHER)) {
             filter = filter.or(new Filter("service", null, Comparison.EQ));
         }
         q.and(filter);
@@ -181,50 +197,5 @@ public class ActivityPanel extends Panel {
         
         pieChartPanel.setChart(chart);
         target.addComponent(pieChartPanel);
-    }
-    
-    /**
-     * Maintains state of selected services.
-     */
-    static class ServiceSelection implements Serializable {
-        
-        Set<Service> selected = new HashSet(Arrays.asList(Service.values()));
-        
-        public void setWms(boolean selected) { set(Service.WMS, selected ); }
-        public boolean isWms() { return isSet(Service.WMS); }
-        
-        public void setWfs(boolean selected) { set(Service.WFS, selected ); }
-        public boolean isWfs() { return isSet(Service.WFS); }
-        
-        public void setWcs(boolean selected) { set(Service.WCS, selected ); }
-        public boolean isWcs() { return isSet(Service.WCS); }
-        
-        public void setOther(boolean selected) { set(Service.OTHER, selected ); }
-        public boolean isOther() { return isSet(Service.OTHER); }
-        
-        public boolean isSet(Service s) {
-            return selected.contains(s);
-        }
-        
-        public void set(Service s, boolean set) {
-            if (set) {
-                selected.add(s);
-            }
-            else {
-                selected.remove(s);
-            }
-        }
-        
-        public Set<Service> getSelected() {
-            return selected;
-        }
-        
-        public Set<String> getSelectedAsString() {
-            Set<String> set = new HashSet();
-            for (Service s : selected) {
-                set.add(s.name());
-            }
-            return set;
-        }
     }
 }

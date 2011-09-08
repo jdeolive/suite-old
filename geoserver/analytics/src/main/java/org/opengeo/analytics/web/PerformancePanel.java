@@ -12,32 +12,35 @@ import org.apache.wicket.model.PropertyModel;
 import org.geoserver.monitor.Query;
 import org.opengeo.analytics.AverageTotalTimeAggregator;
 import org.opengeo.analytics.PerformanceLineChart;
+import org.opengeo.analytics.QueryViewState;
 import org.opengeo.analytics.View;
 
 public class PerformancePanel extends Panel {
 
-    Query query;
-    View zoom;
+    QueryViewState queryViewState;
     
     TimeSpanWithZoomPanel timeSpanPanel;
     ChartPanel chartPanel;
     RequestDataTablePanel slowestRequestTable, largestRequestTable;
     
-    public PerformancePanel(String id, Query query) {
+    public PerformancePanel(String id, QueryViewState queryViewState) {
         super(id);
-        this.query = query;
-        this.zoom = View.DAILY;
+        this.queryViewState = queryViewState;
         
         initComponents();
-        handleZoomChange(zoom, new AjaxRequestTarget(new Page() {}));
+        handleZoomChange(queryViewState.getView(), new AjaxRequestTarget(new Page() {}));
     }
     
     void initComponents() {
         Form form = new Form("form");
         add(form);
         
+        Query query = queryViewState.getQuery();
+        View zoom = queryViewState.getView();
         timeSpanPanel = new TimeSpanWithZoomPanel("timeSpan", 
-            new PropertyModel<Date>(query, "fromDate"), new PropertyModel<Date>(query, "toDate")) {
+            new PropertyModel<Date>(query, "fromDate"), 
+            new PropertyModel<Date>(query, "toDate"), 
+            new PropertyModel<View>(queryViewState,"view")) {
             protected void onZoomChange(View view, AjaxRequestTarget target) {
                 handleZoomChange(view, target);
             };
@@ -46,7 +49,7 @@ public class PerformancePanel extends Panel {
         form.add(new AjaxButton("refresh", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                handleZoomChange(zoom, target);
+                handleZoomChange(queryViewState.getView(), target);
             }
         });
         
@@ -61,7 +64,7 @@ public class PerformancePanel extends Panel {
         form.add(new Link("slowestViewMore") {
             @Override
             public void onClick() {
-                setResponsePage(new RequestsPage(new SlowestRequestProvider(query, -1), "Slowest Requests"));
+                setResponsePage(new RequestsPage(new SlowestRequestProvider(queryViewState.getQuery(), -1), "Slowest Requests"));
             }
         });
         
@@ -73,13 +76,14 @@ public class PerformancePanel extends Panel {
         form.add(new Link("largestViewMore") {
             @Override
             public void onClick() {
-                setResponsePage(new RequestsPage(new LargestResponseProvider(query, -1), "Largest Responses"));
+                setResponsePage(new RequestsPage(new LargestResponseProvider(queryViewState.getQuery(), -1), "Largest Responses"));
             }
         });
     }
     
     void handleZoomChange(View zoom, AjaxRequestTarget target) {
-        this.zoom = zoom;
+        Query query = queryViewState.getQuery();
+        queryViewState.setView(zoom);
         
         AverageTotalTimeAggregator agg = new AverageTotalTimeAggregator(query, zoom);
         Analytics.monitor().query(agg.getQuery(), agg);

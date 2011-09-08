@@ -17,7 +17,11 @@ public class TimeSpanPanel extends Panel {
         setOutputMarkupId(true);
         this.from = from;
         this.to = to;
-        
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
         initComponents();
     }
 

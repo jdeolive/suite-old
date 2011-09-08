@@ -13,14 +13,15 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.monitor.Query;
 import org.geoserver.monitor.web.MonitorBasePage;
+import org.opengeo.analytics.QueryViewState;
 
 public class AnalyticsHomePage extends MonitorBasePage {
 
-    Query query;
+    QueryViewState queryViewState;
     String description;
     
     public AnalyticsHomePage() {
-        query = new Query();
+        queryViewState = new QueryViewState();
         
         add(new Label("description", new PropertyModel<String>(this, "description")))
         ;
@@ -29,7 +30,7 @@ public class AnalyticsHomePage extends MonitorBasePage {
             @Override
             public Panel getPanel(String panelId) {
                 description = description("summaryDescription");
-                return new SummaryPanel(panelId, query);
+                return new SummaryPanel(panelId, queryViewState);
             }
         });
         tabs.add(new AbstractTab(new ResourceModel("location")) {
@@ -44,7 +45,7 @@ public class AnalyticsHomePage extends MonitorBasePage {
             @Override
             public Panel getPanel(String panelId) {
                 description = description("performanceDescription");
-                return new PerformancePanel(panelId, query);
+                return new PerformancePanel(panelId, queryViewState);
             }
         });
         

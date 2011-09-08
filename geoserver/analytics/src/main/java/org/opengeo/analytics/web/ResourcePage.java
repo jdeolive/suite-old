@@ -1,5 +1,6 @@
 package org.opengeo.analytics.web;
 
+import org.opengeo.analytics.QueryViewState;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import static org.geoserver.monitor.rest.RequestResource.toDate;
 
 public class ResourcePage extends MonitorBasePage {
     
-    Query query;
+    QueryViewState queryViewState;
     RequestDataTablePanel tablePanel;
     
     public ResourcePage(PageParameters params) {
@@ -33,13 +34,13 @@ public class ResourcePage extends MonitorBasePage {
     
         add(new Label("resource", resource));
         
-        query = new Query();
+        queryViewState = new QueryViewState();
         if (from != null) {
-            query.between(from, to);
+            queryViewState.getQuery().between(from, to);
         }
-        query.filter(resource, "resources", Comparison.IN);
+         queryViewState.getQuery().filter(resource, "resources", Comparison.IN);
         
-        ActivityPanel activityPanel = new ActivityPanel("activity", query) {
+        ActivityPanel activityPanel = new ActivityPanel("activity", queryViewState) {
             @Override
             protected void onChange(AjaxRequestTarget target) {
                 target.addComponent(tablePanel);
@@ -47,7 +48,7 @@ public class ResourcePage extends MonitorBasePage {
         };
         add(activityPanel);
         
-        tablePanel = new RequestDataTablePanel("requests", new RequestDataProvider(query));
+        tablePanel = new RequestDataTablePanel("requests", new RequestDataProvider(queryViewState.getQuery()));
         tablePanel.setOutputMarkupId(true);
         tablePanel.setItemsPerPage(25);
         add(tablePanel);

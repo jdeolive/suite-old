@@ -13,12 +13,16 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
+import org.opengeo.analytics.QueryViewState;
 import org.opengeo.analytics.View;
 
 public class TimeSpanWithZoomPanel extends TimeSpanPanel {
-
-    public TimeSpanWithZoomPanel(String id, IModel<Date> from, IModel<Date> to) {
+    IModel<View> zoom;
+    
+    public TimeSpanWithZoomPanel(String id, IModel<Date> from, IModel<Date> to, IModel<View> zoom) {
         super(id, from, to);
+        this.zoom = zoom;
     }
     
     @Override
@@ -26,30 +30,10 @@ public class TimeSpanWithZoomPanel extends TimeSpanPanel {
         super.initComponents();
         
         List<AjaxLink> zoomLinks = new ArrayList();
-        zoomLinks.add(new AjaxLink<View>("hour", new Model<View>(View.HOURLY)) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-               onZoomChange(getModelObject(), target);
-            } 
-        });
-        zoomLinks.add(new AjaxLink<View>("day", new Model<View>(View.DAILY)) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                onZoomChange(getModelObject(), target);
-            }
-        });
-        zoomLinks.add(new AjaxLink<View>("week", new Model<View>(View.WEEKLY)) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                onZoomChange(getModelObject(), target);
-            }
-        });
-        zoomLinks.add(new AjaxLink<View>("month", new Model<View>(View.MONTHLY)) {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                onZoomChange(getModelObject(), target);
-            }
-        });
+        zoomLinks.add(new ZoomLink("hour",View.HOURLY));
+        zoomLinks.add(new ZoomLink("day",View.DAILY));
+        zoomLinks.add(new ZoomLink("week",View.WEEKLY));
+        zoomLinks.add(new ZoomLink("month",View.MONTHLY));
         for (AjaxLink link : zoomLinks) {
             add(link);
         }
@@ -62,11 +46,29 @@ public class TimeSpanWithZoomPanel extends TimeSpanPanel {
     }
     
     void setMutuallyExclusive(List<AjaxLink> links, List<String> classes, AjaxLink initial) {
+        View currentZoom = zoom == null ? null : zoom.getObject();
         for (int i = 0; i < links.size(); i++) {
             AjaxLink link = links.get(i);
             link.add(new MutuallyExclusingBehaviour("onclick", link, links, classes));
+            if (currentZoom == link.getModel().getObject()) {
+                initial = link;
+            }
         }
         initial.add(new AttributeAppender("class", new Model("active"), " "));
+    }
+    
+    class ZoomLink extends AjaxLink<View> {
+        
+        ZoomLink(String id,View view) {
+            super(id, new Model<View>(view));
+        }
+
+        @Override
+        public void onClick(AjaxRequestTarget art) {
+            zoom.setObject(getModelObject());
+            onZoomChange(getModelObject(), art);
+        }
+        
     }
     
     static class MutuallyExclusingBehaviour extends AjaxEventBehavior {

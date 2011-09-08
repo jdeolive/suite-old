@@ -23,28 +23,31 @@ import org.geoserver.web.wicket.GeoServerDataProvider.Property;
 import org.geoserver.web.wicket.GeoServerTablePanel;
 import org.geoserver.web.wicket.SimpleBookmarkableLink;
 import org.opengeo.analytics.CountingVisitor;
+import org.opengeo.analytics.QueryViewState;
 import org.opengeo.analytics.RequestSummary;
 import org.opengeo.analytics.ResourceSummary;
 import org.opengeo.analytics.command.CommonResourceCommand;
 public class SummaryPanel extends Panel {
 
-    Query query;
+    QueryViewState queryViewState;
     
     ActivityPanel activityPanel;
     GeoServerTablePanel<RequestData> recentRequestTable, recentFailedRequestTable;
     CommonResourceTable commonResourceTable;
     
-    public SummaryPanel(String id, Query query) {
+    public SummaryPanel(String id, QueryViewState queryViewState) {
         super(id);
-        this.query = query;
+        this.queryViewState = queryViewState;
         initComponents();
     }
 
     void initComponents() {
+        Query query = queryViewState.getQuery();
+        
         Form form = new Form("form");
         add(form);
         
-        activityPanel = new ActivityPanel("activity", query) {
+        activityPanel = new ActivityPanel("activity", queryViewState) {
             protected void onChange(AjaxRequestTarget target) {
                 updateSummaries(target);
             };
@@ -59,7 +62,7 @@ public class SummaryPanel extends Panel {
         form.add(new Link("recentViewMore") {
             @Override
             public void onClick() {
-                setResponsePage(new RequestsPage(new RecentRequestProvider(query, -1)));
+                setResponsePage(new RequestsPage(new RecentRequestProvider(queryViewState.getQuery(), -1)));
             }
         });
         
@@ -73,7 +76,7 @@ public class SummaryPanel extends Panel {
         form.add(new Link("recentFailedViewMore") {
             @Override
             public void onClick() {
-                setResponsePage(new RequestsPage(new RecentFailedRequestProvider(query, -1), "Failed Requests"));
+                setResponsePage(new RequestsPage(new RecentFailedRequestProvider(queryViewState.getQuery(), -1), "Failed Requests"));
             }
         });
         
@@ -151,6 +154,7 @@ public class SummaryPanel extends Panel {
         @Override
         protected Component getComponentForProperty(String id, IModel itemModel,
                 Property<ResourceSummary> property) {
+            Query query = queryViewState.getQuery();
             if (property == CommonResourceProvider.RESOURCE) {
                 String resource = (String) property.getModel(itemModel).getObject();
                 String from = asString(query.getFromDate());
@@ -187,7 +191,7 @@ public class SummaryPanel extends Panel {
                         Link link = new Link("link") {
                             @Override
                             public void onClick() {
-                                Query q = query.clone();
+                                Query q = queryViewState.getQuery().clone();
                                 
                                 q.and(summary.getResource(), "resources", Comparison.IN)
                                  .and("operation", request.getRequest(), Comparison.EQ); 

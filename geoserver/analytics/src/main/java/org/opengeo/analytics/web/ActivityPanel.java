@@ -6,23 +6,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.geoserver.monitor.Filter;
 import org.geoserver.monitor.Query;
@@ -31,6 +22,7 @@ import org.geoserver.monitor.RequestDataVisitor;
 import org.geoserver.monitor.Query.Comparison;
 import org.opengeo.analytics.LineChart;
 import org.opengeo.analytics.PieChart;
+import org.opengeo.analytics.QueryViewState;
 import org.opengeo.analytics.Service;
 import org.opengeo.analytics.ServiceOpSummary;
 import org.opengeo.analytics.ServiceTimeAggregator;
@@ -38,25 +30,26 @@ import org.opengeo.analytics.View;
 
 public class ActivityPanel extends Panel {
 
-    Query query;
-    View zoom = View.DAILY;
+    QueryViewState queryViewState;
     ServiceSelection services = new ServiceSelection();
     
     TimeSpanWithZoomPanel timeSpanPanel;
     ChartPanel lineChartPanel, pieChartPanel;
     
-    public ActivityPanel(String id, Query query) {
+    public ActivityPanel(String id, QueryViewState queryViewState) {
         super(id);
         setOutputMarkupId(true);
-        this.query = query;
+        this.queryViewState = queryViewState;
         
         initComponents();
         
         updateLineChart(new AjaxRequestTarget(new WebPage(){}));
         updatePieChart(new AjaxRequestTarget(new WebPage(){}));
     }
-
+    
     void initComponents() {
+        Query query = queryViewState.getQuery();
+        View zoom = queryViewState.getView();
         if (query.getToDate() == null) {
             Date now = new Date();
             query.setToDate(now);    
@@ -85,8 +78,10 @@ public class ActivityPanel extends Panel {
             protected void onUpdate(AjaxRequestTarget target) {}
         });
         
-        timeSpanPanel = new TimeSpanWithZoomPanel("timeSpan", new PropertyModel<Date>(this,"query.fromDate"), 
-                new PropertyModel<Date>(this,"query.toDate")) {
+        timeSpanPanel = new TimeSpanWithZoomPanel("timeSpan", 
+            new PropertyModel<Date>(query, "fromDate"), 
+            new PropertyModel<Date>(query, "toDate"), 
+            new PropertyModel<View>(queryViewState,"view")) {
             @Override
             protected void onZoomChange(View view, AjaxRequestTarget target) {
                 handleZoomClick(view, target);
@@ -97,7 +92,7 @@ public class ActivityPanel extends Panel {
         form.add(new AjaxButton("refresh", form) {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                handleZoomClick(zoom, target);
+                handleZoomClick(queryViewState.getView(),target);
             }
         });
         
@@ -108,8 +103,9 @@ public class ActivityPanel extends Panel {
     protected void onChange(AjaxRequestTarget target) {
     }
     
-    void handleZoomClick(View zoom, AjaxRequestTarget target) {
-        this.zoom = zoom;
+    void handleZoomClick(View zoom,AjaxRequestTarget target) {
+        queryViewState.setView(zoom);
+        Query query = queryViewState.getQuery();
         
         //adjust the time period for the zoom
         query.setFromDate(zoom.minimumRange(query.getFromDate(), query.getToDate()));
@@ -124,6 +120,9 @@ public class ActivityPanel extends Panel {
     }
     
     void updateLineChart(AjaxRequestTarget target) {
+        View zoom = queryViewState.getView();
+        Query query = queryViewState.getQuery();
+        
         ServiceTimeAggregator agg = 
             new ServiceTimeAggregator(query, zoom, services.getSelectedAsString());
         Analytics.monitor().query(agg.getQuery(), agg);
@@ -143,7 +142,7 @@ public class ActivityPanel extends Panel {
     }
     
     void updatePieChart(AjaxRequestTarget target) {
-        Query q = query.clone();
+        Query q = queryViewState.getQuery().clone();
         q.getProperties().clear();
         q.getAggregates().clear();
         q.getGroupBy().clear();

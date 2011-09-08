@@ -8,5 +8,6 @@ analyticsCharts.line({
     ydata : ${ydata},
     colors: ${colors},
     xsteps : ${xsteps},
-    breaks : ${breaks}
+    breaks : ${breaks},
+    ylabel : "${ylabel}"
 });

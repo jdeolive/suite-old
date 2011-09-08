@@ -39,7 +39,7 @@ analyticsCharts = {
         xo = maxYLabelLength(opts.ydata) * 8,
         gut = 'gut' in opts ? opts.gut : 20;
         opts.gut = gut;
-        r.g.text(xo + opts.width/9, gut, "# of Requests").attr({"text-anchor":"start"});
+        r.g.text(xo + opts.width/9, gut, opts.ylabel).attr({"text-anchor":"start"});
 
         if (opts.xlen > 0) {
             line = r.g.linechart(xo, 0, opts.width, opts.height, opts.xdata, opts.ydata, { 
@@ -57,7 +57,7 @@ analyticsCharts = {
             opts.xlen = 0;
             r.g.linechart(xo, 0, opts.width, opts.height, [0], [0], {axis: "0 0 0 1", gutter: gut, smooth: true});
             r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
-            r.g.text(opts.width/2, opts.height/2, "No data");
+            r.g.text(opts.width/2, opts.height/2, opts.ylabel);
         }
         
         r.g.axis(gut+ xo, opts.height-gut, opts.width - 2*gut, 0, opts.xlen, opts.xsteps, 0, opts.labels);

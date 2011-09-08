@@ -12,6 +12,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -51,9 +52,9 @@ public class RequestDataTablePanel extends GeoServerTablePanel<RequestData> {
         }
         
         if (property == ID) {
-            Long requestId = (Long) property.getModel(itemModel).getObject();
-            return new SimpleBookmarkableLink(id, RequestPage.class, new Model(requestId),
-               "id", requestId.toString());
+            IModel model = property.getModel(itemModel);
+            return new SimpleBookmarkableLink(id, RequestPage.class, model,
+               "id", model.getObject().toString());
         }
         
         if (property == STATUS) {

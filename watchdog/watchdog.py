@@ -274,11 +274,17 @@ class RequestCheck(object):
    def ok(self):
      logging.warning('Checking url %s' % self.url)
      try:
-       self.response = urllib2.urlopen(self.url, timeout=5)
-       return self.do_check()
+       for x in range(0, 3): 
+         self.response = urllib2.urlopen(self.url, timeout=10)
+         if self.do_check():
+           return True
+         
+         # pause before trying agaain 
+         time.sleep(2)
      except Exception:
        logging.exception('Failure connecting to %s' % self.url)
-       return False 
+
+     return False 
 
    def do_check(self):
      # check the http code
@@ -312,7 +318,7 @@ class RequestCheck(object):
 
    def dump(self):
      if hasattr(self, 'response'):
-       f = tempfile.mkstemp()[1]
+       f = tempfile.mkstemp(suffix=self.conf.get('main', 'name'))[1]
        logging.info('Dumping output to %s' % f)
 
        f = open(f, 'w')

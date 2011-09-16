@@ -280,6 +280,7 @@ class RequestCheck(object):
            return True
          
          # pause before trying agaain 
+         logging.warning('Check [%s] failed, retrying %d' % (self.url, x))
          time.sleep(2)
      except Exception:
        logging.exception('Failure connecting to %s' % self.url)

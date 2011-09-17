@@ -273,8 +273,8 @@ class RequestCheck(object):
 
    def ok(self):
      logging.warning('Checking url %s' % self.url)
-     try:
-       for x in range(0, 3): 
+     for x in range(0, 3): 
+       try:
          self.response = urllib2.urlopen(self.url, timeout=10)
          if self.do_check():
            return True
@@ -282,8 +282,8 @@ class RequestCheck(object):
          # pause before trying agaain 
          logging.warning('Check [%s] failed, retrying %d' % (self.url, x))
          time.sleep(2)
-     except Exception:
-       logging.exception('Failure connecting to %s' % self.url)
+       except Exception:
+         logging.exception('Failure connecting to %s' % self.url)
 
      return False 
 

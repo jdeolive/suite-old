@@ -186,7 +186,7 @@ class Watchdog(object):
     for check in self.conf.get('main', 'checks').split(','):
       if len(check.strip()) > 0:
         url = base + self.conf.get(check, 'path')
-        checks.append(RequestCheck(url, self.conf.items(check)))
+        checks.append(RequestCheck(url, self.conf.items(check), self))
         
     # TODO: check the java heap
     return checks 
@@ -267,21 +267,22 @@ class PidCheck(object):
 
 class RequestCheck(object):
 
-   def __init__(self, url, conf):
+   def __init__(self, url, conf, dog):
      self.url = url
      self.conf = self._dict(conf)
+     self.gconf = dog.conf
 
    def ok(self):
      logging.warning('Checking url %s' % self.url)
-     for x in range(0, 3): 
+     for x in range(0, int(self.gconf.get('net','retry_attempts'))+1): 
        try:
          self.response = urllib2.urlopen(self.url, timeout=10)
          if self.do_check():
            return True
          
-         # pause before trying agaain 
+         # pause before trying again 
          logging.warning('Check [%s] failed, retrying %d' % (self.url, x))
-         time.sleep(2)
+         time.sleep(int(self.gconf.get('net', 'retry_pause')))
        except Exception:
          logging.exception('Failure connecting to %s' % self.url)
 

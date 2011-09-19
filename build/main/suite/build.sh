@@ -121,8 +121,12 @@ $MVN -s $MAVEN_SETTINGS -Dmvn.exec=$MVN -Dmvn.settings=$MAVEN_SETTINGS clean ins
 checkrv $? "gwc/geotools/geoserver build"
 
 cd $CWD
-$MVN -s $MAVEN_SETTINGS -o clean install -Dfull -Dsvn.revision=$revision -Dbuild.date=$BUILD_ID
-checkrv $? "maven clean install"
+# update deps first
+$MVN -s $MAVEN_SETTINGS -Dfull -U clean
+checkrv $? "maven force update"
+# then build
+$MVN -s $MAVEN_SETTINGS -o install -Dfull -Dsvn.revision=$revision -Dbuild.date=$BUILD_ID
+checkrv $? "maven install"
 
 $MVN -s $MAVEN_SETTINGS -o assembly:attached &&
 checkrv $? "maven assembly"

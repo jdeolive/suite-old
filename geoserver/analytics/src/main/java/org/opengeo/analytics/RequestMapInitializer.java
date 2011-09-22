@@ -1,6 +1,7 @@
 package org.opengeo.analytics;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -119,19 +120,15 @@ public class RequestMapInitializer implements GeoServerInitializer {
             ft.setStore(ds);
             ft.setEnabled(true);
             setWorldBounds(ft);
-            
-            VirtualTable vt = new VirtualTable("requests_agg", 
-                "SELECT ST_SetSRID(ST_MakePoint(remote_lon,remote_lat), 4326) as \"POINT\"," +
-                        "remote_city as \"REMOTE_CITY\", " +
-                        "remote_country as \"REMOTE_COUNTRY\", " +
-                        "count(*) as \"REQUESTS\"" + 
-                 " FROM request WHERE remote_lon <> 0 and remote_lat <> 0 and %query%" + 
-              "GROUP BY \"POINT\", \"REMOTE_CITY\", \"REMOTE_COUNTRY\"");
-            vt.addGeometryMetadatata("POINT", Point.class, 4326);
-            RegexpValidator validator = new RegexpValidator(START_END_REGEXP);
-            vt.addParameter(new VirtualTableParameter("query","1=1",validator));
-            ft.getMetadata().put("JDBC_VIRTUAL_TABLE", vt);
+            ft.getMetadata().put("JDBC_VIRTUAL_TABLE", createAggRequestsVirtualTable());
             cat.add(ft);
+        } else {
+            VirtualTable vt = (VirtualTable) ft.getMetadata().get("JDBC_VIRTUAL_TABLE");
+            // check for updates - prior to 2.4.4, there was no parameter
+            if (vt.getParameter("query") == null) {
+                ft.getMetadata().put("JDBC_VIRTUAL_TABLE", createAggRequestsVirtualTable());
+            }
+            cat.save(ft);
         }
         
         if (cat.getLayers(ft).isEmpty()) {
@@ -187,6 +184,20 @@ public class RequestMapInitializer implements GeoServerInitializer {
         if (cat.getLayers(ft).isEmpty()) {
             addLayer(cat, ft, "point");
         }
+    }
+    
+    VirtualTable createAggRequestsVirtualTable() {
+        VirtualTable vt = new VirtualTable("requests_agg", 
+            "SELECT ST_SetSRID(ST_MakePoint(remote_lon,remote_lat), 4326) as \"POINT\"," +
+                    "remote_city as \"REMOTE_CITY\", " +
+                    "remote_country as \"REMOTE_COUNTRY\", " +
+                    "count(*) as \"REQUESTS\"" + 
+             " FROM request WHERE remote_lon <> 0 and remote_lat <> 0 and %query%" + 
+          "GROUP BY \"POINT\", \"REMOTE_CITY\", \"REMOTE_COUNTRY\"");
+        vt.addGeometryMetadatata("POINT", Point.class, 4326);
+        RegexpValidator validator = new RegexpValidator(START_END_REGEXP);
+        vt.addParameter(new VirtualTableParameter("query","1=1",validator));
+        return vt;
     }
     
     void addStyle(Catalog cat, String name) throws Exception {

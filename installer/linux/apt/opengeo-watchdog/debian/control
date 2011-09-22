@@ -1,0 +1,16 @@
+Source: opengeo-watchdog
+Section: science
+Priority: extra
+Maintainer: OpenGeo <inquiry@opengeo.org>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://opengeo.org
+
+Package: opengeo-watchdog
+Architecture: all
+Depends: python
+Description: Watchdog monitor for the OpenGeo Suite.
+ Watchdog script for monitoring an OpenGeo Suite installation. Configurable with
+ the ability to issue periodic requests to determine service health, restart the
+ service, and send notifications.
+

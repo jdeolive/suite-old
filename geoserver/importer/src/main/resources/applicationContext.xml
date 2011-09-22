@@ -5,5 +5,6 @@
 
   <import resource="applicationContext-oldimporter.xml"/>
   <import resource="applicationContext-uploader.xml"/>
+  <import resource="applicationContext-importer.xml"/>
 
 </beans>

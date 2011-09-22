@@ -42,6 +42,7 @@
     <dependency>
      <groupId>org.geoserver.community</groupId>
      <artifactId>ftp</artifactId>
+     <optional>true</optional>
      <version>${gs.version}</version>
     </dependency>
     <dependency>

@@ -18,8 +18,8 @@ install:
 	dh_installdirs
 	mkdir -p $(CURDIR)/debian/opengeo-watchdog/usr/share/opengeo-watchdog
 	mkdir -p $(CURDIR)/debian/opengeo-watchdog/etc
-	cp -rpv $(CURDIR)/opengeo-watchdog/watchdog.py $(CURDIR)/debian/opengeo-watchdog/usr/share/opengeo-watchdog/.
-	cp -rpv $(CURDIR)/opengeo-watchdog/watchdog.ini $(CURDIR)/debian/opengeo-watchdog/etc/opengeo-watchdog.ini
+	cp -rpv $(CURDIR)/watchdog/watchdog.py $(CURDIR)/debian/opengeo-watchdog/usr/share/opengeo-watchdog/.
+	cp -rpv $(CURDIR)/watchdog/watchdog.ini $(CURDIR)/debian/opengeo-watchdog/etc/opengeo-watchdog.ini
 binary-indep: build install
 
 binary-arch: build install

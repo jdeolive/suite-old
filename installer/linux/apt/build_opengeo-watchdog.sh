@@ -8,9 +8,9 @@ build_info
 get_svn $REPO_PATH watchdog watchdog
 
 # clean out old files
-rm -rf opengeo-watchdog/data_dir
+rm -rf opengeo-watchdog/watchdog
 
-svn export svn/$REPO_PATH/watchdog opengeo-watchdog/
+svn export svn/$REPO_PATH/watchdog opengeo-watchdog/watchdog
 checkrc $? "exporting watchdog scripts"
 
 # build

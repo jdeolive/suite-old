@@ -131,8 +131,8 @@ checkrv $? "maven install"
 $MVN -s $MAVEN_SETTINGS -o assembly:attached &&
 checkrv $? "maven assembly"
 
-#$MVN -s $MAVEN_SETTINGS deploy -DskipTests &&
-#checkrv $? "maven deploy"
+$MVN -s $MAVEN_SETTINGS deploy -DskipTests &&
+checkrv $? "maven deploy"
 
 # build with the enterprise profile
 profile_rebuild ee

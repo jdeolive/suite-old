@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import org.geoserver.catalog.LayerInfo;
-import org.geoserver.platform.GeoServerResourceLoader;
 import org.opengeo.data.importer.ImportContext;
 import org.opengeo.data.importer.ImportItem;
 import org.opengeo.data.importer.ImportStore;
@@ -27,8 +26,13 @@ import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
+import com.sleepycat.je.SecondaryDatabase;
 import com.sleepycat.je.Sequence;
 import com.sleepycat.je.SequenceConfig;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.iterators.FilterIterator;
+import org.geoserver.catalog.Catalog;
+import org.geoserver.catalog.impl.StoreInfoImpl;
 
 /**
  * Import store implementation based on Berkley DB Java Edition.
@@ -42,7 +46,7 @@ public class BDBImportStore implements ImportStore {
     Database db;
     Database seqDb;
     Database classDb;
-
+    
     Sequence importIdSeq;
     StoredClassCatalog classCatalog;
     EntryBinding<ImportContext> importBinding;
@@ -92,14 +96,21 @@ public class BDBImportStore implements ImportStore {
         }
 
         ImportContext context = importBinding.entryToObject(val);
-
+        Catalog catalog = importer.getCatalog();
+        
         //fix transient references that were not serialized
         for (ImportTask task : context.getTasks()) {
+            if (task.getStore() != null) {
+                ((StoreInfoImpl) task.getStore()).setCatalog(catalog);
+            }
             for (ImportItem item : task.getItems()) {
                 if (item.getLayer() != null) {
                     LayerInfo l = item.getLayer();
                     if (l.getDefaultStyle() != null && l.getDefaultStyle().getId() != null) {
                         l.setDefaultStyle(importer.getCatalog().getStyle(l.getDefaultStyle().getId()));
+                    }
+                    if (l.getResource() != null) {
+                        l.getResource().setCatalog(importer.getCatalog());
                     }
                 }
             }
@@ -114,6 +125,10 @@ public class BDBImportStore implements ImportStore {
         put(context);
     }
 
+    public void remove(ImportContext importContext) {
+        db.delete(null, key(importContext) );
+    }
+
     public void save(ImportContext context) {
         if (context.getId() == null) {
             add(context);
@@ -126,6 +141,26 @@ public class BDBImportStore implements ImportStore {
     public Iterator<ImportContext> iterator() {
         return new StoredMap<Long, ImportContext>(db, new LongBinding(), importBinding, false)
             .values().iterator();
+    }
+    
+    public Iterator<ImportContext> allNonCompleteImports() {
+        // if this becomes too slow a secondary database could be used for indexing
+        return new FilterIterator(iterator(), new Predicate() {
+
+            public boolean evaluate(Object o) {
+                return ((ImportContext) o).getState() != ImportContext.State.COMPLETE;
+            }
+        });
+    }
+    
+    public Iterator<ImportContext> importsByUser(final String user) {        
+        // if this becomes too slow a secondary database could be used for indexing
+        return new FilterIterator(allNonCompleteImports(), new Predicate() {
+
+            public boolean evaluate(Object o) {
+                return user.equals( ((ImportContext) o).getUser() );
+            }
+        });
     }
 
     public void query(ImportVisitor visitor) {

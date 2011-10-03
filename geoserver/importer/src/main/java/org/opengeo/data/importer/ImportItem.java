@@ -35,8 +35,8 @@ public class ImportItem implements Serializable {
      * the layer/resource
      */
     LayerInfo layer;
-
-    /** 
+    
+    /**
      * state of the resource
      */
     State state = State.PENDING;

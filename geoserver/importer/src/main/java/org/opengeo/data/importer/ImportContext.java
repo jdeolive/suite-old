@@ -1,5 +1,6 @@
 package org.opengeo.data.importer;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +65,11 @@ public class ImportContext implements Serializable {
      * date import was finished
      */
     Date updated;
+    
+    /**
+     * credentials of creator
+     */
+    String user;
 
     public ImportContext(long id) {
         this();
@@ -123,6 +129,14 @@ public class ImportContext implements Serializable {
         this.targetStore = targetStore;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+    
     public List<ImportTask> getTasks() {
         return Collections.unmodifiableList(tasks);
     }
@@ -163,6 +177,13 @@ public class ImportContext implements Serializable {
     public void updated() {
         updated = new Date();
     }
+    
+    public void delete() throws IOException {
+        if (data != null) {
+            data.cleanup();
+        }
+    }
+
 
     @Override
     public int hashCode() {
@@ -188,5 +209,14 @@ public class ImportContext implements Serializable {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "ImportContext{" + "id=" + id + ", state=" + state + ", data=" + data + 
+                ", targetWorkspace=" + targetWorkspace + ", targetStore=" + targetStore + 
+                ", tasks=" + tasks + ", taskid=" + taskid + ", created=" + created + ", updated=" + updated + '}';
+    }
+    
+    
 }
     

@@ -79,14 +79,16 @@ public class Importer implements InitializingBean, DisposableBean {
         return store.get(id);
     }
 
-    public List<ImportContext> getContexts() {
-        //TODO: remove this method, we don't want to pull all these objects into memory at once
-        List<ImportContext> contexts = new ArrayList<ImportContext>();
-        Iterator<ImportContext> it = store.iterator();
-        while(it.hasNext()) {
-            contexts.add(it.next());
-        }
-        return contexts;
+    public Iterator<ImportContext> getContexts() {
+        return store.allNonCompleteImports();
+    }
+    
+    public Iterator<ImportContext> getContextsByUser(String user) {
+        return store.importsByUser(user);
+    }
+    
+    public Iterator<ImportContext> getAllContexts() {
+        return store.iterator();
     }
 
     public ImportContext createContext(ImportData data, WorkspaceInfo targetWorkspace) throws IOException {
@@ -248,6 +250,8 @@ public class Importer implements InitializingBean, DisposableBean {
                     }
                 }
 
+                // @todo revisit - thought this was needed or shapefile errors were occuring
+                task.setDirect(true);
                 task.setStore(store);
             }
 
@@ -629,5 +633,10 @@ public class Importer implements InitializingBean, DisposableBean {
     public void destroy() throws Exception {
         jobs.shutdown();
         store.destroy();
+    }
+
+    public void delete(ImportContext importContext) throws IOException {
+        importContext.delete();
+        store.remove(importContext);
     }
 }

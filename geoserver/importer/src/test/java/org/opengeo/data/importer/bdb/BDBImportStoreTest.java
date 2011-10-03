@@ -2,8 +2,10 @@ package org.opengeo.data.importer.bdb;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.geoserver.catalog.LayerInfo;
 import org.geoserver.platform.GeoServerResourceLoader;
 import org.opengeo.data.importer.Directory;
 import org.opengeo.data.importer.ImportContext;
@@ -42,14 +44,23 @@ public class BDBImportStoreTest extends ImporterTestSupport {
     public void testAdd() throws Exception {
         File dir = unpack("shape/archsites_epsg_prj.zip");
         ImportContext context = importer.createContext(new Directory(dir));
-        assertNull(context.getId());
+        
+        assertEquals(1,context.getTasks().size());
+        for (int i = 0; i < context.getTasks().size(); i++) {
+            assertNotNull(context.getTasks().get(i).getStore());
+            assertNotNull(context.getTasks().get(i).getStore().getCatalog());
+        }
+        
+        // @todo commented these out as importer.createContext adds to the store
+//        assertNull(context.getId());
 
         CountingVisitor cv = new CountingVisitor();
-        store.query(cv);
-        assertEquals(0, cv.getCount());
+//        store.query(cv);
+//        assertEquals(0, cv.getCount());
 
-        store.add(context);
+//        store.add(context);
         assertNotNull(context.getId());
+        assertNotNull(context.getTasks().get(0).getItems().get(0).getLayer());
 
         ImportContext context2 = store.get(context.getId());
         assertNotNull(context2);
@@ -61,6 +72,14 @@ public class BDBImportStoreTest extends ImporterTestSupport {
         SearchingVisitor sv = new SearchingVisitor(context.getId());
         store.query(sv);
         assertTrue(sv.isFound());
+        
+        // ensure various transient bits are set correctly on deserialization
+        assertEquals(1,context2.getTasks().size());
+        for (int i = 0; i < context2.getTasks().size(); i++) {
+            assertNotNull(context2.getTasks().get(i).getStore());
+            assertNotNull(context2.getTasks().get(i).getStore().getCatalog());
+        }
+        assertNotNull(context2.getTasks().get(0).getItems().get(0).getLayer());
     }
 
     public void testSave() throws Exception {

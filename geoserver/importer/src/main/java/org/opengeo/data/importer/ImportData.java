@@ -38,4 +38,8 @@ public abstract class ImportData implements Serializable{
      */
     public void prepare() throws IOException {
     }
+    
+    public void cleanup() throws IOException {
+        // do nothing
+    }
 }

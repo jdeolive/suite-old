@@ -3,6 +3,7 @@ package org.opengeo.data.importer.web;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.wicket.model.IModel;
 import org.geoserver.web.wicket.GeoServerDataProvider;
 import org.opengeo.data.importer.ImportContext;
@@ -19,7 +20,7 @@ public class ImportContextProvider extends GeoServerDataProvider<ImportContext> 
     }
     @Override
     protected List<ImportContext> getItems() {
-        return ImporterWebUtils.importer().getContexts();
+        return IteratorUtils.toList(ImporterWebUtils.importer().getAllContexts() );
     }
 
     @Override

@@ -4,9 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletResponse;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -18,6 +16,7 @@ import org.opengeo.data.importer.ImporterTestSupport;
 import org.opengeo.data.importer.SpatialFile;
 
 import com.mockrunner.mock.web.MockHttpServletResponse;
+import java.util.Iterator;
 
 public class ImportResourceTest extends ImporterTestSupport {
 
@@ -37,7 +36,7 @@ public class ImportResourceTest extends ImporterTestSupport {
     }
 
     public void testGetAllImports() throws Exception {
-        JSONObject json = (JSONObject) getAsJSON("/rest/imports");
+        JSONObject json = (JSONObject) getAsJSON("/rest/imports?all");
         assertNotNull(json.get("imports"));
 
         JSONArray imports = (JSONArray) json.get("imports");
@@ -174,7 +173,12 @@ public class ImportResourceTest extends ImporterTestSupport {
         assertEquals(201, resp.getStatusCode());
         assertNotNull( resp.getHeader( "Location") );
 
-        int id = importer.getContexts().size()-1;
+        Iterator<ImportContext> ctx = importer.getAllContexts();
+        int id = 0;
+        while (ctx.hasNext()) {
+            ctx.next();
+            id++;
+        }
         assertTrue( resp.getHeader("Location").endsWith( "/imports/"+ id));
 
         JSONObject json = (JSONObject) json(resp);

@@ -37,7 +37,8 @@ public class ImporterTest extends ImporterTestSupport {
         
         ImportContext context = importer.createContext(d);
         assertEquals(2, context.getTasks().size());
-
+        
+        // @todo this may fail if file order is different
         ImportTask task = context.getTasks().get(0);
         assertEquals(d.getFiles().get(0), task.getData());
         

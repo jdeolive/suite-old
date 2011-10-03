@@ -98,7 +98,7 @@ The Display tab displays options related to the rendering of the layer by GeoExp
 Cache tab
 ---------
 
-GeoExplorer recognizes :term:`WMS-C` layers, and therefore has the option to allow for built-in caching support if it exists on the server.  In the case of layers served through GeoServer, the integrated GeoWebCache module allows for automatic caching of tiles served through the GeoServer WMS.  This means that as images are loaded in GeoExplorer (through standard zooming and panning), the underlying tiles are stored on the server backend, accelerating  subsequent layer viewing and improving map performance.
+GeoExplorer recognizes :term:`WMS-C` layers, and therefore has the option to allow for built-in caching support if it exists on the server.  In the case of layers served through GeoServer, the integrated GeoWebCache module allows for automatic caching of tiles served through the GeoServer WMS.  This means that as images are loaded in GeoExplorer (through standard zooming and panning), the underlying tiles are stored on the server, accelerating subsequent layer viewing and improving map performance.
 
 The Cache tab displays whether the layer should respect the cached version, utilizing any saved tiles and generating more, or if it should use bypass the cache entirely.
 
@@ -123,32 +123,5 @@ GeoExplorer now has an integrated style editor for layers served through a :term
    *Styles tab in the Layer Properties dialog*
 
 .. note:: Editing styles is discussed in the :ref:`geoexplorer.using.style` section.
-
-
-Authentication
-~~~~~~~~~~~~~~
-
-When you first click on the Styles tab, you will be asked for authentication to the server where the layer is served.  In order to edit any styles (or even view anything in this tab), you will need to provide credentials that have access to do so.
-
-Styles
-~~~~~~
-
-The Styles section in the Styles tab allows you to select a style.  The list is taken from the server's list of available styles for that layer.
-
-It is possible to add a new style by clicking the :guilabel:`Add` button.  Instead of starting a new style from scratch, you can click the :guilabel:`Duplicate` button to copy an existing style.  Selecting a style and clicking the :guilabel:`Remove` button can delete any style other than the layer default.  Finally, you can edit the style metadata (title and abstract) by selecting a style and clicking the :guilabel:`Edit` button.
-
-.. note::  The metadata Name of styles, whether created in GeoExplorer or elsewhere on the server, is not editable.
-
-Rules
-~~~~~
-
-The rules section in the Styles tab allows you to view and edit style rules contained in the given style.  As with styles themselves, you have the ability to :guilabel:`Add` a new rule, :guilabel:`Duplicate` an existing rule, :guilabel:`Remove` an existing rule, or :guilabel:`Edit` a rule.  Click on a rule to select it.
-
-For more information about styling layers, please see the :ref:`geoexplorer.using.style` section.
-
-
-
-
-
 
 

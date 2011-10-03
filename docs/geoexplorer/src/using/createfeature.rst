@@ -5,6 +5,8 @@ Create a New Feature
 
 GeoExplorer includes the ability to create new features in layers served through a local instance of GeoServer.  You can draw the location of the feature, as well as edit the attribute data for that feature.
 
+.. note:: Authentication is required to create features through GeoExplorer.  For more information, please see the :ref:`geoexplorer.using.login` section.
+
 .. warning:: Creation of features happens directly on the data source served in GeoServer (via :term:`WFS-T`), so the changes that are made go live immediately once the :guilabel:`Save` button is clicked.
 
 To create a new feature, select the layer you wish to add features to, and then click the :guilabel:`Create a new feature` button.

@@ -63,10 +63,10 @@ The Toolbar contains buttons that accomplish certain tasks:
        - Sets the mouse action to display feature info (attributes) for the features when located at a given point when clicked.  Dragging has no effect when this tool is activated.
      * - .. image:: images/button_createfeature.png
        - :ref:`geoexplorer.using.createfeature`
-       - Creates a new feature on the selected layer which can then be edited.  Works with overlays only.
+       - Creates a new feature on the selected layer which can then be edited.  Works with overlays only.  Requires :ref:`geoexplorer.using.login` to local GeoServer.
      * - .. image:: images/button_editfeature.png
        - :ref:`geoexplorer.using.editfeature`
-       - Edits an existing feature on the selected layer.  Works with overlays only and requires authentication to the server.
+       - Edits an existing feature on the selected layer.  Works with overlays only and requires authentication to the server.  Requires :ref:`geoexplorer.using.login` to local GeoServer.
      * - .. image:: images/button_measure.png
        - :ref:`geoexplorer.using.measure`
        - Sets the mouse action to measure distance or area on the map.
@@ -88,6 +88,9 @@ The Toolbar contains buttons that accomplish certain tasks:
      * - .. image:: images/button_3dviewer.png
        - Switch to 3D Viewer
        - Changes map view to 3D.  Requires the `Google Earth browser plugin <http://earth.google.com/plugin/>`_.
+     * - .. image:: images/button_login.png
+       -  :ref:`geoexplorer.using.login`
+       - Sets authentication to local GeoServer (when present) to allow for edits to underlying map features and styling information.
 
 .. _geoexplorer.workspace.layerspanel:
 
@@ -126,6 +129,9 @@ The Layers Panel contains a toolbar with the following buttons:
      * - .. image:: /images/button_layerproperties.png
        - :ref:`geoexplorer.using.layerproperties`
        - For a selected layer, displays a dialog for viewing and editing metadata, display characteristics, caching settings, and layer styles.  (For attribute information, use the :ref:`geoexplorer.using.getfeatureinfo` Tool.)
+     * - .. image:: /images/button_style.png
+       - :ref:`geoexplorer.using.style`
+       - Displays a dialog for editing map styling rules. Requires :ref:`geoexplorer.using.login` to local GeoServer.
 
 Layer context menu
 ~~~~~~~~~~~~~~~~~~
@@ -148,6 +154,10 @@ You can also right-click on an entry in the list to display a context menu.  Thi
      * - .. image:: /images/button_layerproperties.png
        - :ref:`geoexplorer.using.layerproperties`
        - For a selected layer, displays a dialog for viewing and editing metadata, display characteristics, caching settings, and layer styles.  (For attribute information, use the :ref:`geoexplorer.using.getfeatureinfo` Tool.)
+     * - .. image:: /images/button_style.png
+       - :ref:`geoexplorer.using.style`
+       - Displays a dialog for editing map styling rules. Requires :ref:`geoexplorer.using.login` to local GeoServer.
+
 
 .. figure:: images/workspace_layermenu.png
    :align: center

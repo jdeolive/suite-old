@@ -7,7 +7,6 @@ import java.util.List;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONBuilder;
 
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -17,9 +16,17 @@ import org.opengeo.data.importer.ImporterTestSupport;
 
 import com.mockrunner.mock.web.MockHttpServletRequest;
 import com.mockrunner.mock.web.MockHttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Collections;
+import java.util.Properties;
+import javax.servlet.Filter;
+import org.geoserver.data.test.MockData;
+import org.geoserver.platform.GeoServerExtensions;
+import org.restlet.data.MediaType;
 
 public class RESTDataTest extends ImporterTestSupport {
-
+    
     public void testSingleFileUpload() throws Exception {
         int i = postNewImport();
         int t = postNewTaskAsMultiPartForm(i, "shape/archsites_epsg_prj.zip");
@@ -27,6 +34,17 @@ public class RESTDataTest extends ImporterTestSupport {
         JSONObject task = getTask(i, t);
         assertEquals("READY", task.getString("state"));
 
+        postImport(i);
+        runChecks("archsites");
+    }
+    
+    public void testFilePut() throws Exception {
+        int i = postNewImport();
+        int t1 = putNewTask(i, "shape/archsites_epsg_prj.zip");
+
+        JSONObject task = getTask(i, t1);
+        assertEquals("READY", task.getString("state"));
+        
         postImport(i);
         runChecks("archsites");
     }
@@ -144,10 +162,34 @@ public class RESTDataTest extends ImporterTestSupport {
         JSONObject task = json.getJSONObject("task");
         return task.getInt("id");
     }
+    
+    int putNewTask(int imp, String data) throws Exception {
+        File zip = getTestDataFile(data);
+        byte[] payload = new byte[ (int) zip.length()];
+        FileInputStream fis = new FileInputStream(zip);
+        fis.read(payload);
+        fis.close();
+
+        MockHttpServletRequest req = createRequest("/rest/imports/" + imp + "/tasks/" + new File(data).getName());
+        req.setHeader("Content-Type", MediaType.APPLICATION_ZIP.toString());
+        req.setMethod("PUT");
+        req.setBodyContent(payload);
+
+        MockHttpServletResponse resp = dispatch(req);
+        assertEquals(201, resp.getStatusCode());
+        assertNotNull( resp.getHeader( "Location") );
+
+        assertTrue(resp.getHeader("Location").matches(".*/imports/"+imp+"/tasks/\\d"));
+        assertEquals("application/json", resp.getContentType());
+
+        JSONObject json = (JSONObject) json(resp);
+
+        JSONObject task = json.getJSONObject("task");
+        return task.getInt("id");
+    }
 
     int postNewImport() throws Exception {
         MockHttpServletResponse resp = postAsServletResponse("/rest/imports", "");
-        
         assertEquals(201, resp.getStatusCode());
         assertNotNull( resp.getHeader( "Location") );
         assertTrue(resp.getHeader("Location").matches(".*/imports/\\d"));

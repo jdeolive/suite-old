@@ -1,12 +1,16 @@
 package org.opengeo.data.importer.rest;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -60,25 +64,31 @@ public class TaskResource extends AbstractResource {
     }
 
     public void handlePost() {
-        ImportContext context = lookupContext();
         ImportTask newTask = null;
         
+        getLogger().info("Handling POST of " + getRequest().getEntity().getMediaType());
         //file posted from form
         MediaType mimeType = getRequest().getEntity().getMediaType(); 
         if (mimeType.equals(MediaType.MULTIPART_FORM_DATA, true)) {
             newTask = handleMultiPartFormUpload();
         }
         else {
-            
+            // nothing
         }
 
         if (newTask == null) {
             throw new RestletException("Unsupported POST", Status.CLIENT_ERROR_FORBIDDEN);
         }
 
+        acceptTask(newTask);
+    }
+    
+    private void acceptTask(ImportTask newTask) {
+        ImportContext context = lookupContext();
         context.addTask(newTask);
         try {
             importer.prep(context);
+            context.updated();
         } 
         catch (IOException e) {
             throw new RestletException("Error updating context", Status.SERVER_ERROR_INTERNAL, e);
@@ -89,7 +99,28 @@ public class TaskResource extends AbstractResource {
         getResponse().setEntity(new ImportTaskJSONFormat().toRepresentation(newTask));
         getResponse().setStatus(Status.SUCCESS_CREATED);
     }
-
+    
+    private Directory createDirectory() {
+        try {
+            return Directory.createNew(importer.getCatalog().getResourceLoader().findOrCreateDirectory("uploads"));
+        } catch (IOException ioe) {
+            throw new RestletException("File upload failed", Status.SERVER_ERROR_INTERNAL, ioe);
+        }
+    }
+    
+    private ImportTask handleFileUpload() {
+        Directory directory = createDirectory();
+        
+        try {
+            directory.accept(getAttribute("task"),getRequest().getEntity().getStream());
+        } catch (IOException e) {
+            throw new RestletException("Error unpacking file", 
+                Status.SERVER_ERROR_INTERNAL, e);
+        }
+        
+        return new ImportTask(directory);
+    }
+    
     private ImportTask handleMultiPartFormUpload() {
         ImportTask newTask;
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -104,46 +135,20 @@ public class TaskResource extends AbstractResource {
         }
 
         //create a directory to hold the files
-        File directory;
-        try {
-            directory = importer.getCatalog().getResourceLoader().findOrCreateDirectory("uploads");
-            directory = File.createTempFile("tmp", "", directory);
-            directory.delete();
-            directory.mkdir();
-        } catch (IOException e) {
-            throw new RestletException("Error creating temp directory", Status.SERVER_ERROR_INTERNAL, e);
-        }
+        Directory directory = createDirectory();
 
         //unpack all the files
         for (FileItem item : items) {
             if (item.getName() == null) {
                 continue;
             }
-
-            File file = new File(directory, item.getName());
             try {
-                item.write(file);
-            } 
-            catch (Exception e) {
-                throw new RestletException("Error writing file " + item.getName(), 
-                    Status.SERVER_ERROR_INTERNAL, e);
-            }
-
-            //if the file is an archive, unpack it
-            //TODO: build this in to Directory
-            VFSWorker vfs = new VFSWorker();
-            try {
-                if (vfs.canHandle(file)) {
-                    vfs.extractTo(file, directory);
-                    file.delete();
-                }
-            } 
-            catch (IOException e) {
-                throw new RestletException("Error unpacking file " + item.getName(), 
-                        Status.SERVER_ERROR_INTERNAL, e);
+                directory.accept(item);
+            } catch (Exception ex) {
+                throw new RestletException("Error writing file " + item.getName(), Status.SERVER_ERROR_INTERNAL, ex);
             }
         }
-        newTask = new ImportTask(new Directory(directory));
+        newTask = new ImportTask(directory);
         return newTask;
     }
 
@@ -152,7 +157,11 @@ public class TaskResource extends AbstractResource {
     }
 
     public void handlePut() {
+        getLogger().info("Handling PUT of " + getRequest().getEntity().getMediaType());
         
+        ImportTask newTask = handleFileUpload();
+        
+        acceptTask(newTask);
     }
 
     ImportContext lookupContext() {

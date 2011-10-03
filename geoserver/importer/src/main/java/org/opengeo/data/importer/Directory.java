@@ -1,8 +1,11 @@
 package org.opengeo.data.importer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -10,8 +13,17 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
+import org.geoserver.data.util.IOUtils;
+import org.geotools.util.logging.Logging;
 
 public class Directory extends FileData {
+    
+    private static final Logger LOGGER = Logging.getLogger(Directory.class);
+    
+    private static final long serialVersionUID = 1L;
 
     /**
      * list of files contained in directory
@@ -21,6 +33,12 @@ public class Directory extends FileData {
     public Directory(File file) {
         super(file);
     }
+    
+    public static Directory createNew(File parent) throws IOException {
+        File directory = File.createTempFile("tmp", "", parent);
+        if (!directory.delete() || !directory.mkdir()) throw new IOException("Error creating temp directory at " + directory.getAbsolutePath());
+        return new Directory(directory);
+    }
 
     public File getFile() {
         return file;
@@ -28,6 +46,20 @@ public class Directory extends FileData {
 
     public List<FileData> getFiles() {
         return files;
+    }
+    
+    public void unpack(File file) throws IOException {
+        //if the file is an archive, unpack it
+        VFSWorker vfs = new VFSWorker();
+        if (vfs.canHandle(file)) {
+            LOGGER.info("unpacking " + file.getAbsolutePath() + " to " + this.file.getAbsolutePath());
+            vfs.extractTo(file, this.file);
+            file.delete();
+        }
+    }
+    
+    public File getChild(String name) {
+        return new File(this.file,name);
     }
 
     @Override
@@ -232,6 +264,42 @@ public class Directory extends FileData {
         return file.getPath();
     }
 
+    public void accept(String childName, InputStream in) throws IOException {
+        File dest = getChild(childName);
+        
+        IOUtils.copy(in, dest);
+
+        try {
+            unpack(dest);
+        } catch (IOException ioe) {
+            // problably should delete on error
+            LOGGER.warning("Possible invalid file uploaded to " + dest.getAbsolutePath());
+            throw ioe;
+        }
+    }
+
+    public void accept(FileItem item) throws Exception {
+        File dest = getChild(item.getName());
+        item.write(dest);
+
+        try {
+            unpack(dest);
+        } 
+        catch (IOException e) {
+            // problably should delete on error
+            LOGGER.warning("Possible invalid file uploaded to " + dest.getAbsolutePath());
+            throw e;
+        }
+    }
+
+    @Override
+    public void cleanup() throws IOException {
+        for (FileData f : getFiles()) {
+            f.cleanup();
+        }
+        super.cleanup();
+    }
+    
     static class Filtered extends Directory {
 
         List<FileData> filter;

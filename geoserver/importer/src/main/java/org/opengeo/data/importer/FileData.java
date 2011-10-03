@@ -2,9 +2,13 @@ package org.opengeo.data.importer;
 
 import java.io.File;
 
+import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 
 public class FileData extends ImportData {
+    
+    /** serialVersionUID */
+    private static final long serialVersionUID = 1L;
 
     /** the file handle*/
     protected File file;
@@ -22,6 +26,15 @@ public class FileData extends ImportData {
         return FilenameUtils.getBaseName(file.getName());
     }
 
+    @Override
+    public void cleanup() throws IOException {
+        if (file.exists()) {
+            if (!file.delete()) {
+                throw new IOException("Unable to delete " + file.getAbsolutePath());
+            }
+        }
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;

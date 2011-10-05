@@ -19,7 +19,7 @@ public class ImportItemProvider extends GeoServerDataProvider<ImportItem> {
     IModel<ImportTask> task;
 
     public ImportItemProvider(ImportTask task) {
-        this.task = new ImportTaskModel(task);
+        this(new ImportTaskModel(task));
     }
 
     public ImportItemProvider(IModel<ImportTask> task) {

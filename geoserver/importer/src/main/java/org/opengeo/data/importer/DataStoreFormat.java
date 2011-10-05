@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geoserver.catalog.AttributeTypeInfo;
 import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.CatalogBuilder;
+import org.geoserver.catalog.CatalogFactory;
 import org.geoserver.catalog.DataStoreInfo;
 import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.catalog.LayerInfo;
@@ -23,6 +25,8 @@ import org.geotools.data.Query;
 import org.geotools.data.Transaction;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.jdbc.JDBCDataStoreFactory;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.AttributeDescriptor;
 import org.opengis.feature.type.FeatureType;
 
 /**
@@ -96,10 +100,21 @@ public class DataStoreFormat extends VectorFormat {
 
                 SimpleFeatureSource featureSource = dataStore.getFeatureSource(typeName); 
                 cb.setupBounds(featureType, featureSource);
+
+                //add attributes
+                CatalogFactory factory = catalog.getFactory();
+                SimpleFeatureType schema = featureSource.getSchema();
+                for (AttributeDescriptor ad : schema.getAttributeDescriptors()) {
+                    AttributeTypeInfo att = factory.createAttribute();
+                    att.setName(ad.getLocalName());
+                    att.setBinding(ad.getType().getBinding());
+                    featureType.getAttributes().add(att);
+                }
+
                 LayerInfo layer = cb.buildLayer((ResourceInfo)featureType);
 
                 ImportItem item = new ImportItem(layer);
-                item.getMetadata().put(FeatureType.class, featureSource.getSchema());
+                item.getMetadata().put(FeatureType.class, schema);
 
                 resources.add(item);
             }

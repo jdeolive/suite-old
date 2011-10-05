@@ -83,6 +83,9 @@ public class ImportItemTable extends GeoServerTablePanel<ImportItem> {
                     //provide link to choose crs
                     return new NoCRSPanel(id, itemModel);
                     //return createFixCRSLink(id, itemModel);
+                case READY:
+                    //return advanced option link
+                    return new AdvancedOptionPanel(id, itemModel);
                 default:
                     return new WebMarkupContainer(id);
             }
@@ -362,6 +365,19 @@ public class ImportItemTable extends GeoServerTablePanel<ImportItem> {
             add(new ExternalLink("google", "../wms/kml?layers=" + layer.getName()));
             add(new ExternalLink("styler", "/styler/index.html?layer="
                 + urlEncode(layer.getResource().getStore().getWorkspace().getName() + ":" +  layer.getName())));
+        }
+    }
+
+    static class AdvancedOptionPanel extends Panel {
+        public AdvancedOptionPanel(String id, IModel<ImportItem> model) {
+            super(id);
+            
+            add(new Link<ImportItem>("link", model) {
+                @Override
+                public void onClick() {
+                    setResponsePage(new ImportItemAdvancedPage(getModel()));
+                }
+            });
         }
     }
 }

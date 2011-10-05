@@ -21,6 +21,7 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AbstractAjaxTimerBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -130,14 +131,14 @@ public class ImportDataPage extends GeoServerBasePage {
         workspaceChoice = new DropDownChoice("workspace", workspace, new WorkspacesModel(), 
             new WorkspaceChoiceRenderer());
         workspaceChoice.setOutputMarkupId(true);
-        /*workspaceChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+        workspaceChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
                 store.setObject(GeoServerApplication.get().getCatalog()
                     .getDefaultDataStore((WorkspaceInfo) workspace.getObject()));
                 target.addComponent(storeChoice);
             }
-        });*/
+        });
         form.add(workspaceChoice);
         
         //store chooser
@@ -146,14 +147,14 @@ public class ImportDataPage extends GeoServerBasePage {
         storeChoice = 
             new DropDownChoice("store", store, new StoresModel(workspace), new StoreChoiceRenderer());
         storeChoice.setOutputMarkupId(true);
-        storeChoice.setEnabled(false);
-        /*storeChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-                storeNameTextField.setEnabled(store.getObject() == null);
-                target.addComponent(storeNameTextField);
-            }
-        });*/
+//        storeChoice.setEnabled(false);
+//        storeChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+//            @Override
+//            protected void onUpdate(AjaxRequestTarget target) {
+//                storeNameTextField.setEnabled(store.getObject() == null);
+//                target.addComponent(storeNameTextField);
+//            }
+//        });
         storeChoice.setNullValid(true);
         form.add(storeChoice);
         
